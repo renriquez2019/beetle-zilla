@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import React from 'react'
 import {Route, Routes, BrowserRouter} from "react-router-dom";
 
@@ -12,7 +11,6 @@ function App() {
         <Route path ="/" element={<SignIn/>}/>
         <Route path ="/dashboard" element={<Dashboard/>}/>
       </Routes>
-    
     </BrowserRouter>
   );
 }

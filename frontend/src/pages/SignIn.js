@@ -27,13 +27,13 @@ export default function SignIn() {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 25,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
-                    <Typography variant="h5">
+                    <Typography variant="h4">
                         Sign In
                     </Typography>
 
@@ -44,7 +44,7 @@ export default function SignIn() {
                                 <TextField
                                     fullWidth
                                     variant ="outlined"
-                                    type = "password"
+                                    type = "email"
                                     id ="email"
                                     name ="email"
                                     label="Enter your email:"
@@ -74,10 +74,6 @@ export default function SignIn() {
                             </Button>
                         </Grid>
                     </Box>
-
-
-                
-
                 </Box>
             </Container>
        </ThemeProvider>       
