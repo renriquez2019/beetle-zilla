@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Divider, dividerClasses } from "@mui/material";
+import Login from "../components/Login";
 
 
 const theme = createTheme();
@@ -23,8 +24,8 @@ export default function SignIn() {
 
 
     return (
-       <div>
-        
+       <div className= "signin">
+            <Login></Login>
        </div>     
     );
 }
