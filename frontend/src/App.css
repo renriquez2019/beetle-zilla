@@ -2,13 +2,37 @@
 .App {
     background-color: #ffffff;
 }
+/*
+=========================
+Auth and Header
+=========================
+*/
 
 .Auth-form-container {
     display: flex;
+    flex-direction: column;
+    row-gap: 2em;
     justify-content: center;
     align-items: center;
+    
     width: 100vw;
     height: 100vh;
+}
+
+.Header-form {
+    width: 300px;
+    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 15px;
+    background-color: #ffffff;
+}
+
+.Header-title {
+    text-align: center;
+    font-size: 30px;
+    color: rgb(34, 34, 34);
+    font-weight: 800;
 }
 
 .Auth-form{
@@ -16,7 +40,7 @@
     box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
     padding-top: 30px;
     padding-bottom: 20px;
-    border-radius: 8px;
+    border-radius: 30px;
     background-color: #ffffff;
 }
 
