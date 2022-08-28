@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/water.png';
-import Title from '../components/Title';
+import Header from '../components/Header';
 
 
 export default function SignUp() {
@@ -14,7 +14,6 @@ export default function SignUp() {
         event.preventDefault();
 
         navigate('/dashboard');
-        
     }
 
     const myBackground = {
@@ -27,7 +26,7 @@ export default function SignUp() {
     return (
         <div style={myBackground}>
             <div className="auth-form-container"  onSubmit={handleSubmit}>
-                <Title></Title>
+                <Header></Header>
                 <form className="auth-form">
                     <div className="auth-form-content">
                         <h3 className="auth-form-title">Sign Up</h3>

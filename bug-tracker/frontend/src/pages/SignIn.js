@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import background from '../img/water.png';
-import Title from '../components/Title';
+import background from '../img/space.png';
+import Header from '../components/Header';
 
-
-export default function SignUp() {
+export default function SignIn() {
 
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
@@ -14,7 +13,6 @@ export default function SignUp() {
         event.preventDefault();
 
         navigate('/dashboard');
-        
     }
 
     const myBackground = {
@@ -26,14 +24,14 @@ export default function SignUp() {
 
     return (
         <div style={myBackground}>
-            <div className="auth-form-container"  onSubmit={handleSubmit}>
-                <Title></Title>
-                <form className="auth-form">
+            <div className="auth-form-container" onSubmit={handleSubmit}>
+                <Header></Header>
+                <form className="auth-form" >
                     <div className="auth-form-content">
-                        <h3 className="auth-form-title">Sign Up</h3>
+                        <h3 className="auth-form-title">Sign In</h3>
                         <div className="text-center">
-                            Already have an account?{" "}
-                            <a href="/signin"> Sign In</a>
+                            Don't have an account?{" "}
+                            <a href="/signup"> Sign Up</a>
                         </div>
                         <div className="form-group mt-3">
                             <label>Email Address</label>
@@ -51,19 +49,14 @@ export default function SignUp() {
                                 placeholder="Enter password"
                             />
                         </div>
-                        <div className="form-group mt-3">
-                            <label>Confirm Password</label>
-                            <input
-                                type="password"
-                                className="form-control mt-1"
-                                placeholder="Confirm password"
-                            />
-                        </div>
                         <div className="d-grid gap-2 mt-3">
                             <button type="submit" className="btn btn-primary">
-                                Register
+                                Login
                             </button>
                         </div>
+                        <p className="forgot-password text-center mt-2">
+                            Forgot <a href="#">password?</a>
+                        </p>
                     </div>  
                 </form> 
             </div> 

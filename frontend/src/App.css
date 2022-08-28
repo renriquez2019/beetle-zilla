@@ -14,7 +14,7 @@ body {
 }
 
 /* =========================
-    Auth and Header
+    Auth and Title
 ========================= */
 
 .auth-form-container {
@@ -27,7 +27,7 @@ body {
     height: 100vh;
 }
 
-.header-form {
+.title-form {
     width: 300px;
     box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
     padding-top: 10px;
@@ -36,14 +36,14 @@ body {
 }
 
 
-.header-title {
+.title-text {
     text-align: center;
     font-size: 32px;
     color: rgb(34, 34, 34);
     font-weight: 800;
 }
 
-.header-logo {
+.title-logo {
     height: 50px;
     padding-right: 15px;
     padding-bottom: 10px;
