@@ -25,11 +25,11 @@ export default function SignIn() {
 
     return (
         <div style={myBackground}>
-            <div className="Auth-form-container" onSubmit={handleSubmit}>
+            <div className="auth-form-container" onSubmit={handleSubmit}>
                 <Header></Header>
-                <form className="Auth-form" >
-                    <div className="Auth-form-content">
-                        <h3 className="Auth-form-title">Sign In</h3>
+                <form className="auth-form" >
+                    <div className="auth-form-content">
+                        <h3 className="auth-form-title">Sign In</h3>
                         <div className="text-center">
                             Don't have an account?{" "}
                             <a href="/signup"> Sign Up</a>

@@ -1,11 +1,13 @@
+import logo from '../img/bug.png'
 
 export default function Header() {
 
     return (
-        <form className="Header-form">
-            <div className="Auth-form-content">
-                <h1 className="Header-title">Bug Tracker</h1>
-            </div>
+        <form className="header-form">
+            <h2 className="header-title">
+                <img className='header-logo' src={logo} alt="Logo"/>
+                Bug Tracker
+            </h2>
         </form>
     );
 }

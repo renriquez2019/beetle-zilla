@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/water.png';
+import Header from '../components/Header';
+
 
 export default function SignUp() {
 
@@ -24,10 +26,11 @@ export default function SignUp() {
 
     return (
         <div style={myBackground}>
-            <div className="Auth-form-container">
-                <form className="Auth-form" onSubmit={handleSubmit}>
-                    <div className="Auth-form-content">
-                        <h3 className="Auth-form-title">Sign Up</h3>
+            <div className="auth-form-container"  onSubmit={handleSubmit}>
+                <Header></Header>
+                <form className="auth-form">
+                    <div className="auth-form-content">
+                        <h3 className="auth-form-title">Sign Up</h3>
                         <div className="text-center">
                             Already have an account?{" "}
                             <a href="/signin"> Sign In</a>

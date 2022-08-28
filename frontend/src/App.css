@@ -1,41 +1,55 @@
 
-.App {
-    background-color: #ffffff;
-}
-/*
-=========================
-Auth and Header
-=========================
-*/
+/* =========================
+    General
+========================= */
 
-.Auth-form-container {
+:root {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Gilroy Semi-Bold", Sans-serif;
+    background: #EEF1FF;
+    color: rgb(34, 34, 34);
+}
+
+/* =========================
+    Auth and Header
+========================= */
+
+.auth-form-container {
     display: flex;
     flex-direction: column;
     row-gap: 2em;
     justify-content: center;
     align-items: center;
-    
     width: 100vw;
     height: 100vh;
 }
 
-.Header-form {
+.header-form {
     width: 300px;
     box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
     padding-top: 10px;
-    padding-bottom: 10px;
     border-radius: 15px;
     background-color: #ffffff;
 }
 
-.Header-title {
+
+.header-title {
     text-align: center;
-    font-size: 30px;
+    font-size: 32px;
     color: rgb(34, 34, 34);
     font-weight: 800;
 }
 
-.Auth-form{
+.header-logo {
+    height: 50px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+}
+
+.auth-form{
     width: 420px;
     box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
     padding-top: 30px;
@@ -44,12 +58,12 @@ Auth and Header
     background-color: #ffffff;
 }
 
-.Auth-form-content {
+.auth-form-content {
     padding-left: 12%;
     padding-right: 12%;
 }
 
-.Auth-form-title {
+.auth-form-title {
     text-align: center;
     font-size: 24px;
     color: rgb(34, 34, 34);
@@ -61,3 +75,4 @@ label {
     font-weight: 600;
     color: rgb(34, 34, 34);
 }
+
