@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 /* =========================
     General
 ========================= */
@@ -81,11 +81,75 @@ label {
     Header
 ========================= */
 
-.header-container {
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 1;
+}
+
+@media (min-width: 1200px) {
+    .logo-container {
+      width: 280px;
+    }
+}
+
+.logo-container a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-container img {
+    max-height: 45px;
+    margin-right: 6px;
+    padding-top: 5px;
+}
+
+.logo-container span {
+    display: block;
+    font-size: 26px;
+    font-weight: 700;
+    color: #012970;
+    font-family: 'Nunito', sans-serif;
+    padding-top: 10px;
+}
+
+.header {
     transition: all 0.5s;
+    z-index: 997;
+    position: fixed;
+    display: block;
+    align-items: center;
+
+    width: 100%;
     height: 60px;
-    box-shadow: 0px 2px 10px rgb(34, 34, 34);
-    background-color: #ffa400;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+    background-color: #ffffff;
     padding-left: 20px;
 }
 
+/* =========================
+    Sidebar
+========================= */
+
+.sidebar  {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    z-index: 996;
+    transition: all 0.3s;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aab7cf transparent;
+    box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
+    background-color: #fff;
+    transform: translateX(-100%);
+  }
+
+.sidebar--open {
+    transform: translateX(0%);
+}

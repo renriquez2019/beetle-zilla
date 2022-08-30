@@ -1,15 +1,28 @@
 import logo from '../img/bug.png'
 
-export default function Header() {
+export const Header = ({openSidebar}) => {
 
     return (
-        <div className="header-container">
+        <div className="header">
+            
+            {/* Top-left Logo*/}
             <div className="logo-container">
-                <a href="/dashboard" className="title-text">
-                    <img src={logo} height="58px" alt="Logo" />
-                    Bug Tracker
+                <a href="/dashboard">
+                    <img src={logo} alt="" />
+                    <span class="d-none d-lg-block">BugTracker</span>
                 </a>
+                <button
+                    className="toggle-sidebar"
+                    onClick={openSidebar}
+                    >Toggle
+                </button>
             </div>
         </div>
-    );
+    )
 }
+
+Header.defaultProps = {
+    openSidebar: true
+}
+
+export default Header
