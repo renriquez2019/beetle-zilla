@@ -86,6 +86,7 @@ label {
     align-items: center;
     justify-content: space-between;
     line-height: 1;
+    max-width: 25%;
 }
 
 @media (min-width: 1200px) {
@@ -115,6 +116,19 @@ label {
     padding-top: 10px;
 }
 
+.toggle-sidebar {
+    font-size: 50px;
+    padding-top: 10px;
+    cursor: pointer;
+    color: #012970;
+}
+
+@media (min-width: 1200px) {
+    .toggle-sidebar {
+      width: 280px;
+    }
+}
+
 .header {
     transition: all 0.5s;
     z-index: 997;
@@ -128,6 +142,8 @@ label {
     background-color: #ffffff;
     padding-left: 20px;
 }
+
+
 
 /* =========================
     Sidebar

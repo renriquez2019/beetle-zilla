@@ -1,22 +1,25 @@
 import logo from '../img/bug.png'
+import {BsList} from 'react-icons/bs'
 
 export const Header = ({openSidebar}) => {
 
     return (
         <div className="header">
-            
+        
             {/* Top-left Logo*/}
             <div className="logo-container">
                 <a href="/dashboard">
                     <img src={logo} alt="" />
                     <span class="d-none d-lg-block">BugTracker</span>
                 </a>
-                <button
-                    className="toggle-sidebar"
+                <BsList
+                    className='toggle-sidebar'
+                    type='button'
                     onClick={openSidebar}
-                    >Toggle
-                </button>
+                />
             </div>
+
+            
         </div>
     )
 }
