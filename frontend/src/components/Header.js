@@ -18,8 +18,6 @@ export const Header = ({openSidebar}) => {
                     onClick={openSidebar}
                 />
             </div>
-
-            
         </div>
     )
 }

@@ -77,6 +77,10 @@ label {
     color: rgb(34, 34, 34);
 }
 
+.auth-form .d-grid {
+    padding-top: 15px;
+}
+
 /* =========================
     Header
 ========================= */

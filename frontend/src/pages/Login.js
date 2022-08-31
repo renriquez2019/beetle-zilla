@@ -3,17 +3,30 @@ import { useNavigate } from 'react-router';
 import background from '../img/space.png';
 import Title from '../components/Title';
 
-export default function SignIn() {
+export default function Login() {
 
     const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    })
+
+    
+
+    const {email, password} = formData
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         navigate('/dashboard');
         
+    }
+
+    const handleChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }))
     }
 
     const myBackground = {
@@ -26,29 +39,37 @@ export default function SignIn() {
     return (
         <div style={myBackground}>
             <div className="auth-form-container" onSubmit={handleSubmit}>
-                <Title></Title>
+                <Title/>
                 <form className="auth-form" >
                     <div className="auth-form-content">
                         <h3 className="auth-form-title">Sign In</h3>
                         <div className="text-center">
                             Don't have an account?{" "}
-                            <a href="/signup"> Sign Up</a>
+                            <a href="/register"> Sign Up</a>
                         </div>
                         <div className="form-group mt-3">
                             <label>Email Address</label>
-                            <input
-                                type="email"
-                                className="form-control mt-1"
-                                placeholder="Enter email"
-                            />
+                                <input
+                                    type="email"
+                                    className="form-control mt-1"
+                                    id="email"
+                                    name="email"
+                                    value={email}
+                                    onChange={handleChange}
+                                    placeholder="Enter email"
+                                />
                         </div>
                         <div className="form-group mt-3">
                             <label>Password</label>
-                            <input
-                                type="password"
-                                className="form-control mt-1"
-                                placeholder="Enter password"
-                            />
+                                <input
+                                    type="password"
+                                    className="form-control mt-1"
+                                    id="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={handleChange}
+                                    placeholder="Enter password"
+                                />
                         </div>
                         <div className="d-grid gap-2 mt-3">
                             <button type="submit" className="btn btn-primary">
