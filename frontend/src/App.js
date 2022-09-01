@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
-import {Route, Routes, BrowserRouter} from "react-router-dom";
+import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -11,7 +11,7 @@ import Profile from './pages/Profile';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path ="/" element={<Login/>}/>
         <Route path ="/login" element={<Login/>}/>
@@ -21,7 +21,7 @@ function App() {
         <Route path ="/tickets" element={<Tickets/>}/>
         <Route path ="/profile" element={<Profile/>}/>
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

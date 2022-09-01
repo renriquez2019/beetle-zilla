@@ -14,6 +14,13 @@ export default function Projects() {
             <Sidebar
                 toggle={sidebar}
                 navCurrent = "Project"/>
+
+            <div className= {sidebar ? "main" : "main main-side"}>
+                <div className="pagetitle">
+                    <h1>Projects</h1>
+                </div>
+            </div>
+
         </div>
     );
 }

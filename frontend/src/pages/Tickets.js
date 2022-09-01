@@ -14,6 +14,13 @@ export default function Tickets() {
             <Sidebar
                 toggle={sidebar}
                 navCurrent = "Ticket"/>
+
+            <div className= {sidebar ? "main" : "main main-side"}>
+                <div className="pagetitle">
+                    <h1>Tickets</h1>
+                </div>
+            </div>
+
         </div>
     );
 }
