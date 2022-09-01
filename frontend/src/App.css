@@ -8,7 +8,7 @@
 }
 
 body {
-    font-family: "Gilroy Semi-Bold", Sans-serif;
+    font-family: 'Nunito', sans-serif;
     background: #EEF1FF;
     color: rgb(34, 34, 34);
 }
@@ -173,3 +173,42 @@ label {
 .sidebar--open {
     transform: translateX(0%);
 }
+
+.sidebar-nav {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 15px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 575;
+    color: #012970;
+    transition: 0.3;
+    background: #ffffff;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+.nav-current {
+    color: #4154f1;
+    background: #f6f9ff;
+} 
+
+.nav-item :hover {
+    color: #4154f1;
+    background: #f6f9ff;
+} 
+
+.nav-logo {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #012970;
+}
+
