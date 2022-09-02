@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/space.png';
 import Title from '../components/Title';
+import {Button} from '@mui/material'
 
 export default function Login() {
 
@@ -10,8 +11,6 @@ export default function Login() {
         email: '',
         password: '',
     })
-
-    
 
     const {email, password} = formData
 
@@ -72,9 +71,11 @@ export default function Login() {
                                 />
                         </div>
                         <div className="d-grid gap-2 mt-3">
-                            <button type="submit" className="btn btn-primary">
+                            <Button 
+                                variant="contained"
+                                type ="submit">
                                 Login
-                            </button>
+                            </Button>
                         </div>
                         <p className="forgot-password text-center mt-2">
                             Forgot <a href="#">password?</a>

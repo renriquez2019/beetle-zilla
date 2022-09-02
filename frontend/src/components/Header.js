@@ -1,5 +1,6 @@
 import logo from '../img/bug.png'
-import {BsList} from 'react-icons/bs'
+import {BsList, BsSearch, BsFillBellFill, BsFillPersonFill} from 'react-icons/bs'
+import { TextField, InputAdornment, Button} from '@mui/material'
 
 export const Header = ({openSidebar}) => {
 
@@ -17,6 +18,30 @@ export const Header = ({openSidebar}) => {
                     type='button'
                     onClick={openSidebar}
                 />
+            </div>
+
+
+            <div className="search-container">
+                <TextField
+                    sx= {{'& legend': {display:'none'}, '& fieldset': {top:0}}}
+                    label={null}
+                    variant='outlined'
+                    size='small'
+                    InputProps={{endAdornment: <InputAdornment position="end"><BsSearch/></InputAdornment>}}
+                />
+            </div>
+
+
+            <div className="end-container">
+                <Button endIcon={<BsFillBellFill/>}>
+                    Notifications
+                </Button>
+
+                <Button endIcon={<BsFillPersonFill/>}>
+                    User Actions
+                </Button>
+                    
+                
             </div>
         </div>
     )

@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/renriquez2019/bug-tracker#readme",
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.3",
     "@reduxjs/toolkit": "^1.8.5",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Card } from "react-bootstrap";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
@@ -19,6 +20,13 @@ export default function Tickets() {
                 <div className="pagetitle">
                     <h1>Tickets</h1>
                 </div>
+
+                <section className= "tickets-section">
+                    <Card className="tickets-body">
+                        <h2>My Tickets</h2>
+                    </Card>
+                </section>
+
             </div>
 
         </div>
