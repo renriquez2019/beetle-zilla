@@ -119,6 +119,28 @@ section {
     height: 700px;
 }
 
+.actions-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 2em;
+}
+
+.actions-icon .details {
+    font-size: 25px;
+    color: black;
+}
+
+.actions-icon .trash {
+    font-size: 25px;
+    color: red;
+}
+
+.btn-add {
+    padding-left: 20px;
+}
+
 
 /* =========================
     Auth and Title
