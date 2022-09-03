@@ -124,7 +124,7 @@ section {
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    column-gap: 2em;
+    column-gap: 1em;
 }
 
 .actions-icon .details {

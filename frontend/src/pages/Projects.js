@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { 
     Table, 
-    TableHead, 
+    TableHead,
     TableBody, 
     TableRow, 
     TableCell,
@@ -21,10 +21,9 @@ export default function Projects() {
 
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
-    const [selected, setSelected] = useState([]);
+
     const [page, setPage] = useState(0);
-    const [dense, setDense] = useState(false);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(8);
 
 
     function createData(name, desc, numtickets, numusers) {
@@ -34,32 +33,19 @@ export default function Projects() {
     const rows = [
         createData('Demo Project 1', "This is project 1", 0, 1),
         createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 2', "This is project 2", 1, 0),
+        createData('Demo Project 3', "This is project 3", 1, 0),
+        createData('Demo Project 4', "This is project 4", 1, 0),
+        createData('Demo Project 5', "This is project 5", 1, 0),
+        createData('Demo Project 6', "This is project 9", 1, 0),
+        createData('Demo Project 7', "This is project 7", 1, 0),
+        createData('Demo Project 8', "This is project 8", 1, 0),
+        createData('Demo Project 9', "This is project 9", 1, 0),
+        createData('Demo Project 10', "This is project 9", 1, 0),
+        createData('Demo Project 11', "This is project 9", 1, 0),
+        createData('Demo Project 12', "This is project 9", 1, 0),
     ];
 
-    function descendingComparator(a, b, orderBy) {
-        if (b[orderBy] < a[orderBy]) {
-          return -1;
-        }
-        if (b[orderBy] > a[orderBy]) {
-          return 1;
-        }
-        return 0;
-    }
-      
-    function getComparator(order, orderBy) {
-        return order === 'desc'
-          ? (a, b) => descendingComparator(a, b, orderBy)
-          : (a, b) => -descendingComparator(a, b, orderBy);
-    }
-      
-
+    
     const HeaderTableCell = styled(TableCell)({
         color: '#ffff',
         height: '50px',
@@ -77,8 +63,13 @@ export default function Projects() {
         borderColor: 'black'
     })
 
-    const StyledButton = styled(Button)({
-        borderRadius: 10,
+  
+    const SyleTablePag = styled(TablePagination)({
+        backgroundColor: '#ffff',
+        fontWeight: 'bold',
+        fontFamily: 'Nunito',
+        borderWidth: '2px',
+        borderColor: 'black'
     })
 
     const handleChangePage = (event, newPage) => {
@@ -90,6 +81,10 @@ export default function Projects() {
         setPage(0);
     };
 
+    const emptyRows =
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+    
     return (
         <div>
             <Header openSidebar={toggleSidebar} />
@@ -101,22 +96,23 @@ export default function Projects() {
                 </div>
 
                 <div className="btn-add">
-                    <StyledButton
+                    <Button
                         variant="contained"
                         color="success"
                         size="medium">
                         Create new Project
-                    </StyledButton>
+                    </Button>
                 </div>
-                
+
                 <TableContainer 
                     component={Paper} 
                     sx ={{
-                        backgroundColor: '#ffff',
-                        borderRadius: 10,
+                        backgroundColor: '#ffff', 
                         margin: '10px 10px',
+                        borderWidth: '2px',
+                        borderColor: 'black',
                     }}>
-                    <Table sx={{}}  aria-label="simple table">
+                    <Table sx={{minWidth: 750}}  aria-label="simple table">
                         <TableHead
                             sx = {{
                             backgroundColor: '#012970',
@@ -126,42 +122,57 @@ export default function Projects() {
                             }}>
                             <TableRow>
                                 <HeaderTableCell>Project Name</HeaderTableCell>
-                                <HeaderTableCell sx = {{paddingRight: 90}}>Description</HeaderTableCell>
+                                <HeaderTableCell sx = {{paddingRight: '10em'}}>Description</HeaderTableCell>
                                 <HeaderTableCell align = "center"># of Tickets</HeaderTableCell>
                                 <HeaderTableCell align = "center"># of Users</HeaderTableCell>
-                                <HeaderTableCell align = "center">Actions</HeaderTableCell> 
+                                <HeaderTableCell align = "center" >Actions</HeaderTableCell> 
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row) => (
                                 <TableRow
                                     key={row.name}
                                     >
-                                    <StyledTableCell component="th" scope="row">{row.name}</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
                                     <StyledTableCell>{row.desc}</StyledTableCell>
                                     <StyledTableCell align = "center">{row.numtickets}</StyledTableCell>
                                     <StyledTableCell align = "center">{row.numusers}</StyledTableCell>
                                     <StyledTableCell>
                                         <div className="actions-icon">
-                                            <BsFillDashSquareFill className="details"/>
-                                            <BsFillTrashFill className="trash"/>
+                                            <Button variant="contained" size="small">Edit</Button>
+                                            <Button variant="contained" size="small" color="error">Delete</Button>
                                         </div>
                                     </StyledTableCell>
                                 </TableRow>
                             ))}
+                            {emptyRows > 0 && (
+                                <TableRow
+                                    sx={{
+                                        height: 53 * emptyRows,
+                                    }}
+                                >
+                                    <StyledTableCell />
+                                    <StyledTableCell />
+                                    <StyledTableCell />
+                                    <StyledTableCell />
+                                    <StyledTableCell />
+                                </TableRow>
+                            )}
                         </TableBody>
-                    </Table>
+                        <SyleTablePag  
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            rowsPerPageOptions={[10]}
+                            labelRowsPerPage={<span>Rows:</span>}
+                        />
+                    </Table>             
                 </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+            
             </div>
-        </div>
+        </div>  
     );
 }   
