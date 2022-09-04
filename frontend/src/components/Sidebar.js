@@ -5,7 +5,7 @@ import { Button } from '@mui/material'
 
 
 export const Sidebar = ({toggle, navCurrent, isAdmin}) => {
-
+    
 
     return (
         <div className= {toggle ? "sidebar sidebar--open" : "sidebar"}>

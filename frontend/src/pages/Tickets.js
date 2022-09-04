@@ -26,23 +26,23 @@ export default function Tickets() {
     const [rowsPerPage, setRowsPerPage] = useState(8);
 
 
-    function createData(name, desc, numtickets, numusers) {
-        return { name, desc, numtickets, numusers};
+    function createData(name, desc, project, type, priority, status) {
+        return { name, desc, project, type, priority, status};
     }
 
     const rows = [
-        createData('Demo Project 1', "This is project 1", 0, 1),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 3', "This is project 3", 1, 0),
-        createData('Demo Project 4', "This is project 4", 1, 0),
-        createData('Demo Project 5', "This is project 5", 1, 0),
-        createData('Demo Project 6', "This is project 9", 1, 0),
-        createData('Demo Project 7', "This is project 7", 1, 0),
-        createData('Demo Project 8', "This is project 8", 1, 0),
-        createData('Demo Project 9', "This is project 9", 1, 0),
-        createData('Demo Project 10', "This is project 9", 1, 0),
-        createData('Demo Project 11', "This is project 9", 1, 0),
-        createData('Demo Project 12', "This is project 9", 1, 0),
+        createData('Demo ticket 1', "This is ticket 1", 'Demo project 1','Bug', 'High', 'Open'),
+        createData('Demo ticket 2', "This is ticket 2", 'Demo project 2', 'Bug','Medium','Open'),
+        createData('Demo ticket 3', "This is ticket 3", 'Demo project 3','Bug', 'Medium','Open'),
+        createData('Demo ticket 4', "This is ticket 4", 'Demo project 4','Bug', 'Medium','Open'),
+        createData('Demo ticket 5', "This is ticket 5", 'Demo project 5','Bug', 'Medium','Open'),
+        createData('Demo ticket 6', "This is ticket 9", 'Demo project 6','Bug', 'Medium','Open'),
+        createData('Demo ticket 7', "This is ticket 7", 'Demo project 7','Bug', 'Medium','Open'),
+        createData('Demo ticket 8', "This is ticket 8", 'Demo project 8','Bug', 'Medium','Open'),
+        createData('Demo ticket 9', "This is ticket 9", 'Demo project 9','Bug', 'Medium','Open'),
+        createData('Demo ticket 10', "This is ticket 9", 'Demo project 10','Bug', 'Low','Open'),
+        createData('Demo ticket 11', "This is ticket 9", 'Demo project 11','Bug', 'Low','Open'),
+        createData('Demo ticket 12', "This is ticket 9", 'Demo project 12','Bug', 'Low','Open'),
     ];
 
     
@@ -104,8 +104,10 @@ export default function Tickets() {
                         margin: '10px 10px',
                         borderWidth: '2px',
                         borderColor: 'black',
+                        maxHeight: 900,
+                        minWidth: 750
                     }}>
-                    <Table sx={{minWidth: 750}}  aria-label="simple table">
+                    <Table aria-label="simple table">
                         <TableHead
                             sx = {{
                             backgroundColor: '#012970',
@@ -114,11 +116,13 @@ export default function Tickets() {
                             borderColor: 'black'
                             }}>
                             <TableRow>
-                                <HeaderTableCell>Project Name</HeaderTableCell>
-                                <HeaderTableCell sx = {{paddingRight: '10em'}}>Description</HeaderTableCell>
-                                <HeaderTableCell align = "center"># of Tickets</HeaderTableCell>
-                                <HeaderTableCell align = "center"># of Users</HeaderTableCell>
-                                <HeaderTableCell align = "center" >Actions</HeaderTableCell> 
+                                <HeaderTableCell>Ticket Name</HeaderTableCell>
+                                <HeaderTableCell sx = {{ paddingRight: '10em'}} align = "left">Description</HeaderTableCell>
+                                <HeaderTableCell >Project</HeaderTableCell>
+                                <HeaderTableCell align = "center">Type</HeaderTableCell>
+                                <HeaderTableCell align = "center" >Priority</HeaderTableCell>
+                                <HeaderTableCell align = "center" >Status</HeaderTableCell> 
+                                <HeaderTableCell align = "center" >Actions</HeaderTableCell>  
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -129,8 +133,10 @@ export default function Tickets() {
                                     >
                                     <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
                                     <StyledTableCell>{row.desc}</StyledTableCell>
-                                    <StyledTableCell align = "center">{row.numtickets}</StyledTableCell>
-                                    <StyledTableCell align = "center">{row.numusers}</StyledTableCell>
+                                    <StyledTableCell align = "center">{row.project}</StyledTableCell>
+                                    <StyledTableCell align = "center">{row.type}</StyledTableCell>
+                                    <StyledTableCell align = "center">{row.priority}</StyledTableCell>
+                                    <StyledTableCell align = "center">{row.status}</StyledTableCell>
                                     <StyledTableCell>
                                         <div className="actions-icon">
                                             <Button variant="contained" size="small">Edit</Button>

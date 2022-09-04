@@ -26,23 +26,23 @@ export default function Projects() {
     const [rowsPerPage, setRowsPerPage] = useState(8);
 
 
-    function createData(name, desc, numtickets, numusers) {
-        return { name, desc, numtickets, numusers};
+    function createData(name, desc, numtickets, numusers, status) {
+        return { name, desc, numtickets, numusers, status};
     }
 
     const rows = [
-        createData('Demo Project 1', "This is project 1", 0, 1),
-        createData('Demo Project 2', "This is project 2", 1, 0),
-        createData('Demo Project 3', "This is project 3", 1, 0),
-        createData('Demo Project 4', "This is project 4", 1, 0),
-        createData('Demo Project 5', "This is project 5", 1, 0),
-        createData('Demo Project 6', "This is project 9", 1, 0),
-        createData('Demo Project 7', "This is project 7", 1, 0),
-        createData('Demo Project 8', "This is project 8", 1, 0),
-        createData('Demo Project 9', "This is project 9", 1, 0),
-        createData('Demo Project 10', "This is project 9", 1, 0),
-        createData('Demo Project 11', "This is project 9", 1, 0),
-        createData('Demo Project 12', "This is project 9", 1, 0),
+        createData('Demo Project 1', "This is project 1", 0, 1, 1),
+        createData('Demo Project 2', "This is project 2", 1, 0, 1),
+        createData('Demo Project 3', "This is project 3", 1, 0, 1),
+        createData('Demo Project 4', "This is project 4", 1, 0, 1),
+        createData('Demo Project 5', "This is project 5", 1, 0, 1),
+        createData('Demo Project 6', "This is project 9", 1, 0, 1),
+        createData('Demo Project 7', "This is project 7", 1, 0, 1),
+        createData('Demo Project 8', "This is project 8", 1, 0, 0),
+        createData('Demo Project 9', "This is project 9", 1, 0, 0),
+        createData('Demo Project 10', "This is project 9", 1, 0, 0),
+        createData('Demo Project 11', "This is project 9", 1, 0, 0),
+        createData('Demo Project 12', "This is project 9", 1, 0, 0),
     ];
 
     
@@ -99,7 +99,7 @@ export default function Projects() {
                     <Button
                         variant="contained"
                         color="success"
-                        size="medium">
+                        size="small">
                         Create new Project
                     </Button>
                 </div>
@@ -111,8 +111,10 @@ export default function Projects() {
                         margin: '10px 10px',
                         borderWidth: '2px',
                         borderColor: 'black',
+                        maxHeight: 900,
+                        minWidth: 750
                     }}>
-                    <Table sx={{minWidth: 750}}  aria-label="simple table">
+                    <Table aria-label="simple table">
                         <TableHead
                             sx = {{
                             backgroundColor: '#012970',
@@ -122,9 +124,10 @@ export default function Projects() {
                             }}>
                             <TableRow>
                                 <HeaderTableCell>Project Name</HeaderTableCell>
-                                <HeaderTableCell sx = {{paddingRight: '10em'}}>Description</HeaderTableCell>
+                                <HeaderTableCell sx = {{ paddingRight: '20em'}} align ="left">Description</HeaderTableCell>
                                 <HeaderTableCell align = "center"># of Tickets</HeaderTableCell>
                                 <HeaderTableCell align = "center"># of Users</HeaderTableCell>
+                                <HeaderTableCell align = "center">Status</HeaderTableCell>
                                 <HeaderTableCell align = "center" >Actions</HeaderTableCell> 
                             </TableRow>
                         </TableHead>
@@ -138,6 +141,7 @@ export default function Projects() {
                                     <StyledTableCell>{row.desc}</StyledTableCell>
                                     <StyledTableCell align = "center">{row.numtickets}</StyledTableCell>
                                     <StyledTableCell align = "center">{row.numusers}</StyledTableCell>
+                                    <StyledTableCell align = "center">{row.status}</StyledTableCell>
                                     <StyledTableCell>
                                         <div className="actions-icon">
                                             <Button variant="contained" size="small">Edit</Button>
