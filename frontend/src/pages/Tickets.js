@@ -13,7 +13,14 @@ import {
     TablePagination,  
     Paper,
     Button
-} from "@mui/material"
+} from "@mui/material";
+
+import {
+    HeaderTableRow, 
+    HeaderTableCell, 
+    StyledTableCell, 
+    StyledTablePag,
+} from '../components/TableConsts';
 
 import {styled} from "@mui/system"
 
@@ -45,33 +52,6 @@ export default function Tickets() {
         createData('Demo ticket 12', "This is ticket 9", 'Demo project 12','Bug', 'Low','Open'),
     ];
 
-    
-    const HeaderTableCell = styled(TableCell)({
-        color: '#ffff',
-        height: '50px',
-        fontWeight: 'bolder',
-        fontSize: '18px',
-        fontFamily: 'Nunito',
-    })
-
-    const StyledTableCell = styled(TableCell)({
-        color: '#012970',
-        fontWeight: 'bold',
-        fontSize: '14px',
-        fontFamily: 'Nunito',
-        borderWidth: '2px',
-        borderColor: 'black'
-    })
-
-  
-    const SyleTablePag = styled(TablePagination)({
-        backgroundColor: '#ffff',
-        fontWeight: 'bold',
-        fontFamily: 'Nunito',
-        borderWidth: '2px',
-        borderColor: 'black'
-    })
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -95,84 +75,72 @@ export default function Tickets() {
             <div className= {sidebar ? "main" : "main main-side"}>
                 <div className="pagetitle">
                     <h1>Tickets</h1>
-                </div>
-
-                <TableContainer 
+                </div> 
+                <Table
                     component={Paper} 
                     sx ={{
-                        backgroundColor: '#ffff', 
-                        margin: '10px 10px',
-                        borderWidth: '2px',
-                        borderColor: 'black',
+                        border: 2,
                         maxHeight: 900,
                         minWidth: 750
                     }}>
-                    <Table aria-label="simple table">
-                        <TableHead
-                            sx = {{
-                            backgroundColor: '#012970',
-                            color: '#ffff',
-                            borderWidth: '2px',
-                            borderColor: 'black'
-                            }}>
-                            <TableRow>
-                                <HeaderTableCell>Ticket Name</HeaderTableCell>
-                                <HeaderTableCell sx = {{ paddingRight: '10em'}} align = "left">Description</HeaderTableCell>
-                                <HeaderTableCell >Project</HeaderTableCell>
-                                <HeaderTableCell align = "center">Type</HeaderTableCell>
-                                <HeaderTableCell align = "center" >Priority</HeaderTableCell>
-                                <HeaderTableCell align = "center" >Status</HeaderTableCell> 
-                                <HeaderTableCell align = "center" >Actions</HeaderTableCell>  
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => (
-                                <TableRow
-                                    key={row.name}
-                                    >
-                                    <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
-                                    <StyledTableCell>{row.desc}</StyledTableCell>
-                                    <StyledTableCell align = "center">{row.project}</StyledTableCell>
-                                    <StyledTableCell align = "center">{row.type}</StyledTableCell>
-                                    <StyledTableCell align = "center">{row.priority}</StyledTableCell>
-                                    <StyledTableCell align = "center">{row.status}</StyledTableCell>
-                                    <StyledTableCell>
-                                        <div className="actions-icon">
-                                            <Button variant="contained" size="small">Edit</Button>
-                                            <Button variant="contained" size="small" color="error">Delete</Button>
-                                        </div>
-                                    </StyledTableCell>
-                                </TableRow>
-                            ))}
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    sx={{
-                                        height: 53 * emptyRows,
-                                    }}
+                    <HeaderTableRow>
+                        <TableRow>
+                            <HeaderTableCell>Ticket Name</HeaderTableCell>
+                            <HeaderTableCell sx = {{ paddingRight: '10em'}} align = "left">Description</HeaderTableCell>
+                            <HeaderTableCell >Project</HeaderTableCell>
+                            <HeaderTableCell align = "center">Type</HeaderTableCell>
+                            <HeaderTableCell align = "center" >Priority</HeaderTableCell>
+                            <HeaderTableCell align = "center" >Status</HeaderTableCell> 
+                            <HeaderTableCell align = "center" >Actions</HeaderTableCell>  
+                        </TableRow>
+                    </HeaderTableRow>
+                    <TableBody>
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row) => (
+                            <TableRow
+                                key={row.name}
                                 >
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                </TableRow>
-                            )}
-                        </TableBody>
-                        <SyleTablePag  
-                            count={rows.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                            rowsPerPageOptions={[10]}
-                            labelRowsPerPage={<span>Rows:</span>}
-                        />
-                    </Table>             
-                </TableContainer>
-
+                                <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
+                                <StyledTableCell>{row.desc}</StyledTableCell>
+                                <StyledTableCell align = "center">{row.project}</StyledTableCell>
+                                <StyledTableCell align = "center">{row.type}</StyledTableCell>
+                                <StyledTableCell align = "center">{row.priority}</StyledTableCell>
+                                <StyledTableCell align = "center">{row.status}</StyledTableCell>
+                                <StyledTableCell>
+                                    <div className="actions-icon">
+                                        <Button variant="contained" size="small">Edit</Button>
+                                        <Button variant="contained" size="small" color="error">Delete</Button>
+                                    </div>
+                                </StyledTableCell>
+                            </TableRow>
+                        ))}
+                        {emptyRows > 0 && (
+                            <TableRow
+                                sx={{
+                                    height: 65 * emptyRows,
+                                }}
+                            >
+                                <StyledTableCell />
+                                <StyledTableCell />
+                                <StyledTableCell />
+                                <StyledTableCell />
+                                <StyledTableCell />
+                                <StyledTableCell />
+                                <StyledTableCell />
+                            </TableRow>
+                        )}
+                    </TableBody>
+                    <StyledTablePag  
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        rowsPerPageOptions={[10]}
+                        labelRowsPerPage={<span>Rows:</span>}
+                    />
+                </Table>             
             </div>
-
         </div>
     );
 }
