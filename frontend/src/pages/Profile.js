@@ -6,7 +6,7 @@ import {
     Box, 
     Paper,
     Button,
-} from '@mui/material'
+} from '@mui/material';
 import bug from '../img/bug.png'
 
 export default function Profile() {
@@ -27,7 +27,7 @@ export default function Profile() {
                     <h1>User Profile</h1>
                 </div>
 
-                <Grid container spacing = {2} className = "profile-section">
+                <Grid container spacing = {2} className = "profile">
                     <Grid item xs = {4}>
                         <Box
                             component = {Paper}
@@ -35,11 +35,15 @@ export default function Profile() {
                                 backgroundColor: 'white',
                                 height: '20rem',
                                 border: 2,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems: 'center'
                             }}
                         >
-                            <img src ={bug}/>
+                            <img src= {bug}/>
                             <h2>Current User</h2>
-                            <h3>Role: CurentRole</h3>
+                            <h4>Role: CurentRole</h4>
                         </Box>
 
                         <Button
@@ -54,33 +58,36 @@ export default function Profile() {
                             sx = {{
                                 backgroundColor: 'white',
                                 height: '30rem',
-                                marginLeft: 5,
-                                border: 2,
+                                marginLeft: 4,
+                                border: 2, 
                             }}
                         >
-                            <h2>Overview</h2>
-                            <h5>About</h5>
-                            <p>Lorem ipsum dolor sit amet, mea id dicit sententiae, usu id civibus consequuntur, vero congue est no. 
-                            Ad feugiat lobortis concludaturque his. 
-                            Duo paulo affert voluptatibus at. Sed an quando maiorum definitionem, erant zril mel an.</p>
-                            <h5>Profile Details</h5>
+                            <div className="profile-overview">
+                                <h2>Overview</h2>
+                                <h4>About</h4>
+                                <p>Lorem ipsum dolor sit amet, mea id dicit sententiae, usu id civibus consequuntur, vero congue est no. 
+                                Ad feugiat lobortis concludaturque his. 
+                                Duo paulo affert voluptatibus at. Sed an quando maiorum definitionem, erant zril mel an.</p>
+                                <h4>Profile Details</h4>
 
-                            <div className="row">
-                                <span>Display Name</span>
-                                <span>Ryan Enriquez</span>
+                                <div className="row">
+                                    <label>Display Name</label>
+                                    <span>Ryan Enriquez</span>
+                                </div>
+                                <div className="row">
+                                    <label>Role</label>
+                                    <span>Admin</span>
+                                </div>
+                                <div className="row">
+                                    <label>Phone</label>
+                                    <span>561-555-3232</span>
+                                </div>
+                                <div className="row">
+                                    <label>Email</label>
+                                    <span>ryrydddde@gmail.com</span>
+                                </div>
                             </div>
-                            <div className="row">
-                                <span>Role</span>
-                                <span>Admin</span>
-                            </div>
-                            <div className="row">
-                                <span>Phone</span>
-                                <span>561-555-3232</span>
-                            </div>
-                            <div className="row">
-                                <span>Email</span>
-                                <span>ryrydddde@gmail.com</span>
-                            </div>
+                            
                         </Box>
                     </Grid>
                 </Grid>

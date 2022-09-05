@@ -57,68 +57,40 @@ body {
     Section and Cards
 ========================= */
 
-
-.profile-body1 {
-    width: 33.333%;
-    height: 300px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;  
-}
-
-.profile-section img {
+.profile img {
     max-width: 200px;
 }
 
-.profile-body2 {
-    width: 66.666%;
-    height: 600px;
+.profile h2 {
+    color: #012970;
+    font-weight: 700;
 }
 
-.profile-body2 .profile-header {
-    height: 40px;
-    border-bottom: 4px solid #ebeef4;
+.profile h4 {
+    color: #012970;
+    font-weight: 400;
 }
 
-.profile-body2 .row {
-    flex-direction: row;
+.profile-overview {
+    padding-left: 15px;
 }
 
-.profile-body2 .row span {
-    max-width: 50%;
+.profile-overview h2 {
+    margin-left: -15px !important; 
+    background-color: #012970;
+    color: #ffffff !important;
+    text-align: center;
 }
 
-
-.projects-section {
-    flex-direction: column;
-    align-items: center;
-}
-
-.projects-body {
-    width: 80%;
-    height: 700px;
-}
-
-.actions-icon {
+.row {
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-direction: row;
-    column-gap: 1em;
+
 }
 
-.actions-icon .details {
-    font-size: 25px;
-    color: black;
-}
-
-.actions-icon .trash {
-    font-size: 25px;
-    color: red;
-}
-
-.btn-add {
-    padding-left: 20px;
+.row span {
+    max-width: '50%';
 }
 
 
@@ -351,7 +323,7 @@ label {
     font-weight: 600;
 }
 
-.dash-project h5, p{
+.dash-project h5, .dash-project p{
     padding-left: 10px;
     padding-top: 10px;
 }
