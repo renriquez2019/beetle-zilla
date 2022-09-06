@@ -1,13 +1,35 @@
 const express = require('express')
+const mysql = require('mysql');
 const colors = require('colors')
 const dotenv = require('dotenv').config()
-const {errorHandler} = require('./middleware/errorMiddleware')
-const connectDB = require('./config/db')
 const port = process.env.PORT || 5000
 
-connectDB()
+const {errorHandler} = require('./middleware/errorMiddleware')
+
+const db = mysql.createConnection({
+    host : process.env.MYSQL_HOST,
+    user : process.env.USERNAME,
+    password : process.env.PASSWORD,
+    database : 'beetle'
+});
+
+db.connect((error) => {
+    if (error) {
+        throw error;
+    }
+    console.log('Database Connected...');
+});
 
 const app = express()
+
+app.get('/', (req, res) =>{
+    const sql = 'SELECT display_name FROM users';
+
+    db.query(sql, (error, result) => {
+        if (error) throw error;
+        res.send(result);
+    });
+});
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))

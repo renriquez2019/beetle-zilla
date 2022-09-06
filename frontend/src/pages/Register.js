@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/water.png';
 import Title from '../components/Title';
-
+import axios from 'axios'
 
 export default function Register() {
 
