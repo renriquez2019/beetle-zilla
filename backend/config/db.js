@@ -1,15 +1,16 @@
-const mongoose = require('mongoose')
+const mysql = require('mysql');
+require('dotenv').config();
 
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI)
+const connection = mysql.createConnection({
+    host : process.env.MYSQL_HOST,
+    user : process.env.USERNAME,
+    password : process.env.PASSWORD,
+    database : 'beetle'
+});
 
-        console.log(`MongoDB Connected: ${conn.connection.host}` .cyan.underline);
-        
-    } catch (error) {
-        console.log(error);
-        process.exit(1);
-    };
-}
+connection.connect(error => {
+    if (error) throw error;
+    console.log("Database connection successful")
+})
 
-module.exports = connectDB
+module.exports = connection;

@@ -2,95 +2,94 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
+const db = require('../config/db')
+
 
 // @desc Register new user
 // @route POST /api/users
 // access Public
-const registerUser = asyncHandler (async (req, res) => {
-    const {name, email, password} = req.body
+const registerUser = asyncHandler(async (req, res) =>{
+    const {display_name, email, password, confirm_password} = req.body;
 
-    if (!name || !email || !password) {
+    if (!display_name || !email || !password || !confirm_password) {
         res.status(400)
         throw new Error('Please add all fields')
     }
 
-    // Check if user exists
-    const userExists = await User.findOne({email})
-
-    if (userExists) {
-        res.status(400)
-        throw new Error('User already exists')
-    }
-
-    // Hash Password
+    // Hash password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    // Create user
-    const user = await User.create({
-        name,
-        email,
-        password: hashedPassword
+    const new_user = new User({
+        display_name: display_name,
+        email: email,
+        password: hashedPassword,
+        role: null,
+        phone: null,
+        is_admin: false
     })
 
-    if (user) {
-        res.status(201).json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            token: generateToken(user._id)
-        })
-    } else {
-        res.status(400)
-        throw new Error('Invalid user data')
-    }
+    User.create(new_user, (error, data) => {
+
+        if (error) {
+            res.status(400).send({ message: "Some error occured while creating the user" })
+        }
+        else {
+            res.status(201)
+            res.send(data)
+        }
+    });
 })
 
-// @desc Authenticate a user
-// @route POST /api/users/login
+// @desc    Authenticate a user
+// @route   POST /api/users/login
+// @access  Public
+const loginUser = asyncHandler(async (req, res) =>{
+
+    const {email, password} = req.body;
+
+    // Check for user email
+    User.findByEmail(email, (error, data) => {
+        if (error)
+            res.status(400).send({ message: "User not found"})
+        else {
+            const user = data;
+            if (user && (bcrypt.compare(password, user.password))) {
+                res.json({ token: generateToken(user.email) })
+            } else {
+                res.status(400)
+                throw new Error("Invalid creditials")
+            }
+        }
+    })
+})
+
+// @desc Update user
+// @route POST /api/users
 // access Public
-const loginUser = asyncHandler (async (req, res) => {
-    const {email, password} = req.body
-
-    const user = await User.findOne({email})
-
-    if (user && (await bcrypt.compare(password, user.password))) {
-        res.status(200).json({
-            _id: user.id,
-            name: user.name,
-            email: user.email,
-            token: generateToken(user._id)
-        })
-    } else {
-        res.status(400)
-        throw new Error('Invalid user data')
-    }
-
+const updateUser = asyncHandler(async (req, res) =>{
+    console.log(req.body);
 })
 
-// @desc Get user data
-// @route GET /api/users/me
-// access Private
-const getMe = asyncHandler (async (req, res) => {
-    const {_id, name, email} = await User.findById(req.user.id)
 
-    res.status(200).json({
-        id: _id,
-        name,
-        email,
-    })
+// @desc    Get user data
+// @route   GET /api/users/me
+// @access  Private
+const getLoggedIn = asyncHandler(async (req, res) =>{
+    res.status(200).json(req.user)
 })
 
-// Generate Token
-const generateToken = (id) => {
-    return jwt.sign({id}, process.env.JWT_SECRET, {
+const generateToken = (email) => {
+    return jwt.sign({email}, process.env.JWT_SECRET, {
         expiresIn: '30d',
     })
 }
 
 
+
 module.exports = {
     registerUser,
+    updateUser,
     loginUser,
-    getMe
-}
+    getLoggedIn
+};
