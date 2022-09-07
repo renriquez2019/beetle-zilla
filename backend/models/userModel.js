@@ -79,5 +79,21 @@ User.remove = (email, result) => {
     })
 }
 
+User.admin = (email, result) => {
+    db.query("UPDATE users SET is_admin = 1 WHERE email = ?", email, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null)
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            result({ kind: "redundant" }, null);
+            return;
+        }
+        
+        result(null, res[0])
+    })
+}
 
 module.exports = User;

@@ -5,7 +5,8 @@ const {
     registerUser, 
     loginUser, 
     updateUser,
-    deleteUser, 
+    deleteUser,
+    setAdmin,
     getLoggedIn 
 } = require('../controllers/userController')
 
@@ -17,6 +18,7 @@ router.post('/register', registerUser)
 router.post('/login', loginUser)
 router.post('/update', updateUser)
 router.post('/delete', deleteUser)
+router.post('/admin', setAdmin)
 
 // GET Requests
 router.get('/getloggedin', protect, getLoggedIn)

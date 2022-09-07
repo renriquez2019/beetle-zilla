@@ -132,6 +132,26 @@ const deleteUser = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get user data
+// @route   POST /api/admin
+// @access  Private
+const setAdmin = asyncHandler(async (req, res) => {
+
+    User.admin(req.body.email, (error, data) => {
+        if (error) {
+            res.status(500).send({ message: `user ${req.body.email} could not be altered`});
+            
+        } else {
+
+            if (!data)
+                res.status(400).send({ message: `user already set to admin`});
+            else
+                res.status(200).send({ message: `user ${req.body.email} was made admin` })
+        }
+    })
+
+})
+
+// @desc    Get user data
 // @route   GET /api/getloggedin
 // @access  Private
 const getLoggedIn = asyncHandler(async (req, res) => {
@@ -152,5 +172,6 @@ module.exports = {
     loginUser,
     updateUser,
     deleteUser,
+    setAdmin,
     getLoggedIn
 };
