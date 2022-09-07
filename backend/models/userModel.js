@@ -23,9 +23,12 @@ User.create = (new_user, result) => {
     });
 };
 
-User.updateById = (id, altered_user, result) => {
+// used for updating specified columns in row determined by email
+User.update = (email, user, result) => {
     db.query(
-        "UPDATE users SET display_name = ?, phone = ?, role = ?, is_admin = ? WHERE user_id = ?", [altered_user, id], (error, res) => {
+        "UPDATE users SET display_name = ?, phone = ?, role = ? WHERE email = ?", 
+        [user.display_name, user.phone, user.role, email], 
+        (error, res) => {
         if (error) {
             console.log(error);
             result(error, null)
@@ -37,8 +40,8 @@ User.updateById = (id, altered_user, result) => {
             return;
         }
 
-        console.log("updated user: ", {email: email, ...altered_user });
-        result(null, {email: email, ...altered_user});
+        console.log("updated user: ", {email: email, ...user });
+        result(null, {email: email, ...user});
     });
 }
 
@@ -56,6 +59,24 @@ User.findByEmail = (email, result) => {
             return;
         }
     });
+}
+
+User.remove = (email, result) => {
+    db.query("DELETE FROM users WHERE email = ?", email, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null)
+            return;
+        }
+
+        if (res.affectedRows == 0) {
+            result({ kind: "not_found" }, null);
+            return;
+        }
+
+        console.log("deleted user with email: ", email);
+        result(null, res);
+    })
 }
 
 
