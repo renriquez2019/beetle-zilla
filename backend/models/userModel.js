@@ -59,5 +59,4 @@ User.findByEmail = (email, result) => {
 }
 
 
-
 module.exports = User;

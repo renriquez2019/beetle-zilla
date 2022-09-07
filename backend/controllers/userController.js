@@ -67,16 +67,17 @@ const loginUser = asyncHandler(async (req, res) =>{
 // @desc Update user
 // @route POST /api/users
 // access Public
-const updateUser = asyncHandler(async (req, res) =>{
-    console.log(req.body);
+const updateUser = asyncHandler( async(req, res) =>{
+    console.log(req.User);
 })
 
 
 // @desc    Get user data
 // @route   GET /api/users/me
 // @access  Private
-const getLoggedIn = asyncHandler(async (req, res) =>{
-    res.status(200).json(req.user)
+const getLoggedIn = asyncHandler(async (req, res) => {
+    console.log(req.user)
+    res.status(200).json(req.user.display_name)
 })
 
 const generateToken = (email) => {
@@ -84,7 +85,6 @@ const generateToken = (email) => {
         expiresIn: '30d',
     })
 }
-
 
 
 module.exports = {
