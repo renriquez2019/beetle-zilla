@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/space.png';
 import Title from '../components/Title';
 import {Button} from '@mui/material'
+import axios from 'axios';
+
 
 export default function Login() {
 
     const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -82,7 +85,7 @@ export default function Login() {
                         </p>
                     </div>  
                 </form> 
-            </div> 
+            </div>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
+import axios from 'axios'
 
 import Login from './pages/Login';
 import Register from './pages/Register';

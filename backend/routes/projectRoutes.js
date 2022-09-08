@@ -7,6 +7,7 @@ const {
     searchProject,
     getAllActive,
     getUsers,
+    getTickets,
     getOne
 } = require('../controllers/projectController')
 
@@ -17,6 +18,7 @@ router.post('/add', addProject)
 router.get('/search', searchProject)
 router.get('/active', getAllActive)
 router.get('/getusers', getUsers)
+router.get('/gettickets', getTickets)
 router.get('/get', getOne)
 
 // PUT REQUESTS

@@ -1,3 +1,4 @@
+const { restart } = require('nodemon');
 const db = require('../config/db')
 
 // constructor
@@ -76,8 +77,14 @@ Ticket.getAll = (key, result) => {
             return;
         }
 
-        console.log("tickets: ", res);
-        result(null, res)
+        if (res.length) {
+            console.log(res)
+            result(null, res)
+            return;
+        }
+
+        result({ kind: "not_found"}, null)
+    
     })
 }
 

@@ -81,7 +81,6 @@ const searchProject = asyncHandler(async (req, res) => {
     })
 })
 
-
 // @desc Get all projects with active status
 // @route GET /api/projects/active
 // access Public
@@ -96,7 +95,7 @@ const getAllActive = asyncHandler(async (req, res) => {
 })
 
 // @desc Get all user_ids in project
-// @route GET /api/projects/active
+// @route GET /api/projects/getusers
 // access Public
 const getUsers = asyncHandler(async (req, res) => {
 
@@ -111,6 +110,26 @@ const getUsers = asyncHandler(async (req, res) => {
             ))
 
             res.status(200).send(users);
+        }
+    })
+})
+
+// @desc Get all ticket_ids in project
+// @route GET /api/projects/gettickets
+// access Public
+const getTickets = asyncHandler(async (req, res) => {
+
+    Project.getTickets(req.body.project_id, (error, data) => {
+        if (error)
+            res.status(400).send({message: "no tickets found"})
+        else {
+            let tickets = [];
+
+            data.map((row) => (
+                tickets.push(row.ticket_id)
+            ))
+
+            res.status(200).send(tickets);
         }
     })
 })
@@ -134,5 +153,6 @@ module.exports = {
     searchProject,
     getAllActive,
     getUsers,
+    getTickets,
     getOne
 }

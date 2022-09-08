@@ -71,8 +71,14 @@ Project.getAll = (key, result) => {
             return;
         }
 
-        console.log("projects: ", res);
-        result(null, res)
+        if (res.length) {
+            console.log(res)
+            result(null, res)
+            return;
+        }
+
+        result({ kind : "not_found"}, null)
+        
     })
 
 }
@@ -100,9 +106,14 @@ Project.getUsers = (project_id, result) => {
             result(error, null);
             return;
         }
-        
-        console.log("users: ", res);
-        result(null, res)
+
+        if (res.length) {
+            console.log("users: ", res);
+            result(null, res)
+            return;
+        }
+
+        result({kind: "not_found"}, null)
     });
 }
 
@@ -113,8 +124,15 @@ Project.getTickets = (project_id, result) => {
             result(error, null);
             return;
         }
-        console.log("tickets: ", res);
-        result(null, res)
+
+        if (res.length) {
+            console.log("tickets: ", res);
+            result(null, res)
+            return;
+        }
+
+        result({kind: "not_found"}, null)
+        
     })
 }
 

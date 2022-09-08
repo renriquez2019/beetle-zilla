@@ -25,7 +25,8 @@ const addTicket = asyncHandler(async (req, res) => {
                 type: type,
                 priority: priority,
                 status: 1,
-                project_id: project_id
+                project_id: project_id,
+                register_date: new Date()
             })
 
             Ticket.create(new_ticket, (error, data) => {
@@ -73,19 +74,38 @@ const updateTicket = asyncHandler(async (req,res) => {
     })
 })
 
+// @desc Search for ticket
+// @route GET /api/tickets/search
+// access Public
 const searchTicket = asyncHandler(async (req, res) => {
 
     const key = req.body.key
-    const project = req.body.project_id
 
     Ticket.getAll(key, (error, data) => {
         if (error)
             res.status(400).send({message: "no tickets found"})
+        else
+            res.status(400).send(data)
         
+    })
+})
+
+// @desc Get one instance of ticket
+// @route GET /api/tickets/get
+// access Public
+const getOne = asyncHandler(async (req, res) => {
+
+    Ticket.findByCriteria('ticket_id', req.body.ticket_id, (error, data) => {
+        if (error)
+            res.status(404).send({message: "no tickets found"})
+        else
+            res.status(200).send(data);
     })
 })
 
 module.exports = {
     addTicket,
-    updateTicket
+    updateTicket,
+    searchTicket,
+    getOne
 }
