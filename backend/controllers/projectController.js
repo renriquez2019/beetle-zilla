@@ -1,7 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const Project = require('../models/projectModel')
-const User = require('../models/userModel')
-
 
 
 // @desc Create project
@@ -12,7 +10,7 @@ const addProject = asyncHandler(async (req, res) =>{
 
     if (!title || !description) {
         res.status(400)
-        throw new Error('Please add all fields')
+        throw new Error('please add all fields')
     }
 
     
@@ -21,7 +19,6 @@ const addProject = asyncHandler(async (req, res) =>{
         if (!err) {
             res.status(400).send({message: "Project already exists"})
         } else if (err.kind === "not_found"){
-            console.log("dddd")
             const new_project = new Project({
                 title: title,
                 description: description,
@@ -37,7 +34,7 @@ const addProject = asyncHandler(async (req, res) =>{
                 }
             });
         } else {
-            res.status(400).send({message: "Project already exists"});
+            res.status(400).send({message: "project already exists"});
         }
     })
 })
@@ -49,7 +46,7 @@ const updateProject = asyncHandler(async (req, res) => {
 
     Project.findByCriteria('title', req.body.title, (error, data) => {
         if (error)
-            res.status(400).send({ message: "Project not found"})
+            res.status(400).send({ message: "project not found"})
         else {
             const project = data;
 

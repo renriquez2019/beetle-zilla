@@ -18,10 +18,10 @@ Project.create = (new_project, result) => {
     });
 }
 
-Project.update = (title, project, result) => {
+Project.update = (project_id, project, result) => {
     db.query(
-        "UPDATE projects SET description = ? WHERE title = ?",
-        [project.description, title],
+        "UPDATE projects SET description = ? WHERE project_id = ?",
+        [project.description, project_id],
         (error, res) => {
         if (error) {
             console.log(error);

@@ -18,15 +18,15 @@ Ticket.create = (new_ticket, result) => {
             result(error, null)
             return;
         }
-        console.log("created user: ", {title: res.title, ...new_ticket});
+        console.log("created ticket: ", {title: res.title, ...new_ticket});
         result(null, {title: res.title, ...new_ticket})
     })
 }
 
-Ticket.update = (title, ticket, result) => {
+Ticket.update = (ticket_id, ticket, result) => {
     db.query(
-        "UPDATE tickets SET title = ?, description = ?, type = ?, priority = ? WHERE title = ?",
-        [ticket.title, ticket.description, ticket.type, ticket.priority, title],
+        "UPDATE tickets SET title = ?, description = ?, type = ?, priority = ? WHERE ticket_id = ?",
+        [ticket.title, ticket.description, ticket.type, ticket.priority, ticket_id],
         (error, res) => {
         if (error) {
             console.log(error);
@@ -39,13 +39,13 @@ Ticket.update = (title, ticket, result) => {
             return;
         }
 
-        console.log("updated user: ", {title: title, ...ticket });
-        result(null, {title: title, ...ticket});
+        console.log("updated ticket: ", {title: ticket_id, ...ticket });
+        result(null, {title: ticket_id, ...ticket});
     });
 }
 
-Ticket.findByCriteria = (crietria, key, result) => {
-    db.query(`SELECT * FROM tickets WHERE '%${crietria}%' = '${key}'`, (error, res) => {
+Ticket.findByCriteria = (criteria, key, result) => {
+    db.query(`SELECT * FROM tickets WHERE ${criteria} = '${key}'`, (error, res) => {
         if (error) {
             console.log(error);
             result(error, null);
@@ -58,7 +58,7 @@ Ticket.findByCriteria = (crietria, key, result) => {
             return;
         }
 
-        result({ kind: "not_found "}, null);
+        result({ kind: "not_found"}, null);
     });
 }
 
