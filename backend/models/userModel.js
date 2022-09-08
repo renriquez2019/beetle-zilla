@@ -24,10 +24,10 @@ User.create = (new_user, result) => {
 };
 
 // used for updating specified columns in row determined by email
-User.update = (email, user, result) => {
+User.update = (user_id, user, result) => {
     db.query(
-        "UPDATE users SET display_name = ?, phone = ?, role = ? WHERE email = ?", 
-        [user.display_name, user.phone, user.role, email], 
+        "UPDATE users SET display_name = ?, phone = ?, role = ? WHERE user_id = ?", 
+        [user.display_name, user.phone, user.role, user_id], 
         (error, res) => {
         if (error) {
             console.log(error);
@@ -40,13 +40,13 @@ User.update = (email, user, result) => {
             return;
         }
 
-        console.log("updated user: ", {email: email, ...user });
-        result(null, {email: email, ...user});
+        console.log("updated user: ", {user_id: user_id, ...user });
+        result(null, {user_id: user_id, ...user});
     });
 }
 
-User.findByEmail = (email, result) => {
-    db.query(`SELECT * FROM users WHERE email = '${email}'`, (error, res) => {
+User.findByCriteria = (criteria, key, result) => {
+    db.query(`SELECT * FROM users WHERE ${criteria} = '${key}'`, (error, res) => {
         if (error) {
             console.log(error);
             result(error, null);
@@ -58,11 +58,15 @@ User.findByEmail = (email, result) => {
             result(null, res[0])
             return;
         }
+        else {
+            result({kind: "not_found"}, null);
+            return;
+        }
     });
 }
 
-User.remove = (email, result) => {
-    db.query("DELETE FROM users WHERE email = ?", email, (error, res) => {
+User.remove = (user_id, result) => {
+    db.query("DELETE FROM users WHERE user_id = ?", user_id, (error, res) => {
         if (error) {
             console.log(error);
             result(error, null)
@@ -74,13 +78,14 @@ User.remove = (email, result) => {
             return;
         }
 
-        console.log("deleted user with email: ", email);
+        
+        console.log("deleted user: ", res.display_name);
         result(null, res);
     })
 }
 
-User.admin = (email, result) => {
-    db.query("UPDATE users SET is_admin = 1 WHERE email = ?", email, (error, res) => {
+User.admin = (user_id, result) => {
+    db.query("UPDATE users SET is_admin = 1 WHERE user_id = ?", user_id, (error, res) => {
         if (error) {
             console.log(error);
             result(error, null)
@@ -93,6 +98,19 @@ User.admin = (email, result) => {
         }
         
         result(null, res[0])
+    })
+}
+
+User.getProjects = (user_id, result) => {
+    db.query("SELECT * FROM assign WHERE user_id = ?", user_id, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null);
+            return;
+        }
+        
+        console.log("projects: ", res);
+        result(null, res)
     })
 }
 

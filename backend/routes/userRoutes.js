@@ -7,7 +7,9 @@ const {
     updateUser,
     deleteUser,
     setAdmin,
-    getLoggedIn 
+    getLoggedIn,
+    getProjects,
+    findOne
 } = require('../controllers/userController')
 
 const {protect} = require('../middleware/authMiddleware')
@@ -16,12 +18,17 @@ const {protect} = require('../middleware/authMiddleware')
 // POST Requests
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-router.post('/update', updateUser)
-router.post('/delete', deleteUser)
-router.post('/admin', setAdmin)
 
 // GET Requests
 router.get('/getloggedin', protect, getLoggedIn)
+router.get('/projects', getProjects)
+router.get('/get', findOne)
 
+// PUT Requests
+router.put('/update', updateUser)
+router.put('/admin', setAdmin)
+
+// DELETE Requests
+router.delete('/delete', deleteUser)
 
 module.exports = router
