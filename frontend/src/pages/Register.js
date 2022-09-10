@@ -4,6 +4,10 @@ import background from '../img/water.png';
 import Title from '../components/Title';
 import axios from 'axios'
 
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api'
+})
+
 export default function Register() {
 
     const navigate = useNavigate();
@@ -18,6 +22,23 @@ export default function Register() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        api.post('/users/register', {
+            "display_name": formData.name,
+            "email": formData.email,
+            "password": formData.password,
+            "confirm_password":formData.password2
+        })
+            .then(res => {
+                if (res.data.error === '') {
+
+                }
+                else {
+                    console.log(res.data.error)
+                }
+            })
+
+
         navigate('/dashboard');
         
     }

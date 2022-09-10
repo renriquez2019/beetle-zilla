@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) =>{
 
     // check if password is repeated correctly
     if (password != confirm_password) {
-        res.status(400);
+        res.status(400)
         throw new Error("Passwords do not match")
     }
 
