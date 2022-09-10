@@ -13,14 +13,14 @@ const registerUser = asyncHandler(async (req, res) =>{
 
     // check if fields are correct
     if (!display_name || !email || !password || !confirm_password) {
-        res.status(400)
-        throw new Error('Please add all fields')
+        res.status(400).send("Please enter all fields")
+        return;
     }
 
     // check if password is repeated correctly
     if (password != confirm_password) {
-        res.status(400)
-        throw new Error("Passwords do not match")
+        res.status(400).send("Passwords do not match")
+        return;
     }
 
     // Hash password
@@ -64,7 +64,7 @@ const updateUser = asyncHandler( async(req, res) =>{
 
     User.findByCriteria('user_id', req.body.user_id, (error, data) => {
         if (error)
-            res.status(400).send({ message: "User not found"})
+            res.status(404).send({ message: "User not found"})
         else {
             const user = data;
             

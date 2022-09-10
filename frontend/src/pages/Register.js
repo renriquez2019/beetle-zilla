@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/water.png';
 import Title from '../components/Title';
+import AlertPopup from '../components/AlertPopup';
 import axios from 'axios'
 
 const api = axios.create({
@@ -17,31 +18,13 @@ export default function Register() {
         password: '',
         password2: ''
     })
+    const [alert, setAlert] = useState(false);
+    const [alertContent, setAlertContent] = useState({
+        message: '',
+        error: false
+    })
 
     const {name, email, password, password2} = formData
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        api.post('/users/register', {
-            "display_name": formData.name,
-            "email": formData.email,
-            "password": formData.password,
-            "confirm_password":formData.password2
-        })
-            .then(res => {
-                if (res.data.error === '') {
-
-                }
-                else {
-                    console.log(res.data.error)
-                }
-            })
-
-
-        navigate('/dashboard');
-        
-    }
 
     const handleChange = (e) => {
         setFormData((prevState) => ({
@@ -49,6 +32,32 @@ export default function Register() {
             [e.target.name]: e.target.value,
         }))
     }
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        setAlert(false);
+
+        api.post('/users/register', {
+            "display_name": formData.name,
+            "email": formData.email.toLowerCase(),
+            "password": formData.password,
+            "confirm_password":formData.password2
+        })
+            .then(res => {
+                setAlertContent({message: "You have registered successfully!", error: false})
+                setAlert(true);
+                navigate('/dashboard')
+            }) 
+            .catch((err) => {
+                setAlertContent({message: err.request.responseText, error: true});
+                setAlert(true);
+                console.log(err.request.responseText)
+            })       
+    }
+
+    
 
     const myBackground = {
         backgroundImage: `url(${background})`,
@@ -63,6 +72,11 @@ export default function Register() {
                 <Title/>
                 <form className="auth-form">
                     <div className="auth-form-content">
+                            <div>
+                                {alert ? <AlertPopup content={{
+                                    message: alertContent.message, error: alertContent.error
+                                }}/> : <></> }
+                            </div>
                         <h3 className="auth-form-title">Sign Up</h3>
                         <div className="text-center">
                             Already have an account?{" "}
@@ -121,6 +135,8 @@ export default function Register() {
                             <button type="submit" className="btn btn-primary">
                                 Register
                             </button>
+                            
+                            
                         </div>
                     </div>  
                 </form> 
