@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/space.png';
 import Title from '../components/Title';
 import {Button} from '@mui/material'
 import axios from 'axios';
 
+const api = axios.create({
+    baseURL: 'http://localhost:5000/home'
+})
 
 export default function Login() {
 
@@ -17,8 +20,13 @@ export default function Login() {
 
     const {email, password} = formData
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        api.get('/').then(res => {
+            console.log(res.data);
+
+        })
 
         navigate('/dashboard');
         
@@ -81,7 +89,7 @@ export default function Login() {
                             </Button>
                         </div>
                         <p className="forgot-password text-center mt-2">
-                            Forgot <a href="#">password?</a>
+                            Forgot password
                         </p>
                     </div>  
                 </form> 

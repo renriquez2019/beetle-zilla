@@ -112,7 +112,6 @@ export default function Dashboard() {
                                 sx = {{
                                     maxHeight: '20rem',
                                     maxWidth: '48%',
-                                    minWidth: 50
                                 }}>
                                 <HeaderTableRow>
                                     <TableRow>
