@@ -64,7 +64,6 @@ export default function Projects() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    
     return (
         <div>
             <Header openSidebar={toggleSidebar} />
@@ -82,16 +81,13 @@ export default function Projects() {
                         size="small">
                         Create new Project
                     </Button>
-                </div>    
+                </div>
                 <Table
-                    component={Paper} 
-                    sx ={{
-                        maxHeight: 900,
-                        minWidth: 750,
-                        border: 2
-                    }}>
+                    component={Paper}
+                    size = "small"
+                    >
                     <HeaderTableRow>
-                        <TableRow>
+                        <TableRow size = "small">
                             <HeaderTableCell>Project Name</HeaderTableCell>
                             <HeaderTableCell sx = {{ paddingRight: '20em'}} align ="left">Description</HeaderTableCell>
                             <HeaderTableCell align = "center"># of Tickets</HeaderTableCell>
@@ -105,9 +101,10 @@ export default function Projects() {
                         .map((row) => (
                             <TableRow
                                 key={row.name}
+                                size = "small"
                                 >
                                 <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
-                                <StyledTableCell>{row.desc}</StyledTableCell>
+                                <StyledTableCell size = "small">{row.desc}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.numtickets}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.numusers}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.status}</StyledTableCell>

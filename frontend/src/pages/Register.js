@@ -15,6 +15,7 @@ export default function Register() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        phone: '',
         password: '',
         password2: ''
     })
@@ -23,8 +24,6 @@ export default function Register() {
         message: '',
         error: false
     })
-
-    const {name, email, password, password2} = formData
 
     const handleChange = (e) => {
         setFormData((prevState) => ({
@@ -42,10 +41,11 @@ export default function Register() {
         api.post('/users/register', {
             "display_name": formData.name,
             "email": formData.email.toLowerCase(),
+            "phone": formData.phone,
             "password": formData.password,
             "confirm_password":formData.password2
         })
-            .then(res => {
+            .then((res) => {
                 setAlertContent({message: "You have registered successfully!", error: false})
                 setAlert(true);
                 navigate('/dashboard')
@@ -89,7 +89,7 @@ export default function Register() {
                                 className="form-control mt-1"
                                 id="name"
                                 name="name"
-                                value={name}
+                                value={formData.name}
                                 onChange={handleChange}
                                 placeholder="Enter name"
                             />
@@ -102,9 +102,22 @@ export default function Register() {
                                 className="form-control mt-1"
                                 id="email"
                                 name="email"
-                                value={email}
+                                value={formData.email}
                                 onChange={handleChange}
                                 placeholder="Enter email"
+                            />
+                        </div>
+                        <div className="form-group mt-3">
+                            <label>Phone Number</label>
+                            <input
+                                type="tel"
+                                className="form-control mt-1"
+                                id="phone"
+                                name="phone"
+                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                placeholder="555-555-5555"
                             />
                         </div>
                         <div className="form-group mt-3">
@@ -114,7 +127,7 @@ export default function Register() {
                                 className="form-control mt-1"
                                 id="password"
                                 name="password"
-                                value={password}
+                                value={formData.password}
                                 onChange={handleChange}
                                 placeholder="Enter password"
                             />
@@ -126,7 +139,7 @@ export default function Register() {
                                 className="form-control mt-1"
                                 id="password2"
                                 name="password2"
-                                value={password2}
+                                value={formData.password2}
                                 onChange={handleChange}
                                 placeholder="Confirm password"
                             />

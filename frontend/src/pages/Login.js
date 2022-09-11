@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import background from '../img/space.png';
 import Title from '../components/Title';
+import AlertPopup from '../components/AlertPopup'
 import {Button} from '@mui/material'
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/home'
+    baseURL: 'http://localhost:5000/api'
 })
 
 export default function Login() {
@@ -17,20 +18,11 @@ export default function Login() {
         email: '',
         password: '',
     })
-
-    const {email, password} = formData
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        api.get('/').then(res => {
-            console.log(res.data);
-
-        })
-
-        navigate('/dashboard');
-        
-    }
+    const [alert, setAlert] = useState(false);
+    const [alertContent, setAlertContent] = useState({
+        message: '',
+        error: false
+    })
 
     const handleChange = (e) => {
         setFormData((prevState) => ({
@@ -38,6 +30,33 @@ export default function Login() {
             [e.target.name]: e.target.value,
         }))
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        setAlert(false);
+
+        api.post('/users/login', {
+            "email": formData.email,
+            "password": formData.password
+
+        })
+            .then((res) => {
+                setAlertContent("Login", false);
+                setAlert(true);
+                localStorage.setItem('token', res.data.token)
+                console.log(res.data.token)
+
+                navigate('/dashboard');
+            })
+            .catch((err) => {
+                setAlertContent({message: err.request.responseText, error: true});
+                setAlert(true);
+                console.log(err.request.responseText)
+            })
+    }
+
+    
 
     const myBackground = {
         backgroundImage: `url(${background})`,
@@ -52,6 +71,11 @@ export default function Login() {
                 <Title/>
                 <form className="auth-form" >
                     <div className="auth-form-content">
+                            <div>
+                                {alert ? <AlertPopup content={{
+                                    message: alertContent.message, error: alertContent.error
+                                }}/> : <></> }
+                            </div>
                         <h3 className="auth-form-title">Sign In</h3>
                         <div className="text-center">
                             Don't have an account?{" "}
@@ -64,7 +88,7 @@ export default function Login() {
                                     className="form-control mt-1"
                                     id="email"
                                     name="email"
-                                    value={email}
+                                    value={formData.email}
                                     onChange={handleChange}
                                     placeholder="Enter email"
                                 />
@@ -76,7 +100,7 @@ export default function Login() {
                                     className="form-control mt-1"
                                     id="password"
                                     name="password"
-                                    value={password}
+                                    value={formData.password}
                                     onChange={handleChange}
                                     placeholder="Enter password"
                                 />

@@ -109,12 +109,13 @@ export default function Dashboard() {
                         <div className="dash-tables">
                             <Table
                                 component={Paper}
+                                size = "small"
                                 sx = {{
                                     maxHeight: '20rem',
                                     maxWidth: '48%',
                                 }}>
                                 <HeaderTableRow>
-                                    <TableRow>
+                                    <TableRow size = "small">
                                         <HeaderTableCell>User</HeaderTableCell>
                                         <HeaderTableCell>Email</HeaderTableCell>
                                         <HeaderTableCell align = "center">Role</HeaderTableCell>
@@ -125,6 +126,7 @@ export default function Dashboard() {
                                     .map((row) => (
                                         <TableRow
                                             key={row.user}
+                                            size = "small"
                                             >
                                             <StyledTableCell component="th" scope="row">{row.user}</StyledTableCell>
                                             <StyledTableCell>{row.email}</StyledTableCell>
@@ -149,18 +151,17 @@ export default function Dashboard() {
                                     page={userpage}
                                     onPageChange={handleUserChangePage}
                                     onRowsPerPageChange={handleUserChangeRowsPerPage}
-                                    rowsPerPageOptions={[3]}
+                                    rowsPerPageOptions={[4]}
                                     labelRowsPerPage={<span>Rows:</span>}
+                                    size = "small"
                                 />
                             </Table>
                             <Table
                                 component={Paper}
-                                sx = {{
-                                    maxHeight: '20rem',
-                                    maxWidth: '48%'
-                                }}>
+                                size = "small"
+                                >
                                 <HeaderTableRow>
-                                    <TableRow>
+                                    <TableRow size = "small">
                                         <HeaderTableCell>Title</HeaderTableCell>
                                         <HeaderTableCell align = "center">Type</HeaderTableCell>
                                         <HeaderTableCell align = "center">Priority</HeaderTableCell>
@@ -172,6 +173,7 @@ export default function Dashboard() {
                                     .map((row) => (
                                         <TableRow
                                             key={row.user}
+                                            size = "small"
                                             >
                                             <StyledTableCell component="th" scope="row">{row.title}</StyledTableCell>
                                             <StyledTableCell align = "center">{row.type}</StyledTableCell>
@@ -198,7 +200,7 @@ export default function Dashboard() {
                                     page={ticketpage}
                                     onPageChange={handleTicketChangePage}
                                     onRowsPerPageChange={handleTicketChangeRowsPerPage}
-                                    rowsPerPageOptions={[3]}
+                                    rowsPerPageOptions={[4]}
                                     labelRowsPerPage={<span>Rows:</span>}
                                 />
                             </Table>

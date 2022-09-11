@@ -78,13 +78,10 @@ export default function Tickets() {
                 </div> 
                 <Table
                     component={Paper} 
-                    sx ={{
-                        border: 2,
-                        maxHeight: 900,
-                        minWidth: 750
-                    }}>
+                    size = "small"
+                    >
                     <HeaderTableRow>
-                        <TableRow>
+                        <TableRow size = "small">
                             <HeaderTableCell>Ticket Name</HeaderTableCell>
                             <HeaderTableCell sx = {{ paddingRight: '10em'}} align = "left">Description</HeaderTableCell>
                             <HeaderTableCell >Project</HeaderTableCell>
@@ -99,6 +96,7 @@ export default function Tickets() {
                         .map((row) => (
                             <TableRow
                                 key={row.name}
+                                size = "small"
                                 >
                                 <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
                                 <StyledTableCell>{row.desc}</StyledTableCell>

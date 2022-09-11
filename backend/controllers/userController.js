@@ -9,10 +9,10 @@ const Project = require('../models/projectModel')
 // @route POST /api/users/register
 // access Public
 const registerUser = asyncHandler(async (req, res) =>{
-    const {display_name, email, password, confirm_password} = req.body;
+    const {display_name, email, phone, password, confirm_password} = req.body;
 
     // check if fields are correct
-    if (!display_name || !email || !password || !confirm_password) {
+    if (!display_name || !email || !phone || !password || !confirm_password) {
         res.status(400).send("Please enter all fields")
         return;
     }
@@ -30,7 +30,7 @@ const registerUser = asyncHandler(async (req, res) =>{
     // check if email is taken by existing user
     User.findByCriteria('email', email, (err, data) => {
         if (!err) {
-           res.status(400).send({message: "User already exists"})
+           res.status(400).send("User already exists")
         } else if (err.kind === "not_found"){
 
             // create new user
@@ -38,21 +38,20 @@ const registerUser = asyncHandler(async (req, res) =>{
                 display_name: display_name,
                 email: email,
                 password: hashedPassword,
-                role: null,
-                phone: null,
+                role: "Developer",
+                phone: phone,
                 is_admin: false
             })
             
             User.create(new_user, (error, data) => {
                 if (error) 
-                    res.status(400).send({ message: "Some error occured while creating the user" })
+                    res.status(400).send("Some error occured while creating the user")
                 else {
-                    res.status(201)
-                    res.send(data)
+                    res.status(201).send(data);
                 }
             });
         } else {
-            res.status(400).send({message: "user already exists"});
+            res.status(400).send("user already exists");
         }
     });
 })
@@ -64,7 +63,7 @@ const updateUser = asyncHandler( async(req, res) =>{
 
     User.findByCriteria('user_id', req.body.user_id, (error, data) => {
         if (error)
-            res.status(404).send({ message: "User not found"})
+            res.status(404).send("User not found")
         else {
             const user = data;
             
@@ -76,7 +75,7 @@ const updateUser = asyncHandler( async(req, res) =>{
 
             User.update(req.body.user_id, altered_user, (error, data) => {
                 if (error) 
-                    res.status(400).send({ message: "some error occured while updating the user" })
+                    res.status(400).send("some error occured while updating the user")
                 else {
                     res.status(201)
                     res.send(data)
@@ -92,16 +91,20 @@ const updateUser = asyncHandler( async(req, res) =>{
 const loginUser = asyncHandler(async (req, res) =>{
 
     const {email, password} = req.body;
+    console.log(email);
 
     // Check for user email
-    User.findByCriteria('email', email, (error, data) => {
+    User.findByCriteria('email', email, async (error, data) => {
         if (error)
-            res.status(400).send({ message: "user not found"})
+            res.status(400).send("user not found")
         else {
             const user = data;
-            if (user && (bcrypt.compare(password, user.password))) {
-                res.json({ token: generateToken(user.user_id) })
+            console.log(user);
+
+            if (user && await bcrypt.compare(req.body.password, user.password)) {
+                res.status(200).json({ token: generateToken(user.user_id) })
             } else {
+                console.log(await bcrypt.compare(password, user.password))
                 res.status(400).send("Invalid credentials")
             }
         }
@@ -110,7 +113,7 @@ const loginUser = asyncHandler(async (req, res) =>{
 
 
 // @desc    delete a user
-// @route   POST /api/users/delete
+// @route   DELETE /api/users/delete
 // @access  PRIVATE
 const deleteUser = asyncHandler(async (req, res) => {
 

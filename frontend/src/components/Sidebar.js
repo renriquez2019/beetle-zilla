@@ -6,7 +6,6 @@ import { Button } from '@mui/material'
 
 export const Sidebar = ({toggle, navCurrent, isAdmin}) => {
     
-
     return (
         <div className= {toggle ? "sidebar sidebar--open" : "sidebar"}>
             <ul className='sidebar-nav'>
@@ -24,7 +23,7 @@ export const Sidebar = ({toggle, navCurrent, isAdmin}) => {
                     <Link to = "/projects">
                         <a className={(navCurrent === "Project") ? "nav-link nav-current" : "nav-link"}>
                             <BsFolder className='nav-logo'/>
-                            <span>My Projects</span>
+                            <span>All Projects</span>
                         </a>
                     </Link>
                 </li>
@@ -33,7 +32,7 @@ export const Sidebar = ({toggle, navCurrent, isAdmin}) => {
                     <Link to = "/tickets">
                         <a className={(navCurrent === "Ticket") ? "nav-link nav-current" : "nav-link"}>
                             <BsFolder className='nav-logo'/>
-                            <span>My Tickets</span>
+                            <span>All Tickets</span>
                         </a>
                     </Link>  
                 </li>

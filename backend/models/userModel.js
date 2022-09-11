@@ -65,7 +65,16 @@ User.findByCriteria = (criteria, key, result) => {
     });
 }
 
+// method for deleting user instance from the database
 User.remove = (user_id, result) => {
+    db.query("DELETE FROM assign WHERE user_id = ?", user_id, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null)
+            return;
+        }
+    })
+
     db.query("DELETE FROM users WHERE user_id = ?", user_id, (error, res) => {
         if (error) {
             console.log(error);
@@ -78,7 +87,6 @@ User.remove = (user_id, result) => {
             return;
         }
 
-        
         console.log("deleted user: ", res.display_name);
         result(null, res);
     })
