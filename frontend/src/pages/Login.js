@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import background from '../img/space.png';
-import Title from '../components/Title';
+
 import AlertPopup from '../components/AlertPopup'
-import {Button} from '@mui/material'
+import {
+    Box,
+    Button,
+    Paper,
+} from '@mui/material'
 import axios from 'axios';
 
 const api = axios.create({
@@ -33,6 +36,7 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("heree");
 
         setAlert(false);
 
@@ -58,66 +62,69 @@ export default function Login() {
 
     
 
-    const myBackground = {
-        backgroundImage: `url(${background})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center"
-    }
-
     return (
-        <div style={myBackground}>
-            <div className="auth-form-container" onSubmit={handleSubmit}>
-                <Title/>
-                <form className="auth-form" >
-                    <div className="auth-form-content">
-                            <div>
-                                {alert ? <AlertPopup content={{
-                                    message: alertContent.message, error: alertContent.error
-                                }}/> : <></> }
-                            </div>
-                        <h3 className="auth-form-title">Sign In</h3>
-                        <div className="text-center">
-                            Don't have an account?{" "}
-                            <a href="/register"> Sign Up</a>
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Email Address</label>
-                                <input
-                                    type="email"
-                                    className="form-control mt-1"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="Enter email"
-                                />
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Password</label>
-                                <input
-                                    type="password"
-                                    className="form-control mt-1"
-                                    id="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Enter password"
-                                />
-                        </div>
-                        <div className="d-grid gap-2 mt-3">
-                            <Button 
-                                variant="contained"
-                                type ="submit">
-                                Login
-                            </Button>
-                        </div>
-                        <p className="forgot-password text-center mt-2">
-                            Forgot password
-                        </p>
-                    </div>  
-                </form> 
+        <div className="login" onSubmit={handleSubmit}>
+            <div className="auth-alert">
+                {alert ? <AlertPopup content={{
+                    message: alertContent.message, error: alertContent.error
+                }}/> : <></> }
             </div>
+            <Box
+                component={Paper}
+                className = "auth-box"
+                sx = {{
+                    height: '25rem',
+                    width:  '25rem',
+                }}
+            >
+                <h1>Sign In</h1>
+                <div className='text-center'>
+                    Don't have an account? {" "}
+                    <a href="/register"> Sign Up</a>
+                </div>
+                
+                <div className="login-form">
+                    <label>Email Address:</label>
+                    <input
+                        type="email"
+                        className="form-control mt-1"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Enter email"
+                    />
+                </div>
+
+                <div className="login-form">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        className="form-control mt-1"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Enter password"
+                    />
+                </div>
+
+                <div className='login-form'>
+                    <Button 
+                        variant="contained"
+                        onClick={handleSubmit}
+                        sx = {{
+                            margin: '1rem 1rem',
+                            width: '20rem',                    
+                        }}
+                    >
+                        Login
+                    </Button>
+                </div>
+                
+                
+                
+            </Box>
         </div>
     );
 }

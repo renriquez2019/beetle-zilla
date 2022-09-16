@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router';
 import background from '../img/water.png';
 import Title from '../components/Title';
 import AlertPopup from '../components/AlertPopup';
+
+import {
+    Box,
+    Button,
+    Paper
+} from '@mui/material';
+
 import axios from 'axios'
 
 const api = axios.create({
@@ -57,103 +64,106 @@ export default function Register() {
             })       
     }
 
-    
-
-    const myBackground = {
-        backgroundImage: `url(${background})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center"
-    }
-
     return (
-        <div style={myBackground}>
-            <div className="auth-form-container"  onSubmit={handleSubmit}>
-                <Title/>
-                <form className="auth-form">
-                    <div className="auth-form-content">
-                            <div>
-                                {alert ? <AlertPopup content={{
-                                    message: alertContent.message, error: alertContent.error
-                                }}/> : <></> }
-                            </div>
-                        <h3 className="auth-form-title">Sign Up</h3>
-                        <div className="text-center">
-                            Already have an account?{" "}
-                            <a href="/login"> Sign In</a>
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Display Name</label>
-                            <input
-                                type="text"
-                                className="form-control mt-1"
-                                id="name"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                placeholder="Enter name"
-                            />
-                        </div>
+        <div className='register'>
+            <div className='auth-alert'>
+                {alert ? <AlertPopup content={{
+                    message: alertContent.message, error: alertContent.error
+                }}/> : <></> }
+            </div>
+            <Box
+                component={Paper}
+                className = "auth-box"
+                sx = {{
+                    height: '40rem',
+                    width:  '25rem',
+                }}
+            >
+                <h1>Sign Up</h1>
+                <div className='text-center'>
+                    Already have an account? {" "}
+                    <a href="/login"> Sign In</a>
+                </div>
 
-                        <div className="form-group mt-3">
-                            <label>Email Address</label>
-                            <input
-                                type="email"
-                                className="form-control mt-1"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="Enter email"
-                            />
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Phone Number</label>
-                            <input
-                                type="tel"
-                                className="form-control mt-1"
-                                id="phone"
-                                name="phone"
-                                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                                value={formData.phone}
-                                onChange={handleChange}
-                                placeholder="555-555-5555"
-                            />
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                className="form-control mt-1"
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="Enter password"
-                            />
-                        </div>
-                        <div className="form-group mt-3">
-                            <label>Confirm Password</label>
-                            <input
-                                type="password"
-                                className="form-control mt-1"
-                                id="password2"
-                                name="password2"
-                                value={formData.password2}
-                                onChange={handleChange}
-                                placeholder="Confirm password"
-                            />
-                        </div>
-                        <div className="d-grid gap-2 mt-3">
-                            <button type="submit" className="btn btn-primary">
-                                Register
-                            </button>
-                            
-                            
-                        </div>
-                    </div>  
-                </form> 
-            </div> 
+                <div className="register-form">
+                    <label>Display Name:</label>
+                    <input
+                        type="text"
+                        className="form-control mt-1"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Enter name"
+                    />
+                </div>
+
+                <div className="register-form">
+                    <label>Email Address:</label>
+                    <input
+                        type="email"
+                        className="form-control mt-1"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Enter email"
+                    />
+                </div>
+
+                <div className="register-form">
+                    <label>Phone Number:</label>
+                    <input
+                        type="tel"
+                        className="form-control mt-1"
+                        id="phone"
+                        name="phone"
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="555-555-5555"
+                    />
+                </div>
+
+                <div className="register-form">
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        className="form-control mt-1"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Enter password"
+                    />
+                </div>
+
+                <div className="register-form">
+                    <label>Confirm Password:</label>
+                    <input
+                        type="password"
+                        className="form-control mt-1"
+                        id="password2"
+                        name="password2"
+                        value={formData.password2}
+                        onChange={handleChange}
+                        placeholder="Confirm password"
+                    />
+                </div>
+
+                <div className='register-form'>
+                    <Button 
+                        variant="contained"
+                        onClick={handleSubmit}
+                        sx = {{
+                            marginLeft: '1rem',
+                            width: '20rem'
+                        }}
+                    >
+                        Register
+                    </Button>
+                </div>
+            </Box>
         </div>
     );
 }

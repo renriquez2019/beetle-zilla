@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 /* =========================
-    General
+    Global
 ========================= */
 
 :root {
@@ -16,6 +16,84 @@ body {
 
 .table {
     font-family: 'Nunito', sans-serif;
+}
+
+/* =========================
+    Title
+========================= */
+
+.title-logo {
+    width: 150px;
+    object-fit: contain;
+}
+
+.title-text {
+    font-family: 'Nunito', sans-serif !important;
+    color: #012970;
+    font-weight: 700 !important;
+}
+
+
+/* =========================
+    Home
+========================= */
+
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.home-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5rem;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* =========================
+    Authorizations
+========================= */
+
+.login, .register {
+    
+}
+
+.auth-alert {
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    transform: translate(-5%, -50%);
+}
+
+.auth-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: 'flex';
+    flex-direction: 'column';
+    padding-top: 5px;
+    background-color: white;
+    border: medium solid black;
+}
+
+.login h1, .register h1 {
+    font-family: 'Nunito', sans-serif !important;
+    color: #012970;
+    font-weight: 700 !important;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.login-form, .register-form {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    padding: 1rem 1rem;
+    font-family: 'Nunito', sans-serif !important;
 }
 
 
@@ -114,20 +192,6 @@ body {
     padding-top: 10px;
     border-radius: 15px;
     background-color: #ffffff;
-}
-
-
-.title-text {
-    text-align: center;
-    font-size: 32px;
-    color: rgb(34, 34, 34);
-    font-weight: 800;
-}
-
-.title-logo {
-    height: 50px;
-    padding-right: 15px;
-    padding-bottom: 10px;
 }
 
 .auth-form{
