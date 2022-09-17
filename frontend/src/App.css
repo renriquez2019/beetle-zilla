@@ -302,6 +302,17 @@ body {
 .dash-title {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+}
+
+.dash-btn {
+    
+    font-size: 45px;
+}
+
+.dash-btn-open {
+    color: #012970;
+    font-size: 45px;
 }
 
 .dash-title h1 {
@@ -309,6 +320,31 @@ body {
     font-weight: 800;
     font-size: 45px;
 }
+
+.dash-desc h4{
+    margin-left: 1rem;
+    font-weight: 700;
+}
+
+.dash-desc p {
+    border: thin solid black;
+    border-radius: 15px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding-bottom: 1rem;
+
+}
+
+.dash-tables-titles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.dash-tables-titles h3{
+    font-weight: 700;
+}
+
 
 .dash-project {
     border-color: black;

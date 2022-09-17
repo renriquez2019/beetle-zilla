@@ -2,13 +2,20 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
+import {
+    BsFillArrowLeftSquareFill,
+    BsFillArrowRightSquareFill
+} from 'react-icons/bs'
+
 import { 
+    IconButton,
     Table, 
     TableBody, 
     TableRow, 
     Paper,
     Grid,
-    Box
+    Box,
+    Icon
 } from "@mui/material"
 
 import {
@@ -18,7 +25,6 @@ import {
     StyledTablePag,
 } from '../components/TableConsts'
 import axios from "axios";
-import { setUseProxies } from "immer";
 
 const api = axios.create({
     baseURL: 'http://localhost:5000/api'
@@ -30,7 +36,7 @@ export default function Dashboard() {
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar);
 
-    // Actual data retrieved from HTTP GET
+    // All projects retrieved HTTP GET
     const [activeProjects, setActiveProjects] = useState([{
         id: 0,
         title: '',
@@ -47,8 +53,8 @@ export default function Dashboard() {
             status: -1
         }]
     }]);
-   // const [users, setUsers] = useState([]);
-   // const [tickets, setTickets] = useState([]);
+    // Project visible on dashboard
+    const [visible, setVisible] = useState(0)
 
     // Page consts for the tables
     const [userpage, setUserPage] = useState(0);
@@ -65,7 +71,7 @@ export default function Dashboard() {
     }
 
     
-    // hook on startup
+    // hook on for filling projects
     useEffect(() => { 
 
         api.get('/projects/active', {responseType: 'json'}).then((res) => {
@@ -90,7 +96,13 @@ export default function Dashboard() {
                         api.get('/users/get', { params : { user_id : user}}).then((res) => {
                             obj.users.push(res.data)
                         })
+                        .catch((err) => {
+                            console.log(err.request.responseText);
+                        })
                     })
+                })
+                .catch((err) => {
+                    console.log(err.request.responseText);
                 })
             })
 
@@ -103,21 +115,38 @@ export default function Dashboard() {
                         api.get('/tickets/get', { params : { ticket_id : ticket}}).then((res) => {
                             obj.tickets.push(res.data)
                         })
+                        .catch((err) => {
+                            console.log(err.request.responseText);
+                        })
                     })
+                })
+                .catch((err) => {
+                    console.log(err.request.responseText);
                 })
             })
 
             setActiveProjects(newState);
+            setVisible(0);
+        })
+        .catch((err) => {
+            console.log(err.request.responseText);
         })
 
-        console.log(activeProjects);
-        //console.log(activeProjects)
-        // note make GET body to query on server
+        // set first project to be visible on dashboard
+        
+
     }, [])
     
-    
-    console.log(activeProjects);
-    
+    const handleLeftClick = (e) => {
+        if (visible != 0)
+            setVisible(visible-1)
+    }
+
+    const handleRightClick = (e) => {
+        if (visible < (activeProjects.length - 1))
+            setVisible(visible+1)
+    }
+
     const userRows = [
         createUserData('Ryan', 'ryandenriquez@gmail.com', 'Admin'),
         createUserData('Daniel', 'ryandenriquez@gmail.com', 'Admin'),
@@ -156,7 +185,8 @@ export default function Dashboard() {
     const emptyTicketRows =
         ticketpage > 0 ? Math.max(0, (1 + ticketpage) * rowsPerTicketPage - ticketRows.length) : 0;
 
-    
+    console.log("visible", visible);
+
     return (
         <div>
             <Header 
@@ -166,9 +196,19 @@ export default function Dashboard() {
                 navCurrent = "Dashboard"/>
 
             <div className= {sidebar ? "main" : "main main-side"}>
+                
                 <div className="dash-title">
                     <h1>All Active Projects</h1>
-
+                    
+                    <div>
+                        <IconButton size = "large" onClick={handleLeftClick}>
+                            <BsFillArrowLeftSquareFill className= {(visible == 0) ? "dash-btn" : "dash-btn-open"}/>
+                        </IconButton>
+                        
+                        <IconButton size = "large" onClick={handleRightClick}>
+                            <BsFillArrowRightSquareFill className= {(visible >= (activeProjects.length-1)) ? "dash-btn" : "dash-btn-open"}/>
+                        </IconButton>
+                    </div>
                     
                 </div>
 
@@ -180,11 +220,18 @@ export default function Dashboard() {
                             height: '30rem',
                             border: 2,
                         }}
-                    >
-                        <h2>{activeProjects[2] ? activeProjects[2].title : ' '}</h2>
-                        <div>
-                            <h5>Description:</h5>
-                            <p>{activeProjects[2] ? activeProjects[2].description : ' '}</p>
+                    >   
+        
+                        <h2>{activeProjects[visible] ? activeProjects[visible].title : ' '}</h2>
+                        
+                        <div className="dash-desc">
+                            <h4>Description:</h4>
+                            <p>{activeProjects[visible] ? activeProjects[visible].description : ' '}</p>
+                        </div>
+
+                        <div className="dash-tables-titles">
+                            <h3>Users</h3>
+                            <h3>Tickets</h3>
                         </div>
                         
                         

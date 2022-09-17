@@ -83,9 +83,9 @@ const searchTicket = asyncHandler(async (req, res) => {
 
     Ticket.getAll(key, (error, data) => {
         if (error)
-            res.status(400).send({message: "no tickets found"})
+            res.status(404).send({message: "no tickets found"})
         else
-            res.status(400).send(data)
+            res.status(200).send(data)
         
     })
 })

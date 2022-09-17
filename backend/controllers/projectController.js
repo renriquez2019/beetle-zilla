@@ -124,7 +124,7 @@ const getTickets = asyncHandler(async (req, res) => {
 
     Project.getTickets(req.query.project_id, (error, data) => {
         if (error)
-            res.status(400).send({message: "no tickets found"})
+            res.status(404).send({message: "no tickets found"})
         else {
             let tickets = [];
 
@@ -138,7 +138,7 @@ const getTickets = asyncHandler(async (req, res) => {
 })
 
 // @desc Get one project based on id
-// @route GET /api/projects/active
+// @route GET /api/projects/get
 // access Public
 const getOne = asyncHandler(async (req, res) => {
 
