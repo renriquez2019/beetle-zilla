@@ -99,7 +99,10 @@ const getAllActive = asyncHandler(async (req, res) => {
 // access Public
 const getUsers = asyncHandler(async (req, res) => {
 
-    Project.getUsers(req.body.project_id, (error, data) => {
+    let help = req.query.project_id;
+    console.log("here", help)
+
+    Project.getUsers(req.query.project_id, (error, data) => {
         if (error)
             res.status(400).send({message: "no users found"})
         else {
@@ -119,7 +122,7 @@ const getUsers = asyncHandler(async (req, res) => {
 // access Public
 const getTickets = asyncHandler(async (req, res) => {
 
-    Project.getTickets(req.body.project_id, (error, data) => {
+    Project.getTickets(req.query.project_id, (error, data) => {
         if (error)
             res.status(400).send({message: "no tickets found"})
         else {
@@ -139,7 +142,7 @@ const getTickets = asyncHandler(async (req, res) => {
 // access Public
 const getOne = asyncHandler(async (req, res) => {
 
-    Project.findByCriteria('project_id', req.body.project_id, (error, data) => {
+    Project.findByCriteria('project_id', req.query.project_id, (error, data) => {
         if (error)
             res.status(404).send({message: "no projects found"})
         else

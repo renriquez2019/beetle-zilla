@@ -95,7 +95,7 @@ const searchTicket = asyncHandler(async (req, res) => {
 // access Public
 const getOne = asyncHandler(async (req, res) => {
 
-    Ticket.findByCriteria('ticket_id', req.body.ticket_id, (error, data) => {
+    Ticket.findByCriteria('ticket_id', req.query.ticket_id, (error, data) => {
         if (error)
             res.status(404).send({message: "no tickets found"})
         else

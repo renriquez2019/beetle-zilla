@@ -1,37 +1,60 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
 import { 
     Table, 
-    TableHead,
     TableBody, 
     TableRow, 
-    TableCell,
-    TableContainer,
-    TablePagination,  
     Paper,
     Grid,
     Box
 } from "@mui/material"
 
-import {styled} from "@mui/system";
 import {
     HeaderTableRow, 
     HeaderTableCell, 
     StyledTableCell, 
     StyledTablePag,
 } from '../components/TableConsts'
+import axios from "axios";
+import { setUseProxies } from "immer";
 
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api'
+})
 
 export default function Dashboard() {
 
+    // Sidebar
     const [sidebar, setSidebar] = useState(true)
-    const toggleSidebar = () => setSidebar(!sidebar)
+    const toggleSidebar = () => setSidebar(!sidebar);
+
+    // Actual data retrieved from HTTP GET
+    const [activeProjects, setActiveProjects] = useState([{
+        id: 0,
+        title: '',
+        description: '',
+        users: [{
+            display_name: '',
+            email: '',
+            role: ''
+        }],
+        tickets: [{
+            title: '',
+            type: -1,
+            priority: -1,
+            status: -1
+        }]
+    }]);
+   // const [users, setUsers] = useState([]);
+   // const [tickets, setTickets] = useState([]);
+
+    // Page consts for the tables
     const [userpage, setUserPage] = useState(0);
-    const [rowsPerUserPage, setRowsPerUserPage] = useState(3);
+    const [rowsPerUserPage, setRowsPerUserPage] = useState(4);
     const [ticketpage, setTicketPage] = useState(0);
-    const [rowsPerTicketPage, setRowsPerTicketPage] = useState(3);
+    const [rowsPerTicketPage, setRowsPerTicketPage] = useState(4);
 
     function createUserData(user, email, role) {
         return { user, email, role };
@@ -41,6 +64,60 @@ export default function Dashboard() {
         return { title, type, priority, status };
     }
 
+    
+    // hook on startup
+    useEffect(() => { 
+
+        api.get('/projects/active', {responseType: 'json'}).then((res) => {
+            const temp = res.data;
+
+            const newState = temp.map(obj => {
+                return {
+                    id: obj.project_id,
+                    title: obj.title,
+                    description: obj.description,
+                    users: [],
+                    tickets: []
+                }
+            })
+
+            // mapping to user
+            newState.map(obj => {
+                api.get('/projects/getusers', { params : { project_id : obj.id}}).then((res) => {
+                    let user_ids = res.data;
+
+                    user_ids.map((user) => {
+                        api.get('/users/get', { params : { user_id : user}}).then((res) => {
+                            obj.users.push(res.data)
+                        })
+                    })
+                })
+            })
+
+            // mapping to tickets
+            newState.map(obj => {
+                api.get('/projects/gettickets', { params : { project_id : obj.id }}).then((res) => {
+                    let ticket_ids = res.data;
+
+                    ticket_ids.map((ticket) => {
+                        api.get('/tickets/get', { params : { ticket_id : ticket}}).then((res) => {
+                            obj.tickets.push(res.data)
+                        })
+                    })
+                })
+            })
+
+            setActiveProjects(newState);
+        })
+
+        console.log(activeProjects);
+        //console.log(activeProjects)
+        // note make GET body to query on server
+    }, [])
+    
+    
+    console.log(activeProjects);
+    
     const userRows = [
         createUserData('Ryan', 'ryandenriquez@gmail.com', 'Admin'),
         createUserData('Daniel', 'ryandenriquez@gmail.com', 'Admin'),
@@ -57,6 +134,8 @@ export default function Dashboard() {
         createTicketData('Ticket#5', 'Bug', 'High', 1),
         createTicketData('Ticket#6', 'Bug', 'High', 1),
     ]
+
+    
 
     const handleUserChangePage = (event, newPage) => {
         setUserPage(newPage);
@@ -87,8 +166,10 @@ export default function Dashboard() {
                 navCurrent = "Dashboard"/>
 
             <div className= {sidebar ? "main" : "main main-side"}>
-                <div className="pagetitle">
-                    <h1>Dashboard</h1>
+                <div className="dash-title">
+                    <h1>All Active Projects</h1>
+
+                    
                 </div>
 
                 <Grid item xs = {12}  sx = {{paddingBottom: '10px'}}>
@@ -100,110 +181,15 @@ export default function Dashboard() {
                             border: 2,
                         }}
                     >
-                        <h2>Project Name</h2>
-                        <h5>Description:</h5>
-                        <p>Lorem ipsum dolor sit amet, mea id dicit sententiae, usu id civibus consequuntur, vero congue est no. 
-                            Ad feugiat lobortis concludaturque his. 
-                            Duo paulo affert voluptatibus at. Sed an quando maiorum definitionem, erant zril mel an.</p>
+                        <h2>{activeProjects[2] ? activeProjects[2].title : ' '}</h2>
+                        <div>
+                            <h5>Description:</h5>
+                            <p>{activeProjects[2] ? activeProjects[2].description : ' '}</p>
+                        </div>
+                        
                         
                         <div className="dash-tables">
-                            <Table
-                                component={Paper}
-                                size = "small"
-                                sx = {{
-                                    maxHeight: '20rem',
-                                    maxWidth: '48%',
-                                }}>
-                                <HeaderTableRow>
-                                    <TableRow size = "small">
-                                        <HeaderTableCell>User</HeaderTableCell>
-                                        <HeaderTableCell>Email</HeaderTableCell>
-                                        <HeaderTableCell align = "center">Role</HeaderTableCell>
-                                    </TableRow>
-                                </HeaderTableRow>
-                                <TableBody>
-                                    {userRows.slice(userpage * rowsPerUserPage, userpage * rowsPerUserPage + rowsPerUserPage)
-                                    .map((row) => (
-                                        <TableRow
-                                            key={row.user}
-                                            size = "small"
-                                            >
-                                            <StyledTableCell component="th" scope="row">{row.user}</StyledTableCell>
-                                            <StyledTableCell>{row.email}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.role}</StyledTableCell>
-                                        </TableRow>
-                                    ))}  
-                                </TableBody>
-                                {emptyUserRows > 0 && (
-                                <TableRow
-                                    sx={{
-                                        height: 45 * emptyUserRows,
-                                    }}
-                                >
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                </TableRow>
-                                )}
-                                <StyledTablePag  
-                                    count={userRows.length}
-                                    rowsPerPage={rowsPerUserPage}
-                                    page={userpage}
-                                    onPageChange={handleUserChangePage}
-                                    onRowsPerPageChange={handleUserChangeRowsPerPage}
-                                    rowsPerPageOptions={[4]}
-                                    labelRowsPerPage={<span>Rows:</span>}
-                                    size = "small"
-                                />
-                            </Table>
-                            <Table
-                                component={Paper}
-                                size = "small"
-                                >
-                                <HeaderTableRow>
-                                    <TableRow size = "small">
-                                        <HeaderTableCell>Title</HeaderTableCell>
-                                        <HeaderTableCell align = "center">Type</HeaderTableCell>
-                                        <HeaderTableCell align = "center">Priority</HeaderTableCell>
-                                        <HeaderTableCell align = "center">Status</HeaderTableCell>
-                                    </TableRow>
-                                </HeaderTableRow>
-                                <TableBody>
-                                    {ticketRows.slice(ticketpage * rowsPerTicketPage, ticketpage * rowsPerTicketPage + rowsPerTicketPage)
-                                    .map((row) => (
-                                        <TableRow
-                                            key={row.user}
-                                            size = "small"
-                                            >
-                                            <StyledTableCell component="th" scope="row">{row.title}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.type}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.priority}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.status}</StyledTableCell>
-                                        </TableRow>
-                                    ))}  
-                                </TableBody>
-                                {emptyTicketRows > 0 && (
-                                <TableRow
-                                    sx={{
-                                        height: 45 * emptyTicketRows,
-                                    }}
-                                >
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                    <StyledTableCell />
-                                </TableRow>
-                                )}
-                                <StyledTablePag  
-                                    count={ticketRows.length}
-                                    rowsPerPage={rowsPerTicketPage}
-                                    page={ticketpage}
-                                    onPageChange={handleTicketChangePage}
-                                    onRowsPerPageChange={handleTicketChangeRowsPerPage}
-                                    rowsPerPageOptions={[4]}
-                                    labelRowsPerPage={<span>Rows:</span>}
-                                />
-                            </Table>
+                            
                          
                         </div>
                     </Box>

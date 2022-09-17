@@ -1,4 +1,5 @@
 import logo from '../img/bug.png'
+import Title from './Title'
 import {BsList, BsSearch, BsFillBellFill, BsFillPersonFill} from 'react-icons/bs'
 import { TextField, InputAdornment, Button} from '@mui/material'
 
@@ -10,8 +11,7 @@ export const Header = ({openSidebar}) => {
             {/* Top-left Logo*/}
             <div className="logo-container">
                 <a href="/dashboard">
-                    <img src={logo} alt="" />
-                    <span class="d-none d-lg-block">BugTracker</span>
+                    <Title variant= "h4"/>
                 </a>
                 <BsList
                     className='toggle-sidebar'
@@ -21,15 +21,7 @@ export const Header = ({openSidebar}) => {
             </div>
 
 
-            <div className="search-container">
-                <TextField
-                    sx= {{'& legend': {display:'none'}, '& fieldset': {top:0}}}
-                    label={null}
-                    variant='outlined'
-                    size='small'
-                    InputProps={{endAdornment: <InputAdornment position="end"><BsSearch/></InputAdornment>}}
-                />
-            </div>
+            
 
 
             <div className="end-container">

@@ -92,7 +92,7 @@ Project.getAllActive = result => {
         }
 
         if (res.length) {
-            console.log("found user: ", res[0]);
+            console.log("found projects: ", res);
             result(null, res)
             return;
         }

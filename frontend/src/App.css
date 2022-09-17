@@ -57,10 +57,6 @@ body {
     Authorizations
 ========================= */
 
-.login, .register {
-    
-}
-
 .auth-alert {
     position: absolute;
     top: 10%;
@@ -94,41 +90,6 @@ body {
     width: 95%;
     padding: 1rem 1rem;
     font-family: 'Nunito', sans-serif !important;
-}
-
-
-/* =========================
-    Main
-========================= */
-
-.main {
-    margin-top: 60px;
-    padding: 20px 30px;
-    transition: all 0.3s;
-}
-
-
-@media (min-width: 1200px) {
-    .main {
-      margin-left: 300px;
-    }
-
-    .main-side {
-        margin-left: 0;
-    }
-  }
-
-
-.pagetitle {
-    margin-bottom: 10px;
-    
-}
-
-.pagetitle h1 {
-    font-size: 45px;
-    margin-bottom: 0;
-    font-weight: 800;
-    color: #012970;
 }
 
 /* =========================
@@ -173,113 +134,37 @@ body {
 
 
 /* =========================
-    Auth and Title
-========================= */
-
-.auth-form-container {
-    display: flex;
-    flex-direction: column;
-    row-gap: 2em;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-}
-
-.title-form {
-    width: 300px;
-    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
-    padding-top: 10px;
-    border-radius: 15px;
-    background-color: #ffffff;
-}
-
-.auth-form{
-    width: 420px;
-    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
-    padding-top: 30px;
-    padding-bottom: 20px;
-    border-radius: 30px;
-    background-color: #ffffff;
-}
-
-.auth-form-content {
-    padding-left: 12%;
-    padding-right: 12%;
-}
-
-.auth-form-title {
-    text-align: center;
-    font-size: 24px;
-    color: rgb(34, 34, 34);
-    font-weight: 800;
-}
-
-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: rgb(34, 34, 34);
-}
-
-.auth-form .d-grid {
-    padding-top: 15px;
-}
-
-/* =========================
     Header
 ========================= */
 
 .logo-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    line-height: 1;
-    max-width: 25%;
+    text-decoration: none;
+}
+
+.logo-container img{
+   width: 50px; 
+}
+
+.logo-container a{
+    text-decoration: none;
+}
+
+.toggle-sidebar {
+    font-size: 50px;
+    cursor: pointer;
+    color: #012970;
 }
 
 @media (min-width: 1200px) {
     
     .logo-container {
-        width: 280px;
+        width: 400px;
     }
 }
 
-
-.logo-container a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-.logo-container img {
-    max-height: 45px;
-    margin-right: 10px;
-    padding-top: 5px;
-}
-
-.logo-container span {
-    display: block;
-    font-size: 26px;
-    font-weight: 700;
-    color: #012970;
-    font-family: 'Nunito', sans-serif;
-    padding-top: 10px;
-}
-
-.toggle-sidebar {
-    font-size: 50px;
-    padding-top: 10px;
-    cursor: pointer;
-    color: #012970;
-}
-
-.search-container {
-    display: flex;
-    padding-top: 5px;
-    margin-left: 50px;
-    width: 25%;
-    align-items: right;
-}
 
 .end-container {
     display: flex;
@@ -376,10 +261,54 @@ label {
     color: #012970;
 }
 
+/* =========================
+    Main
+========================= */
+
+.main {
+    margin-top: 60px;
+    padding: 20px 30px;
+    transition: all 0.3s;
+}
+
+
+@media (min-width: 1200px) {
+    .main {
+      margin-left: 300px;
+    }
+
+    .main-side {
+        margin-left: 0;
+    }
+  }
+
+
+.pagetitle {
+    margin-bottom: 10px;
+    
+}
+
+.pagetitle h1 {
+    
+    margin-bottom: 0;
+    font-weight: 800;
+    color: #012970;
+}
 
 /* =========================
-    Dashboard Components
+    Dashboard
 ========================= */
+
+.dash-title {
+    display: flex;
+    flex-direction: row;
+}
+
+.dash-title h1 {
+    color: #012970;
+    font-weight: 800;
+    font-size: 45px;
+}
 
 .dash-project {
     border-color: black;

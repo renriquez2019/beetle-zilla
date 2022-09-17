@@ -164,7 +164,7 @@ const getLoggedIn = asyncHandler(async (req, res) => {
 // @access  Public
 const getProjects = asyncHandler(async (req, res) => {
     
-    User.getProjects(req.body.user_id, (error, data) => {
+    User.getProjects(req.query.user_id, (error, data) => {
         if (error)
             res.status(400).send({message: "no users found"})
         else {
@@ -184,7 +184,7 @@ const getProjects = asyncHandler(async (req, res) => {
 // @access  Public
 const findOne = asyncHandler(async (req, res) => {
 
-    User.findByCriteria('user_id', req.body.user_id, (error, data) => {
+    User.findByCriteria('user_id', req.query.user_id, (error, data) => {
         if (error)
             res.status(404).send({message: "no users found"})
         else

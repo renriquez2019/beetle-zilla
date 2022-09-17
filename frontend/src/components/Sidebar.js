@@ -12,37 +12,37 @@ export const Sidebar = ({toggle, navCurrent, isAdmin}) => {
                 
                 <li className= "nav-item">
                     <Link to = "/dashboard">
-                        <a className={(navCurrent === "Dashboard") ? "nav-link nav-current" : "nav-link"}>
+                        <div className={(navCurrent === "Dashboard") ? "nav-link nav-current" : "nav-link"}>
                             <BsColumns className='nav-logo'/>
                             <span>Dashboard</span>
-                        </a>
+                        </div>
                     </Link>               
                 </li>
 
                 <li className='nav-item'>
                     <Link to = "/projects">
-                        <a className={(navCurrent === "Project") ? "nav-link nav-current" : "nav-link"}>
+                        <div className={(navCurrent === "Project") ? "nav-link nav-current" : "nav-link"}>
                             <BsFolder className='nav-logo'/>
                             <span>All Projects</span>
-                        </a>
+                        </div>
                     </Link>
                 </li>
 
                 <li className='nav-item'>
                     <Link to = "/tickets">
-                        <a className={(navCurrent === "Ticket") ? "nav-link nav-current" : "nav-link"}>
+                        <div className={(navCurrent === "Ticket") ? "nav-link nav-current" : "nav-link"}>
                             <BsFolder className='nav-logo'/>
                             <span>All Tickets</span>
-                        </a>
+                        </div>
                     </Link>  
                 </li>
 
                 <li className='nav-item'>
                     <Link to = "/profile">
-                        <a className={(navCurrent === "Profile") ? "nav-link nav-current" : "nav-link"}>
+                        <div className={(navCurrent === "Profile") ? "nav-link nav-current" : "nav-link"}>
                             <BsFillPersonFill className='nav-logo'/>
                             <span>User Profile</span>
-                        </a>
+                        </div>
                     </Link> 
                 </li>
 
