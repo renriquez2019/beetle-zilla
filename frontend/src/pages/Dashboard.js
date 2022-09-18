@@ -57,15 +57,39 @@ export default function Dashboard() {
     const [visible, setVisible] = useState(0)
 
     // Page consts for the tables
-
-    const [userRows, setuserRows] = useState([]);
     const [userpage, setUserPage] = useState(0);
     const [rowsPerUserPage, setRowsPerUserPage] = useState(4);
+
     const [ticketpage, setTicketPage] = useState(0);
     const [rowsPerTicketPage, setRowsPerTicketPage] = useState(4);
 
+    const handleUserChangePage = (event, newPage) => {
+        setUserPage(newPage);
+    }
+    const handleTicketChangePage = (event, newPage) => {
+        setTicketPage(newPage);
+    }
     
+    const handleUserChangeRowsPerPage = (event) => {
+        setRowsPerUserPage(parseInt(event.targe.value, 10));
+        setUserPage(0);
+    }
+    const handleTicketChangeRowsPerPage = (event) => {
+        setRowsPerTicketPage(parseInt(event.targe.value, 10));
+        setTicketPage(0)
+    }
     
+    const handleLeftClick = (e) => {
+        if (visible !== 0) 
+            setVisible(prev=>prev-1)     
+    }
+
+    const handleRightClick = (e) => {
+        if (visible < (activeProjects.length - 1)) 
+            setVisible(prev=>prev+1)
+    }
+
+
     // hook on for filling projects
     useEffect(() => { 
 
@@ -81,8 +105,8 @@ export default function Dashboard() {
                     tickets: []
                 }
             })
-
-            // mapping to user
+            
+            // getting user data
             newState.map(obj => {
                 api.get('/projects/getusers',  { params : { project_id : obj.id}}).then((res) => {
                     let user_ids = res.data;
@@ -101,7 +125,7 @@ export default function Dashboard() {
                 })
             })
 
-            // mapping to tickets
+            // getting ticket data
             newState.map(obj => {
                 api.get('/projects/gettickets',  { params : { project_id : obj.id }}).then((res) => {
                     let ticket_ids = res.data;
@@ -119,73 +143,21 @@ export default function Dashboard() {
                     console.log(err.request.responseText);
                 })
             })
-            
-            console.log(newState[visible].title)
-            setActiveProjects(newState);
-
-
+            // set to projects array
+            setTimeout(() => {
+                setActiveProjects(newState)
+            }, 500)
         })
-        .then(
-
-        )
         .catch((err) => {
             console.log(err.request.responseText);
         })
 
-        return () => {
-            
-        }
-
     }, [])
-    
-    const handleLeftClick = (e) => {
-        if (visible != 0)
-            setVisible(visible-1)
-    }
-
-    const handleRightClick = (e) => {
-        if (visible < (activeProjects.length - 1))
-            setVisible(visible+1)
-    }
-
-    function createUserData(user, email, role) {
-        return { user, email, role };
-    }
-
-    function createTicketData(title, type, priority, status) {
-        return { title, type, priority, status };
-    }
-
-
-    const ticketRows = [
-        createTicketData('Ticket#1', 'Bug', 'High', 1),
-        createTicketData('Ticket#2', 'Bug', 'High', 1),
-        createTicketData('Ticket#3', 'Bug', 'High', 1),
-        createTicketData('Ticket#4', 'Bug', 'High', 1),
-        createTicketData('Ticket#5', 'Bug', 'High', 1),
-        createTicketData('Ticket#6', 'Bug', 'High', 1),
-    ]
-
-    
-
-    const handleUserChangePage = (event, newPage) => {
-        setUserPage(newPage);
-    }
-    const handleTicketChangePage = (event, newPage) => {
-        setTicketPage(newPage);
-    }
-    
-    const handleUserChangeRowsPerPage = (event) => {
-        setRowsPerUserPage(parseInt(event.targe.value, 10));
-    }
-    const handleTicketChangeRowsPerPage = (event) => {
-        setRowsPerTicketPage(parseInt(event.targe.value, 10));
-    }
 
     const emptyUserRows =
-        userpage > 0 ? Math.max(0, (1 + userpage) * rowsPerUserPage - userRows.length) : 0; 
+        userpage > 0 ? Math.max(0, (1 + userpage) * rowsPerUserPage - activeProjects[visible].users.length) : 0; 
     const emptyTicketRows =
-        ticketpage > 0 ? Math.max(0, (1 + ticketpage) * rowsPerTicketPage - ticketRows.length) : 0;
+        ticketpage > 0 ? Math.max(0, (1 + ticketpage) * rowsPerTicketPage - activeProjects[visible].tickets.length) : 0;
 
     return (
         <div>
@@ -250,17 +222,18 @@ export default function Dashboard() {
                                     </TableRow>
                                 </HeaderTableRow>
                                 <TableBody >
-                                    {activeProjects[visible].users.length != 0 ? activeProjects[visible].users.slice(userpage * rowsPerUserPage, userpage * rowsPerUserPage + rowsPerUserPage)
+                                    {activeProjects[visible].users.slice(userpage * rowsPerUserPage, userpage * rowsPerUserPage + rowsPerUserPage)
                                     .map((row) => (
                                         <TableRow
-                                            key={row.display_name}
+                                            key={row.email}
                                             size = "small"
                                             >
                                             <StyledTableCell scope="row">{row.display_name}</StyledTableCell>
                                             <StyledTableCell>{row.email}</StyledTableCell>
                                             <StyledTableCell align = "center">{row.role}</StyledTableCell>
                                         </TableRow>
-                                    )) : console.log("sdkldsklds")}
+                                    ))}
+                                    {console.log(emptyUserRows)}
                                     {emptyUserRows > 0 && (
                                     <TableRow
                                         sx={{
@@ -273,7 +246,6 @@ export default function Dashboard() {
                                     </TableRow>
                                     )}  
                                 </TableBody>
-                                
                                 <StyledTablePag
                                     count={activeProjects[visible].users.length}
                                     rowsPerPage={rowsPerUserPage}
@@ -297,7 +269,7 @@ export default function Dashboard() {
                                     </TableRow>
                                 </HeaderTableRow>
                                 <TableBody>
-                                    {ticketRows.slice(ticketpage * rowsPerTicketPage, ticketpage * rowsPerTicketPage + rowsPerTicketPage)
+                                    {activeProjects[visible].tickets.slice(ticketpage * rowsPerTicketPage, ticketpage * rowsPerTicketPage + rowsPerTicketPage)
                                     .map((row) => (
                                         <TableRow
                                             key={row.user}
@@ -324,7 +296,7 @@ export default function Dashboard() {
                                 </TableBody>
                                 
                                 <StyledTablePag
-                                    count={ticketRows.length}
+                                    count={activeProjects[visible].tickets.length}
                                     rowsPerPage={rowsPerTicketPage}
                                     page={ticketpage}
                                     onPageChange={handleTicketChangePage}
