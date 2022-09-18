@@ -53,6 +53,7 @@ body {
     padding: 20px;
 }
 
+
 /* =========================
     Authorizations
 ========================= */
@@ -367,9 +368,14 @@ body {
 
 .dash-tables {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: row;
     column-gap: 2rem;
     min-width: none;
+}
+
+.dash-tables table {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
 }
 

@@ -87,8 +87,10 @@ const searchProject = asyncHandler(async (req, res) => {
 const getAllActive = asyncHandler(async (req, res) => {
 
     Project.getAllActive((error, data) => {
-        if (error)
-            res.status(400).send({message: "no active projects"})
+        if (error) {
+            res.status(404).send("no active projects")
+        }
+            
         else 
             res.status(200).send(data)
     })
@@ -104,7 +106,7 @@ const getUsers = asyncHandler(async (req, res) => {
 
     Project.getUsers(req.query.project_id, (error, data) => {
         if (error)
-            res.status(400).send({message: "no users found"})
+            res.status(400).send("no users found")
         else {
             let users = [];
 

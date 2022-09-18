@@ -57,19 +57,14 @@ export default function Dashboard() {
     const [visible, setVisible] = useState(0)
 
     // Page consts for the tables
+
+    const [userRows, setuserRows] = useState([]);
     const [userpage, setUserPage] = useState(0);
     const [rowsPerUserPage, setRowsPerUserPage] = useState(4);
     const [ticketpage, setTicketPage] = useState(0);
     const [rowsPerTicketPage, setRowsPerTicketPage] = useState(4);
 
-    function createUserData(user, email, role) {
-        return { user, email, role };
-    }
-
-    function createTicketData(title, type, priority, status) {
-        return { title, type, priority, status };
-    }
-
+    
     
     // hook on for filling projects
     useEffect(() => { 
@@ -89,7 +84,7 @@ export default function Dashboard() {
 
             // mapping to user
             newState.map(obj => {
-                api.get('/projects/getusers', { params : { project_id : obj.id}}).then((res) => {
+                api.get('/projects/getusers',  { params : { project_id : obj.id}}).then((res) => {
                     let user_ids = res.data;
 
                     user_ids.map((user) => {
@@ -108,7 +103,7 @@ export default function Dashboard() {
 
             // mapping to tickets
             newState.map(obj => {
-                api.get('/projects/gettickets', { params : { project_id : obj.id }}).then((res) => {
+                api.get('/projects/gettickets',  { params : { project_id : obj.id }}).then((res) => {
                     let ticket_ids = res.data;
 
                     ticket_ids.map((ticket) => {
@@ -124,16 +119,22 @@ export default function Dashboard() {
                     console.log(err.request.responseText);
                 })
             })
-
+            
+            console.log(newState[visible].title)
             setActiveProjects(newState);
-            setVisible(0);
+
+
         })
+        .then(
+
+        )
         .catch((err) => {
             console.log(err.request.responseText);
         })
 
-        // set first project to be visible on dashboard
-        
+        return () => {
+            
+        }
 
     }, [])
     
@@ -147,14 +148,15 @@ export default function Dashboard() {
             setVisible(visible+1)
     }
 
-    const userRows = [
-        createUserData('Ryan', 'ryandenriquez@gmail.com', 'Admin'),
-        createUserData('Daniel', 'ryandenriquez@gmail.com', 'Admin'),
-        createUserData('ff', 'ryandenriquez@gmail.com', 'Admin'),
-        createUserData('dd', 'ryandenriquez@gmail.com', 'Admin'),
-        createUserData('ddd', 'ryandenriquez@gmail.com', 'Admin'),
-        
-    ];
+    function createUserData(user, email, role) {
+        return { user, email, role };
+    }
+
+    function createTicketData(title, type, priority, status) {
+        return { title, type, priority, status };
+    }
+
+
     const ticketRows = [
         createTicketData('Ticket#1', 'Bug', 'High', 1),
         createTicketData('Ticket#2', 'Bug', 'High', 1),
@@ -184,8 +186,6 @@ export default function Dashboard() {
         userpage > 0 ? Math.max(0, (1 + userpage) * rowsPerUserPage - userRows.length) : 0; 
     const emptyTicketRows =
         ticketpage > 0 ? Math.max(0, (1 + ticketpage) * rowsPerTicketPage - ticketRows.length) : 0;
-
-    console.log("visible", visible);
 
     return (
         <div>
@@ -221,7 +221,7 @@ export default function Dashboard() {
                             border: 2,
                         }}
                     >   
-        
+
                         <h2>{activeProjects[visible] ? activeProjects[visible].title : ' '}</h2>
                         
                         <div className="dash-desc">
@@ -230,13 +230,109 @@ export default function Dashboard() {
                         </div>
 
                         <div className="dash-tables-titles">
-                            <h3>Users</h3>
-                            <h3>Tickets</h3>
+                            <h3>Users:</h3>
+                            <h3>Tickets:</h3>
                         </div>
-                        
-                        
+
                         <div className="dash-tables">
-                            
+                            <Table
+                                
+                                size = "small"
+                                sx = {{
+                                    maxHeight: '20rem',
+                                    maxWidth: '48%',
+                                }}>
+                                <HeaderTableRow>
+                                    <TableRow size = "small">
+                                        <HeaderTableCell>User</HeaderTableCell>
+                                        <HeaderTableCell>Email</HeaderTableCell>
+                                        <HeaderTableCell align = "center">Role</HeaderTableCell>
+                                    </TableRow>
+                                </HeaderTableRow>
+                                <TableBody >
+                                    {activeProjects[visible].users.length != 0 ? activeProjects[visible].users.slice(userpage * rowsPerUserPage, userpage * rowsPerUserPage + rowsPerUserPage)
+                                    .map((row) => (
+                                        <TableRow
+                                            key={row.display_name}
+                                            size = "small"
+                                            >
+                                            <StyledTableCell scope="row">{row.display_name}</StyledTableCell>
+                                            <StyledTableCell>{row.email}</StyledTableCell>
+                                            <StyledTableCell align = "center">{row.role}</StyledTableCell>
+                                        </TableRow>
+                                    )) : console.log("sdkldsklds")}
+                                    {emptyUserRows > 0 && (
+                                    <TableRow
+                                        sx={{
+                                            height: 30 * emptyUserRows,
+                                        }}
+                                    >
+                                        <StyledTableCell />
+                                        <StyledTableCell />
+                                        <StyledTableCell />
+                                    </TableRow>
+                                    )}  
+                                </TableBody>
+                                
+                                <StyledTablePag
+                                    count={activeProjects[visible].users.length}
+                                    rowsPerPage={rowsPerUserPage}
+                                    page={userpage}
+                                    onPageChange={handleUserChangePage}
+                                    onRowsPerPageChange={handleUserChangeRowsPerPage}
+                                    rowsPerPageOptions={[4]}
+                                    labelRowsPerPage={<span>Rows:</span>}
+                                    size = "small"
+                                />
+                            </Table>
+                            <Table 
+                                size = "small"
+                                >
+                                <HeaderTableRow>
+                                    <TableRow size = "small">
+                                        <HeaderTableCell>Title</HeaderTableCell>
+                                        <HeaderTableCell align = "center">Type</HeaderTableCell>
+                                        <HeaderTableCell align = "center">Priority</HeaderTableCell>
+                                        <HeaderTableCell align = "center">Status</HeaderTableCell>
+                                    </TableRow>
+                                </HeaderTableRow>
+                                <TableBody>
+                                    {ticketRows.slice(ticketpage * rowsPerTicketPage, ticketpage * rowsPerTicketPage + rowsPerTicketPage)
+                                    .map((row) => (
+                                        <TableRow
+                                            key={row.user}
+                                            size = "small"
+                                            >
+                                            <StyledTableCell scope="row">{row.title}</StyledTableCell>
+                                            <StyledTableCell align = "center">{row.type}</StyledTableCell>
+                                            <StyledTableCell align = "center">{row.priority}</StyledTableCell>
+                                            <StyledTableCell align = "center">{row.status}</StyledTableCell>
+                                        </TableRow>
+                                    ))}
+                                    {emptyTicketRows > 0 && (
+                                    <TableRow
+                                        sx={{
+                                            height: 30 * emptyTicketRows,
+                                        }}
+                                    >
+                                        <StyledTableCell />
+                                        <StyledTableCell />
+                                        <StyledTableCell />
+                                        <StyledTableCell />
+                                    </TableRow>
+                                    )}  
+                                </TableBody>
+                                
+                                <StyledTablePag
+                                    count={ticketRows.length}
+                                    rowsPerPage={rowsPerTicketPage}
+                                    page={ticketpage}
+                                    onPageChange={handleTicketChangePage}
+                                    onRowsPerPageChange={handleTicketChangeRowsPerPage}
+                                    rowsPerPageOptions={[4]}
+                                    labelRowsPerPage={<span>Rows:</span>}
+                                />
+                            </Table>
                          
                         </div>
                     </Box>
