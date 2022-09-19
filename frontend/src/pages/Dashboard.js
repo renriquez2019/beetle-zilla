@@ -24,6 +24,8 @@ import {
     StyledTableCell, 
     StyledTablePag,
 } from '../components/TableConsts'
+
+import {PieChart, Pie, Legend, Cell} from 'recharts'
 import axios from "axios";
 
 const api = axios.create({
@@ -80,13 +82,108 @@ export default function Dashboard() {
     }
     
     const handleLeftClick = (e) => {
-        if (visible !== 0) 
-            setVisible(prev=>prev-1)     
+        if (visible !== 0) {
+            setVisible(prev=>prev-1)
+            setUserPage(0)
+            setTicketPage(0)
+        }     
     }
 
     const handleRightClick = (e) => {
-        if (visible < (activeProjects.length - 1)) 
+        if (visible < (activeProjects.length - 1)) {
             setVisible(prev=>prev+1)
+            setUserPage(0)
+            setTicketPage(0)
+        }
+    }
+    
+    function getRoleCount()  {
+        
+        let dev = 0;
+        let manager = 0;
+        let admin = 0;
+
+        for (let i = 0; i < activeProjects[visible].users.length; i++) {
+
+            switch (activeProjects[visible].users[i].role) {
+                case 1:
+                    dev = dev + 1;
+                    break;
+                case 2:
+                    manager = manager + 1;
+                    break;
+                case 3:
+                    admin = admin + 1;
+                    break;
+                default:
+            }
+        }
+
+        return [
+            {role: "Developer", count: dev}, 
+            {role: "Manager", count: manager},
+            {role: "Admin", count: admin}
+        ]
+    }
+    function getTicketPriorities() {
+        let veryhigh = 0;
+        let high = 0;
+        let medium = 0;
+        let low = 0;
+
+        for (let i = 0; i < activeProjects[visible].tickets.length; i++) {
+
+            switch (activeProjects[visible].tickets[i].priority) {
+                case 1:
+                    veryhigh = veryhigh + 1;
+                    break;
+                case 2:
+                    high = high + 1;
+                    break;
+                case 3:
+                    medium = medium + 1;
+                    break;
+                case 4:
+                    low = low +1;
+                    break;
+                default:
+            }
+        }
+
+        return [
+            {priority: "Very High", count: veryhigh}, 
+            {priority: "High", count: high},
+            {priority: "Medium", count: medium},
+            {priority: "Low", count: low}
+        ]
+    }
+    function getTicketTypes() {
+        let bug = 0;
+        let issue = 0;
+        let feature = 0;
+
+        for (let i = 0; i < activeProjects[visible].tickets.length; i++) {
+
+            switch (activeProjects[visible].tickets[i].type) {
+                case 1:
+                    bug = bug + 1;
+                    break;
+                case 2:
+                    issue = issue + 1;
+                    break;
+                case 3:
+                    feature = feature + 1;
+                    break;
+                default:
+            }
+        }
+
+        return [
+            {type: "Bug", count: bug}, 
+            {type: "Issue", count: issue},
+            {type: "Feature", count: feature},
+        ]
+        
     }
 
 
@@ -312,37 +409,36 @@ export default function Dashboard() {
 
                 <Grid container spacing = {2}>
                     <Grid item xs = {4}>
-                        <Box
-                            component={Paper}
-                            sx = {{
-                                backgroundColor: 'white',
-                                height: '15rem'
-                            }}
-                        >
-                            bruh
-                        </Box>
+                        <PieChart height = {250} width = {500} className = "pie-container">
+                            <Legend layout="vertical" verticalAlign="middle" align="left"/>
+                            <Pie data={getRoleCount()} nameKey='role' dataKey='count' outerRadius={100} >
+                                <Cell fill="#012970"/>
+                                <Cell fill="#FFA400"/>
+                                <Cell fill="#ff3333"/>
+                            </Pie>
+                        </PieChart>
+                        
                     </Grid>
                     <Grid item xs = {4}>
-                        <Box
-                            component={Paper}
-                            sx = {{
-                                backgroundColor: 'white',
-                                height: '15rem'
-                            }}
-                        >
-                            bruh
-                        </Box>
+                        <PieChart height = {250} width = {500} className = "pie-container">
+                            <Legend layout="vertical" verticalAlign="middle" align="left"/>
+                            <Pie data={getTicketTypes()}  nameKey='type' dataKey='count' outerRadius={100}>
+                                <Cell fill="#012970"/>
+                                <Cell fill="#FFA400"/>
+                                <Cell fill="#ff3333"/>
+                            </Pie>
+                        </PieChart>
                     </Grid>
                     <Grid item xs = {4}>
-                        <Box
-                            component={Paper}
-                            sx = {{
-                                backgroundColor: 'white',
-                                height: '15rem'
-                            }}
-                        >
-                            bruh
-                        </Box>
+                        <PieChart height = {250} width = {500} className = "pie-container">
+                            <Legend layout="vertical" verticalAlign="middle" align="left"/>
+                            <Pie data={getTicketPriorities()} nameKey='priority'  dataKey='count' outerRadius={100}>
+                                <Cell fill="#012970"/>
+                                <Cell fill="#FFA400"/>
+                                <Cell fill="#ff3333"/>
+                                <Cell fill="#5E9129"/>
+                            </Pie>
+                        </PieChart>
                     </Grid>
                 </Grid>
 

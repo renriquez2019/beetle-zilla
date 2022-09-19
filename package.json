@@ -40,6 +40,7 @@
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",
     "react-scripts": "^5.0.1",
+    "recharts": "^2.1.14",
     "redux": "^4.2.0",
     "sequelize": "^6.21.4"
   },

@@ -379,3 +379,8 @@ body {
     margin-right: 0.5rem;
 }
 
+.pie-container {
+    background-color: white;
+    border: 2px solid black;
+}
+
