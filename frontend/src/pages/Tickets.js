@@ -20,7 +20,7 @@ import {
     HeaderTableCell, 
     StyledTableCell, 
     StyledTablePag,
-} from '../components/TableConsts';
+} from '../functions/TableStyles';
 
 import {styled} from "@mui/system"
 

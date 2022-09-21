@@ -23,7 +23,6 @@ export const HeaderTableCell = styled(TableCell)({
 });
 
 export const StyledTableCell = styled(TableCell)({
-    color: '#012970',
     fontWeight: 'bold',
     fontSize: '14px',
     fontFamily: 'Nunito',

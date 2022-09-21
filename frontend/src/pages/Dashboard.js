@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
+
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import Dropdown from "../components/Dropdown";
+import { 
+    getRoleString,
+    getTypeString,
+    getPriorityString
+} from "../functions/HashCodes";
 
 import {
     BsFillArrowLeftSquareFill,
@@ -24,7 +29,7 @@ import {
     HeaderTableCell, 
     StyledTableCell, 
     StyledTablePag,
-} from '../components/TableConsts'
+} from '../functions/TableStyles'
 
 import {PieChart, Pie, Legend, Cell} from 'recharts'
 import axios from "axios";
@@ -38,9 +43,7 @@ export default function Dashboard() {
     // Sidebar
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar);
-    // Dropdown
-    const [dropdown, setDropdown] = useState(false)
-    const toggleDropdown = () => setDropdown(!dropdown)
+    
 
     // All projects retrieved HTTP GET
     const [activeProjects, setActiveProjects] = useState([{
@@ -103,7 +106,7 @@ export default function Dashboard() {
     
 
     function getRoleCount()  {
-        
+
         let dev = 0;
         let manager = 0;
         let admin = 0;
@@ -247,7 +250,7 @@ export default function Dashboard() {
             // set to projects array
             setTimeout(() => {
                 setActiveProjects(newState)
-            }, 500)
+            }, 800)
         })
         .catch((err) => {
             console.log(err.request.responseText);
@@ -263,13 +266,11 @@ export default function Dashboard() {
     return (
         <div>
             <Header 
-                openSidebar={toggleSidebar}
-                openDropdown={toggleDropdown} />
+                openSidebar={toggleSidebar}/>
             <Sidebar
                 toggle={sidebar}
                 navCurrent = "Dashboard"/>
 
-            {console.log('help', dropdown)}
             <div className= {sidebar ? "main" : "main main-side"}>
                 
                 <div className="dash-title">
@@ -333,7 +334,7 @@ export default function Dashboard() {
                                             >
                                             <StyledTableCell scope="row">{row.display_name}</StyledTableCell>
                                             <StyledTableCell>{row.email}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.role}</StyledTableCell>
+                                            <StyledTableCell align = "center">{getRoleString(row.role)}</StyledTableCell>
                                         </TableRow>
                                     ))}
                                     {console.log(emptyUserRows)}
@@ -379,9 +380,9 @@ export default function Dashboard() {
                                             size = "small"
                                             >
                                             <StyledTableCell scope="row">{row.title}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.type}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.priority}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.status}</StyledTableCell>
+                                            <StyledTableCell align = "center">{getTypeString(row.type)}</StyledTableCell>
+                                            <StyledTableCell align = "center">{getPriorityString(row.priority)}</StyledTableCell>
+                                            <StyledTableCell align = "center">{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                         </TableRow>
                                     ))}
                                     {emptyTicketRows > 0 && (

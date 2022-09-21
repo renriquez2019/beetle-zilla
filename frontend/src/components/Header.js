@@ -10,7 +10,7 @@ const api = axios.create({
     baseURL: 'http://localhost:5000/api'
 })
 
-export const Header = ({openSidebar, openDropdown}) => {
+export const Header = ({openSidebar}) => {
 
     const [currentUser, setCurrentUser] = useState({
         display_name: "DEMO",
@@ -51,11 +51,11 @@ export const Header = ({openSidebar, openDropdown}) => {
             </div>
 
             <div className="end-container">
-                <Button endIcon={<BsFillBellFill/>}>
-                    Notifications
-                </Button>
 
-                <Dropdown currentUser={currentUser.display_name}/>
+                <Dropdown 
+                    userName={currentUser.display_name}
+                    userEmail={currentUser.email}
+                    userRole={currentUser.role}/>
 
             </div>
         </div>

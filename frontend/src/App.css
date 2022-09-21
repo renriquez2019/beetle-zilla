@@ -172,6 +172,7 @@ body {
     flex-direction: row;
     column-gap: 1em;
     padding-right: 20px;
+    font-family: 'Nunito', sans-serif;
 }
 
 .header {
@@ -199,13 +200,18 @@ body {
     position: relative;
   }
   
-
+.drop-btn {
+    color: #012970 !important;
+    font-family: 'Nunito', sans-serif !important;
+}
 .drop-menu {
     position: absolute;
-    left: 0;
+    right: 0;
+    width: 15rem;
     top: calc(100% + .25rem);
     background-color: #ffff;
-    padding: .75rem;
+    padding-inline-start: 0;
+    border: thin solid black;
     border-radius: .25rem;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3);
     opacity: 0;
@@ -218,6 +224,56 @@ body {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+}
+
+
+.drop-header {
+    text-align: center;
+    list-style: none;
+    padding-bottom: 10px;
+}
+
+.drop-header h6 {
+    letter-spacing: 0.5px;
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 0;
+    padding-top: 5px;
+    color: #012970;
+}
+
+.drop-header span {
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+.drop-menu {
+    list-style: none;
+}
+
+.drop-item {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    text-align: left;
+    padding-left: 5px;
+    font-size: 20px;
+    color: #012970;
+}
+
+.drop-link {
+    text-decoration: none;
+}
+
+.drop-link :hover {
+    color: #4154f1;
+    background: #f6f9ff;
+} 
+
+
+.drop-menu hr {
+    padding-bottom: 5px;
+    margin: 0;
 }
 
 

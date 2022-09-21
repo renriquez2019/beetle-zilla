@@ -18,7 +18,7 @@ import {
     HeaderTableCell, 
     StyledTableCell, 
     StyledTablePag,
-} from '../components/TableConsts';
+} from '../functions/TableStyles';
 
 import {BsFillDashSquareFill, BsFillTrashFill} from 'react-icons/bs'
 import { styled } from '@mui/system'
