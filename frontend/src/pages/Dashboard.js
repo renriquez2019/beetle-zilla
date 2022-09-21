@@ -4,8 +4,11 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { 
     getRoleString,
+    getRoleColor,
     getTypeString,
-    getPriorityString
+    getTypeColor,
+    getPriorityString,
+    getPriorityColor
 } from "../functions/HashCodes";
 
 import {
@@ -334,7 +337,7 @@ export default function Dashboard() {
                                             >
                                             <StyledTableCell scope="row">{row.display_name}</StyledTableCell>
                                             <StyledTableCell>{row.email}</StyledTableCell>
-                                            <StyledTableCell align = "center">{getRoleString(row.role)}</StyledTableCell>
+                                            <StyledTableCell align = "center" sx= {{color: `${getRoleColor(row.role)}`, fontWeight: '800'}}>{getRoleString(row.role)}</StyledTableCell>
                                         </TableRow>
                                     ))}
                                     {console.log(emptyUserRows)}
@@ -380,8 +383,8 @@ export default function Dashboard() {
                                             size = "small"
                                             >
                                             <StyledTableCell scope="row">{row.title}</StyledTableCell>
-                                            <StyledTableCell align = "center">{getTypeString(row.type)}</StyledTableCell>
-                                            <StyledTableCell align = "center">{getPriorityString(row.priority)}</StyledTableCell>
+                                            <StyledTableCell align = "center" sx= {{color: `${getTypeColor(row.type)}`, fontWeight: '800'}}>{getTypeString(row.type)}</StyledTableCell>
+                                            <StyledTableCell align = "center" sx= {{color: `${getPriorityColor(row.priority)}`, fontWeight: '800'}}>{getPriorityString(row.priority)}</StyledTableCell>
                                             <StyledTableCell align = "center">{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                         </TableRow>
                                     ))}

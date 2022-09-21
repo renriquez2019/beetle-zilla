@@ -111,6 +111,13 @@ body {
     font-weight: 400;
 }
 
+.profile-btn {
+    margin-top: 1rem !important;
+    margin-left: 35% !important;
+    background-color: #012970 !important;
+    font-family: 'Nunito', 'sans-serif' !important;
+}
+
 .profile-overview {
     padding-left: 15px;
 }
@@ -122,15 +129,19 @@ body {
     text-align: center;
 }
 
-.row {
+.overview-body {
     display: flex;
-    justify-content: center;
     flex-direction: row;
-
+    column-gap: 2rem;
 }
 
-.row span {
-    max-width: '50%';
+.overview-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.overview-body label{
+    font-weight: 800;
 }
 
 
