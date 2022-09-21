@@ -1,9 +1,39 @@
-import logo from '../img/bug.png'
 import Title from './Title'
-import {BsList, BsSearch, BsFillBellFill, BsFillPersonFill} from 'react-icons/bs'
-import { TextField, InputAdornment, Button} from '@mui/material'
 
-export const Header = ({openSidebar}) => {
+import Dropdown from './Dropdown';
+import {useState, useEffect } from "react";
+import {BsList, BsSearch, BsFillBellFill, BsFillPersonFill} from 'react-icons/bs'
+import {Button} from '@mui/material'
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api'
+})
+
+export const Header = ({openSidebar, openDropdown}) => {
+
+    const [currentUser, setCurrentUser] = useState({
+        display_name: "DEMO",
+        email: "demo@mail.com",
+        phone: '555-555-5555',
+        role: 1
+    })
+
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    };
+
+    useEffect(() => {
+
+        api.get('/users/getloggedin', config).then((res) => {
+            console.log(res.data)
+            setCurrentUser(res.data)
+        })
+        .catch((err) => {
+            console.log('no user found')
+        })
+
+    }, [])
 
     return (
         <div className="header">
@@ -20,27 +50,21 @@ export const Header = ({openSidebar}) => {
                 />
             </div>
 
-
-            
-
-
             <div className="end-container">
                 <Button endIcon={<BsFillBellFill/>}>
                     Notifications
                 </Button>
 
-                <Button endIcon={<BsFillPersonFill/>}>
-                    User Actions
-                </Button>
-                    
-                
+                <Dropdown currentUser={currentUser.display_name}/>
+
             </div>
         </div>
     )
 }
 
 Header.defaultProps = {
-    openSidebar: true
+    openSidebar: true,
+    openDropdown: false
 }
 
 export default Header

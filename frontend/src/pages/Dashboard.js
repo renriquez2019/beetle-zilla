@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import Dropdown from "../components/Dropdown";
 
 import {
     BsFillArrowLeftSquareFill,
@@ -37,6 +38,9 @@ export default function Dashboard() {
     // Sidebar
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar);
+    // Dropdown
+    const [dropdown, setDropdown] = useState(false)
+    const toggleDropdown = () => setDropdown(!dropdown)
 
     // All projects retrieved HTTP GET
     const [activeProjects, setActiveProjects] = useState([{
@@ -97,6 +101,7 @@ export default function Dashboard() {
         }
     }
     
+
     function getRoleCount()  {
         
         let dev = 0;
@@ -186,7 +191,6 @@ export default function Dashboard() {
         
     }
 
-
     // hook on for filling projects
     useEffect(() => { 
 
@@ -259,11 +263,13 @@ export default function Dashboard() {
     return (
         <div>
             <Header 
-                openSidebar={toggleSidebar} />
+                openSidebar={toggleSidebar}
+                openDropdown={toggleDropdown} />
             <Sidebar
                 toggle={sidebar}
                 navCurrent = "Dashboard"/>
 
+            {console.log('help', dropdown)}
             <div className= {sidebar ? "main" : "main main-side"}>
                 
                 <div className="dash-title">
@@ -407,8 +413,9 @@ export default function Dashboard() {
                     </Box>
                 </Grid>
 
-                <Grid container spacing = {2}>
+                <Grid container spacing = {2}> 
                     <Grid item xs = {4}>
+                        <h4>User Roles:</h4>
                         <PieChart height = {250} width = {500} className = "pie-container">
                             <Legend layout="vertical" verticalAlign="middle" align="left"/>
                             <Pie data={getRoleCount()} nameKey='role' dataKey='count' outerRadius={100} >
@@ -420,6 +427,7 @@ export default function Dashboard() {
                         
                     </Grid>
                     <Grid item xs = {4}>
+                        <h4>Ticket Types:</h4>
                         <PieChart height = {250} width = {500} className = "pie-container">
                             <Legend layout="vertical" verticalAlign="middle" align="left"/>
                             <Pie data={getTicketTypes()}  nameKey='type' dataKey='count' outerRadius={100}>
@@ -430,6 +438,7 @@ export default function Dashboard() {
                         </PieChart>
                     </Grid>
                     <Grid item xs = {4}>
+                        <h4>Ticket Priorities:</h4>
                         <PieChart height = {250} width = {500} className = "pie-container">
                             <Legend layout="vertical" verticalAlign="middle" align="left"/>
                             <Pie data={getTicketPriorities()} nameKey='priority'  dataKey='count' outerRadius={100}>

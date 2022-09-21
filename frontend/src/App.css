@@ -171,8 +171,6 @@ body {
     display: flex;
     flex-direction: row;
     column-gap: 1em;
-    position: absolute;
-    right: 0;
     padding-right: 20px;
 }
 
@@ -181,6 +179,7 @@ body {
     z-index: 997;
     top: 0;
     position: fixed;
+    justify-content: space-between;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -190,6 +189,35 @@ body {
     background-color: #ffffff;
     padding-left: 20px;
 
+}
+
+/* =========================
+    Dropdown
+========================= */
+
+.drop {
+    position: relative;
+  }
+  
+
+.drop-menu {
+    position: absolute;
+    left: 0;
+    top: calc(100% + .25rem);
+    background-color: #ffff;
+    padding: .75rem;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.drop-menu--open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 
