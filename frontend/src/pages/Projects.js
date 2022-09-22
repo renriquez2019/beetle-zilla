@@ -27,12 +27,8 @@ export default function Projects() {
     // Sidebar
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
-
     const [role, setRole] = useState(1);
-
-    const [projects, setProjects] = useState([{
-        id: -1
-    }]);
+    const [projects, setProjects] = useState([{}]);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -55,6 +51,8 @@ export default function Projects() {
 
         api.get('/users/getloggedin', config).then((res) => {
             let user_id = res.data.user_id
+
+            setRole(res.data.role)
 
             api.get('/users/projects', { params : { user_id : user_id}}).then((res) => {
                 let proj_ids = res.data
@@ -107,9 +105,8 @@ export default function Projects() {
                 </div>
 
                 <div className="table-divider"/>
-                {console.log(projects[0].id)}
+                {console.log(role)}
                 <Table
-                    className= {projects[0].id == undefined ? "" : "no-table"}
                     component={Paper}
                     size = "small"
                     >
