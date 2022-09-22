@@ -7,7 +7,7 @@ const User = function(user) {
     this.password = user.password;
     this.phone = user.phone;
     this.role = user.role;
-    this.is_admin = user.is_admin;
+    this.about = user.about;
 }
 
 // used for creation of new user
@@ -26,8 +26,8 @@ User.create = (new_user, result) => {
 // used for updating specified columns in row determined by email
 User.update = (user_id, user, result) => {
     db.query(
-        "UPDATE users SET display_name = ?, phone = ?, role = ? WHERE user_id = ?", 
-        [user.display_name, user.phone, user.role, user_id], 
+        "UPDATE users SET display_name = ?, phone = ?, role = ?, about = ? WHERE user_id = ?", 
+        [user.display_name, user.phone, user.role, user.about, user_id], 
         (error, res) => {
         if (error) {
             console.log(error);
@@ -48,6 +48,7 @@ User.update = (user_id, user, result) => {
 User.findByCriteria = (criteria, key, result) => {
     db.query(`SELECT * FROM users WHERE ${criteria} = '${key}'`, (error, res) => {
         if (error) {
+            console.log("help")
             console.log(error);
             result(error, null);
             return;
@@ -59,6 +60,7 @@ User.findByCriteria = (criteria, key, result) => {
             return;
         }
         else {
+            
             result({kind: "not_found"}, null);
             return;
         }

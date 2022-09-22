@@ -19,6 +19,20 @@ body {
 }
 
 /* =========================
+    Portal
+========================= */
+
+.portal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 1000;
+}
+
+/* =========================
     Title
 ========================= */
 
@@ -94,7 +108,7 @@ body {
 }
 
 /* =========================
-    Section and Cards
+    Profile
 ========================= */
 
 .profile img {
@@ -142,6 +156,55 @@ body {
 
 .overview-body label{
     font-weight: 800;
+}
+
+.profile-edit {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 35rem;
+    transform: translate(-50%, -50%);
+    background-color: #ffff;
+    padding: 25px;
+    z-index: 1000;
+}
+
+.profile-edit-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+
+.profile-edit-header h3 {
+    color: #012970;
+    padding-top: 5px;
+}
+
+.profile-edit-body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.profile-edit-footer {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.profile-edit-footer button {
+    position: fixed;
+    right: 10%;
+    bottom: 2.5%;
+    font-family: 'Nunito', 'sans-serif' !important;
 }
 
 

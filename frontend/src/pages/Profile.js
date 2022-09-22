@@ -1,5 +1,8 @@
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import EditProfile from "../components/EditProfile";
+
+
 import { getRoleString } from "../functions/HashCodes"
 import blue from "../img/blue-user-icon.png"
 import yellow from "../img/yellow-user-icon.png"
@@ -14,7 +17,6 @@ import {
 } from '@mui/material';
 
 
-import bug from '../img/bug.png'
 import axios from 'axios'
 
 const api = axios.create({
@@ -26,12 +28,10 @@ export default function Profile() {
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
 
-    const [currentUser, setCurrentUser] = useState({
-        display_name: "DEMO",
-        email: "demo@mail.com",
-        phone: '555-555-5555',
-        role: 1
-    })
+    const [isOpen, setIsOpen] = useState(false);
+
+    const [currentUser, setCurrentUser] = useState({})
+    
     const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     };
@@ -44,8 +44,8 @@ export default function Profile() {
                 return yellow;
             case 3:
                 return red;
-            break;
             default:
+                return blue;
         }
     }
 
@@ -97,10 +97,19 @@ export default function Profile() {
                         <Button
                             className="profile-btn"
                             variant="contained"
-                            size="large">
+                            size="large"
+                            onClick ={() => setIsOpen(true)}>
                             Edit Profile
                         </Button>
                     </Grid>
+
+                    <EditProfile 
+                        open={isOpen} 
+                        onClose = {() => setIsOpen(false)}
+                        user = {currentUser}>
+                        Fancy Model    
+                    </EditProfile>
+
                     <Grid item xs = {8}>
                         <Box
                             component = {Paper}
@@ -114,9 +123,7 @@ export default function Profile() {
                             <div className="profile-overview">
                                 <h2>Overview</h2>
                                 <h4>About</h4>
-                                <p>Lorem ipsum dolor sit amet, mea id dicit sententiae, usu id civibus consequuntur, vero congue est no. 
-                                Ad feugiat lobortis concludaturque his. 
-                                Duo paulo affert voluptatibus at. Sed an quando maiorum definitionem, erant zril mel an.</p>
+                                <p>{currentUser.about}</p>
                                 <h4>Profile Details</h4>
 
                                 <div className="overview-body">
@@ -138,10 +145,7 @@ export default function Profile() {
                         </Box>
                     </Grid>
                 </Grid>
-
-                
             </div>
-
         </div>
     );
 }

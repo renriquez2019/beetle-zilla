@@ -38,9 +38,9 @@ const registerUser = asyncHandler(async (req, res) =>{
                 display_name: display_name,
                 email: email,
                 password: hashedPassword,
-                role: "Developer",
+                role: 3,
                 phone: phone,
-                is_admin: false
+                about: "This is a sample About Me, click 'Edit Profile' to change it"
             })
             
             User.create(new_user, (error, data) => {
@@ -70,7 +70,8 @@ const updateUser = asyncHandler( async(req, res) =>{
             const altered_user = {
                 display_name : req.body.display_name || user.display_name,
                 phone : req.body.phone || user.phone,
-                role : req.body.role || user.role
+                role : req.body.role || user.role,
+                about : req.body.about || user.about
             }
 
             User.update(req.body.user_id, altered_user, (error, data) => {
