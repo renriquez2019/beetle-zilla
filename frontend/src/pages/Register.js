@@ -54,7 +54,7 @@ export default function Register() {
             .then((res) => {
                 setAlertContent({message: "You have registered successfully!", error: false})
                 setAlert(true);
-                navigate('/dashboard')
+                navigate('/login')
             }) 
             .catch((err) => {
                 setAlertContent({message: err.request.responseText, error: true});

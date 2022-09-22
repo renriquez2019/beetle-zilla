@@ -1,14 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { 
     Table, 
-    TableHead,
     TableBody, 
     TableRow, 
-    TableCell,
-    TableContainer,
-    TablePagination,  
     Paper,
     Button
 } from "@mui/material";
@@ -20,37 +16,30 @@ import {
     StyledTablePag,
 } from '../functions/TableStyles';
 
-import {BsFillDashSquareFill, BsFillTrashFill} from 'react-icons/bs'
-import { styled } from '@mui/system'
+import axios from 'axios'
 
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api'
+})
 
 export default function Projects() {
 
+    // Sidebar
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
+
+    const [role, setRole] = useState(1);
+
+    const [projects, setProjects] = useState([{
+        id: -1
+    }]);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
 
-
-    function createData(name, desc, numtickets, numusers, status) {
-        return { name, desc, numtickets, numusers, status};
-    }
-
-    const rows = [
-        createData('Demo Project 1', "This is project 1", 0, 1, 1),
-        createData('Demo Project 2', "This is project 2", 1, 0, 1),
-        createData('Demo Project 3', "This is project 3", 1, 0, 1),
-        createData('Demo Project 4', "This is project 4", 1, 0, 1),
-        createData('Demo Project 5', "This is project 5", 1, 0, 1),
-        createData('Demo Project 6', "This is project 9", 1, 0, 1),
-        createData('Demo Project 7', "This is project 7", 1, 0, 1),
-        createData('Demo Project 8', "This is project 8", 1, 0, 0),
-        createData('Demo Project 9', "This is project 9", 1, 0, 0),
-        createData('Demo Project 10', "This is project 9", 1, 0, 0),
-        createData('Demo Project 11', "This is project 9", 1, 0, 0),
-        createData('Demo Project 12', "This is project 9", 1, 0, 0),
-    ];
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -61,8 +50,50 @@ export default function Projects() {
         setPage(0);
     };
 
+
+    useEffect(() => {
+
+        api.get('/users/getloggedin', config).then((res) => {
+            let user_id = res.data.user_id
+
+            api.get('/users/projects', { params : { user_id : user_id}}).then((res) => {
+                let proj_ids = res.data
+                let i = 0
+    
+                const newState = [{}]
+    
+                proj_ids.map(obj => {
+                    api.get('/projects/get', { params : { project_id : obj}}).then((res) => {
+                        newState[i] = {
+                            id: res.data.project_id,
+                            title: res.data.title,
+                            description: res.data.description,
+                            status: res.data.status,
+                            users: [],
+                            tickets: []
+                        }
+                        i = i + 1;
+                    })
+                    .catch((error) => {
+                        console.log("error");
+                    })
+                })
+
+                setTimeout(() => {
+                    setProjects(newState)
+                    console.log(projects)
+                }, 800)
+
+            })
+        })
+        .catch((err) => {
+            console.log(err.request.responseText)
+        })
+
+    }, [])
+
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0;
 
     return (
         <div>
@@ -71,18 +102,14 @@ export default function Projects() {
 
             <div className= {sidebar ? "main" : "main main-side"}>
                 <div className="pagetitle">
-                    <h1>Projects</h1>
+                    <h1>Assigned Projects</h1>
+                    <hr/>
                 </div>
 
-                <div className="btn-add">
-                    <Button
-                        variant="contained"
-                        color="success"
-                        size="small">
-                        Create new Project
-                    </Button>
-                </div>
+                <div className="table-divider"/>
+                {console.log(projects[0].id)}
                 <Table
+                    className= {projects[0].id == undefined ? "" : "no-table"}
                     component={Paper}
                     size = "small"
                     >
@@ -90,23 +117,19 @@ export default function Projects() {
                         <TableRow size = "small">
                             <HeaderTableCell>Project Name</HeaderTableCell>
                             <HeaderTableCell sx = {{ paddingRight: '20em'}} align ="left">Description</HeaderTableCell>
-                            <HeaderTableCell align = "center"># of Tickets</HeaderTableCell>
-                            <HeaderTableCell align = "center"># of Users</HeaderTableCell>
                             <HeaderTableCell align = "center">Status</HeaderTableCell>
                             <HeaderTableCell align = "center" >Actions</HeaderTableCell> 
                         </TableRow>
                     </HeaderTableRow>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        {projects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
                             <TableRow
-                                key={row.name}
+                                key={row.title}
                                 size = "small"
                                 >
-                                <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
-                                <StyledTableCell size = "small">{row.desc}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.numtickets}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.numusers}</StyledTableCell>
+                                <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.title}</StyledTableCell>
+                                <StyledTableCell size = "small">{row.description}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.status}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
@@ -126,12 +149,11 @@ export default function Projects() {
                                 <StyledTableCell />
                                 <StyledTableCell />
                                 <StyledTableCell />
-                                <StyledTableCell />
                             </TableRow>
                         )}
                     </TableBody>
                     <StyledTablePag  
-                        count={rows.length}
+                        count={projects.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}

@@ -465,7 +465,6 @@ body {
 }
 
 .dash-btn {
-    
     font-size: 45px;
 }
 
@@ -542,3 +541,15 @@ body {
     border: 2px solid black;
 }
 
+/* =========================
+    Projects
+========================= */
+
+.table-divider {
+    padding: 2.5rem;
+}
+
+.no-table {
+    opacity: 0 !important;
+    display: none !important;
+}

@@ -23,7 +23,7 @@ export const Sidebar = ({toggle, navCurrent, isAdmin}) => {
                     <Link to = "/projects">
                         <div className={(navCurrent === "Project") ? "nav-link nav-current" : "nav-link"}>
                             <BsFolder className='nav-logo'/>
-                            <span>All Projects</span>
+                            <span>Projects</span>
                         </div>
                     </Link>
                 </li>
@@ -32,7 +32,7 @@ export const Sidebar = ({toggle, navCurrent, isAdmin}) => {
                     <Link to = "/tickets">
                         <div className={(navCurrent === "Ticket") ? "nav-link nav-current" : "nav-link"}>
                             <BsFolder className='nav-logo'/>
-                            <span>All Tickets</span>
+                            <span>Tickets</span>
                         </div>
                     </Link>  
                 </li>

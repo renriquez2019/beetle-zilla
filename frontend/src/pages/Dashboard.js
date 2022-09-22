@@ -288,7 +288,6 @@ export default function Dashboard() {
                             <BsFillArrowRightSquareFill className= {(visible >= (activeProjects.length-1)) ? "dash-btn" : "dash-btn-open"}/>
                         </IconButton>
                     </div>
-                    
                 </div>
 
                 <Grid item xs = {12}  sx = {{paddingBottom: '10px'}}>
