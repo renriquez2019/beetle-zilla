@@ -9,6 +9,7 @@ const {
     setAdmin,
     getLoggedIn,
     getProjects,
+    getTickets,
     findOne
 } = require('../controllers/userController')
 
@@ -22,6 +23,7 @@ router.post('/login', loginUser)
 // GET Requests
 router.get('/getloggedin', protect, getLoggedIn)
 router.get('/projects', getProjects)
+router.get('/tickets', getTickets)
 router.get('/get', findOne)
 
 // PUT Requests

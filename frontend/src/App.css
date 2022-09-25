@@ -346,7 +346,7 @@ body {
 
 
 .drop-menu hr {
-    padding-bottom: 5px;
+    padding-bottom: 1px;
     margin: 0;
 }
 
@@ -542,14 +542,32 @@ body {
 }
 
 /* =========================
-    Projects
+    Projects/Tickets
 ========================= */
 
 .table-divider {
-    padding: 2.5rem;
+    padding: 1.25rem;
 }
 
 .no-table {
     opacity: 0 !important;
     display: none !important;
+}
+
+.no-items {
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+}
+
+.no-items h2 {
+    border: medium solid black;
+    text-align: center;
+    background-color: #ffff;
+    padding: 15px;
+    width: 40rem;
+}
+
+.no-items--false {
+    opacity: 0;
 }

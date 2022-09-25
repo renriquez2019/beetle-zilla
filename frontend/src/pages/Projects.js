@@ -29,6 +29,7 @@ export default function Projects() {
     const toggleSidebar = () => setSidebar(!sidebar)
     const [role, setRole] = useState(1);
     const [projects, setProjects] = useState([{}]);
+    const [isEmpty, setIsEmpty] = useState(true)
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -79,9 +80,9 @@ export default function Projects() {
 
                 setTimeout(() => {
                     setProjects(newState)
+                    setIsEmpty(false)
                     console.log(projects)
-                }, 800)
-
+                }, 500)
             })
         })
         .catch((err) => {
@@ -105,8 +106,9 @@ export default function Projects() {
                 </div>
 
                 <div className="table-divider"/>
-                {console.log(role)}
+            
                 <Table
+                    className = {isEmpty ? "no-table" : ""}
                     component={Paper}
                     size = "small"
                     >
@@ -158,7 +160,10 @@ export default function Projects() {
                         rowsPerPageOptions={[10]}
                         labelRowsPerPage={<span>Rows:</span>}
                     />
-                </Table>             
+                </Table>
+                <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
+                    <h2>No projects assigned!</h2>
+                </div>              
             </div>
         </div>  
     );

@@ -118,9 +118,36 @@ User.getProjects = (user_id, result) => {
             result(error, null);
             return;
         }
-        
-        console.log("projects: ", res);
-        result(null, res)
+
+        if (res.length) {
+            console.log("projects: ", res);
+            result(null, res)
+            return
+        }
+        else {
+            result({ kind: "not_found" }, null);
+            return;
+        }
+    })
+}
+
+User.getTickets = (user_id, result) => {
+    db.query("SELECT * FROM tickets WHERE user_id = ?", user_id, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null);
+            return;
+        }
+
+        if (res.length) {
+            console.log("tickets: ", res);
+            result(null, res)
+            return
+        }
+        else {
+            result({ kind: "not_found" }, null);
+            return;
+        }
     })
 }
 

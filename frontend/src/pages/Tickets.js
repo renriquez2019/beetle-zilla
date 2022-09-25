@@ -1,16 +1,11 @@
-import { useState } from "react";
-import { Card } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
 import { 
     Table, 
-    TableHead,
     TableBody, 
-    TableRow, 
-    TableCell,
-    TableContainer,
-    TablePagination,  
+    TableRow,  
     Paper,
     Button
 } from "@mui/material";
@@ -22,35 +17,73 @@ import {
     StyledTablePag,
 } from '../functions/TableStyles';
 
-import {styled} from "@mui/system"
+import axios from 'axios'
+
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api'
+})
 
 export default function Tickets() {
 
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
+    const [role, setRole] = useState(1);
+    const [isEmpty, setIsEmpty] = useState(true)
+    const [tickets, setTickets] = useState([{}]);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    };
 
+    useEffect(() => {
 
-    function createData(name, desc, project, type, priority, status) {
-        return { name, desc, project, type, priority, status};
-    }
+        api.get('/users/getloggedin', config).then((res) => {
+            let user_id = res.data.user_id
+            
+            console.log(user_id)
+            setRole(res.data.role)
 
-    const rows = [
-        createData('Demo ticket 1', "This is ticket 1", 'Demo project 1','Bug', 'High', 'Open'),
-        createData('Demo ticket 2', "This is ticket 2", 'Demo project 2', 'Bug','Medium','Open'),
-        createData('Demo ticket 3', "This is ticket 3", 'Demo project 3','Bug', 'Medium','Open'),
-        createData('Demo ticket 4', "This is ticket 4", 'Demo project 4','Bug', 'Medium','Open'),
-        createData('Demo ticket 5', "This is ticket 5", 'Demo project 5','Bug', 'Medium','Open'),
-        createData('Demo ticket 6', "This is ticket 9", 'Demo project 6','Bug', 'Medium','Open'),
-        createData('Demo ticket 7', "This is ticket 7", 'Demo project 7','Bug', 'Medium','Open'),
-        createData('Demo ticket 8', "This is ticket 8", 'Demo project 8','Bug', 'Medium','Open'),
-        createData('Demo ticket 9', "This is ticket 9", 'Demo project 9','Bug', 'Medium','Open'),
-        createData('Demo ticket 10', "This is ticket 9", 'Demo project 10','Bug', 'Low','Open'),
-        createData('Demo ticket 11', "This is ticket 9", 'Demo project 11','Bug', 'Low','Open'),
-        createData('Demo ticket 12', "This is ticket 9", 'Demo project 12','Bug', 'Low','Open'),
-    ];
+            api.get('/users/tickets', { params : { user_id : user_id }}).then((res) => {
+
+                let i = 0
+                const newState = [{}]
+                
+                res.data.map(ticket => {
+                    api.get('/projects/get', { params : { project_id : ticket.project_id}}).then((res) => {
+                        
+                        console.log(i)
+                        newState[i] = {
+                            id : ticket.ticket_id,
+                            title : ticket.title,
+                            description : ticket.description,
+                            type : ticket.type,
+                            priority : ticket.priority,
+                            status : ticket.status,
+                            project_id : ticket.project_id,
+                            project_title : res.data.title,
+                            register_date : ticket.register_date
+                        }
+                        i = i + 1;
+                    })
+                    .catch((err) => {
+                        console.log(err.request.responseText)
+                    })
+                })
+
+                setTimeout(() => {
+                    setTickets(newState)
+                    setIsEmpty(false)
+                    console.log(tickets)
+                }, 800)
+            }) 
+        })
+        .catch((err) => {
+            console.log(err.request.responseText)
+        })
+
+    }, [])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -62,7 +95,7 @@ export default function Tickets() {
     };
 
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
 
     return (
         <div>
@@ -74,9 +107,14 @@ export default function Tickets() {
 
             <div className= {sidebar ? "main" : "main main-side"}>
                 <div className="pagetitle">
-                    <h1>Tickets</h1>
-                </div> 
+                    <h1>Assigned Tickets</h1>
+                    <hr/>
+                </div>
+
+                <div className="table-divider"/>
+                
                 <Table
+                    className = {isEmpty ? "no-table" : ""}
                     component={Paper} 
                     size = "small"
                     >
@@ -92,15 +130,15 @@ export default function Tickets() {
                         </TableRow>
                     </HeaderTableRow>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        {tickets.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
                             <TableRow
-                                key={row.name}
+                                key={row.title}
                                 size = "small"
                                 >
-                                <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.name}</StyledTableCell>
-                                <StyledTableCell>{row.desc}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.project}</StyledTableCell>
+                                <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.title}</StyledTableCell>
+                                <StyledTableCell>{row.description}</StyledTableCell>
+                                <StyledTableCell align = "center">{row.project_title}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.type}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.priority}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.status}</StyledTableCell>
@@ -129,7 +167,7 @@ export default function Tickets() {
                         )}
                     </TableBody>
                     <StyledTablePag  
-                        count={rows.length}
+                        count={tickets.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -137,7 +175,10 @@ export default function Tickets() {
                         rowsPerPageOptions={[10]}
                         labelRowsPerPage={<span>Rows:</span>}
                     />
-                </Table>             
+                </Table>
+                <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
+                    <h2>No tickets assigned!</h2>
+                </div>             
             </div>
         </div>
     );

@@ -165,7 +165,7 @@ const getProjects = asyncHandler(async (req, res) => {
     
     User.getProjects(req.query.user_id, (error, data) => {
         if (error)
-            res.status(400).send({message: "no users found"})
+            res.status(400).send({message: "error"})
         else {
             let projects = [];
 
@@ -177,6 +177,23 @@ const getProjects = asyncHandler(async (req, res) => {
         }
     })
 })
+
+// @desc    Get array of tickets
+// @route   GET /api/users/tickets
+// @access  Public
+const getTickets = asyncHandler(async (req, res) => {
+
+    User.getTickets(req.query.user_id, (error, data) => {
+        if (error)
+            res.status(400).send({message: "error"})
+        else {
+            const tickets = data;
+            console.log("sdsd", tickets)
+            res.status(200).send(tickets)
+        }
+    })
+})
+
 
 // @desc    Get user data
 // @route   GET /api/users/get
@@ -207,5 +224,6 @@ module.exports = {
     setAdmin,
     getLoggedIn,
     getProjects,
+    getTickets,
     findOne
 };
