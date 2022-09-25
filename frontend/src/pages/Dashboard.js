@@ -75,13 +75,13 @@ export default function Dashboard() {
     const [ticketpage, setTicketPage] = useState(0);
     const [rowsPerTicketPage, setRowsPerTicketPage] = useState(4);
 
+    // handling pagination
     const handleUserChangePage = (event, newPage) => {
         setUserPage(newPage);
     }
     const handleTicketChangePage = (event, newPage) => {
         setTicketPage(newPage);
     }
-    
     const handleUserChangeRowsPerPage = (event) => {
         setRowsPerUserPage(parseInt(event.targe.value, 10));
         setUserPage(0);
@@ -91,6 +91,7 @@ export default function Dashboard() {
         setTicketPage(0)
     }
     
+    // handle arrow clicks
     const handleLeftClick = (e) => {
         if (visible !== 0) {
             setVisible(prev=>prev-1)
@@ -98,7 +99,6 @@ export default function Dashboard() {
             setTicketPage(0)
         }     
     }
-
     const handleRightClick = (e) => {
         if (visible < (activeProjects.length - 1)) {
             setVisible(prev=>prev+1)
@@ -107,7 +107,7 @@ export default function Dashboard() {
         }
     }
     
-
+    // functions for pie charts
     function getRoleCount()  {
 
         let dev = 0;
@@ -197,7 +197,7 @@ export default function Dashboard() {
         
     }
 
-    // hook on for filling projects
+    // hook on for filling projects tables
     useEffect(() => { 
 
         api.get('/projects/active', {responseType: 'json'}).then((res) => {
@@ -384,7 +384,7 @@ export default function Dashboard() {
                                             <StyledTableCell scope="row">{row.title}</StyledTableCell>
                                             <StyledTableCell align = "center" sx= {{color: `${getTypeColor(row.type)}`, fontWeight: '800'}}>{getTypeString(row.type)}</StyledTableCell>
                                             <StyledTableCell align = "center" sx= {{color: `${getPriorityColor(row.priority)}`, fontWeight: '800'}}>{getPriorityString(row.priority)}</StyledTableCell>
-                                            <StyledTableCell align = "center">{row.status ? "Active" : "Inactive"}</StyledTableCell>
+                                            <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                         </TableRow>
                                     ))}
                                     {emptyTicketRows > 0 && (

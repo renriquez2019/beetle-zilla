@@ -571,3 +571,14 @@ body {
 .no-items--false {
     opacity: 0;
 }
+
+.actions-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+}
+
+.actions-icon button {
+    width: 5rem;
+}

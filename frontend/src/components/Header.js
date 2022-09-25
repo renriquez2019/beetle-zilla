@@ -12,12 +12,7 @@ const api = axios.create({
 
 export const Header = ({openSidebar}) => {
 
-    const [currentUser, setCurrentUser] = useState({
-        display_name: "DEMO",
-        email: "demo@mail.com",
-        phone: '555-555-5555',
-        role: 1
-    })
+    const [currentUser, setCurrentUser] = useState({})
 
     const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }

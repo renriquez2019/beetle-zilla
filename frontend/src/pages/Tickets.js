@@ -17,6 +17,13 @@ import {
     StyledTablePag,
 } from '../functions/TableStyles';
 
+import {
+    getTypeColor,
+    getTypeString,
+    getPriorityColor,
+    getPriorityString
+} from "../functions/HashCodes"
+
 import axios from 'axios'
 
 const api = axios.create({
@@ -28,7 +35,7 @@ export default function Tickets() {
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
     const [role, setRole] = useState(1);
-    const [isEmpty, setIsEmpty] = useState(true)
+    const [isEmpty, setIsEmpty] = useState()
     const [tickets, setTickets] = useState([{}]);
 
     const [page, setPage] = useState(0);
@@ -76,11 +83,16 @@ export default function Tickets() {
                     setTickets(newState)
                     setIsEmpty(false)
                     console.log(tickets)
-                }, 800)
-            }) 
+                }, 500)
+            })
+            .catch((err) => {
+                console.log(err.request.responseText)
+                setIsEmpty(true)
+            })
         })
         .catch((err) => {
             console.log(err.request.responseText)
+            setIsEmpty(true)
         })
 
     }, [])
@@ -139,9 +151,9 @@ export default function Tickets() {
                                 <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.title}</StyledTableCell>
                                 <StyledTableCell>{row.description}</StyledTableCell>
                                 <StyledTableCell align = "center">{row.project_title}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.type}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.priority}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.status}</StyledTableCell>
+                                <StyledTableCell align = "center" sx = {{color : `${getTypeColor(row.type)}`, fontWeight: '800'}}>{getTypeString(row.type)}</StyledTableCell>
+                                <StyledTableCell align = "center" sx = {{color : `${getPriorityColor(row.priority)}`, fontWeight: '800'}}>{getPriorityString(row.priority)}</StyledTableCell>
+                                <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
                                         <Button variant="contained" size="small">Edit</Button>

@@ -29,7 +29,7 @@ export default function Projects() {
     const toggleSidebar = () => setSidebar(!sidebar)
     const [role, setRole] = useState(1);
     const [projects, setProjects] = useState([{}]);
-    const [isEmpty, setIsEmpty] = useState(true)
+    const [isEmpty, setIsEmpty] = useState()
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -75,6 +75,7 @@ export default function Projects() {
                     })
                     .catch((error) => {
                         console.log("error");
+                        setIsEmpty(true)
                     })
                 })
 
@@ -84,9 +85,14 @@ export default function Projects() {
                     console.log(projects)
                 }, 500)
             })
+            .catch((err) => {
+                console.log(err.request.responseText)
+                setIsEmpty(true)
+            })
         })
         .catch((err) => {
             console.log(err.request.responseText)
+            setIsEmpty(true)
         })
 
     }, [])
@@ -117,23 +123,24 @@ export default function Projects() {
                             <HeaderTableCell>Project Name</HeaderTableCell>
                             <HeaderTableCell sx = {{ paddingRight: '20em'}} align ="left">Description</HeaderTableCell>
                             <HeaderTableCell align = "center">Status</HeaderTableCell>
-                            <HeaderTableCell align = "center" >Actions</HeaderTableCell> 
+                            <HeaderTableCell align = "center" className = {role === 1 ? "" : ""}>Actions</HeaderTableCell> 
                         </TableRow>
                     </HeaderTableRow>
                     <TableBody>
                         {projects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
                             <TableRow
-                                key={row.title}
+                                key={row.id}
                                 size = "small"
                                 >
                                 <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.title}</StyledTableCell>
                                 <StyledTableCell size = "small">{row.description}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.status}</StyledTableCell>
+                                <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
+                                        <Button variant="contained" size="small" >Tickets</Button>
                                         <Button variant="contained" size="small">Edit</Button>
-                                        <Button variant="contained" size="small" color="error">Delete</Button>
+                                        <Button variant="contained" size="small">Delete</Button>
                                     </div>
                                 </StyledTableCell>
                             </TableRow>
