@@ -74,7 +74,7 @@ export default function Register() {
                 component={Paper}
                 className = "auth-box"
                 sx = {{
-                    height: '40rem',
+                    height: '42rem',
                     width:  '25rem',
                 }}
             >
@@ -156,7 +156,8 @@ export default function Register() {
                         onClick={handleSubmit}
                         sx = {{
                             marginLeft: '1rem',
-                            width: '20rem'
+                            width: '20rem',
+                            
                         }}
                     >
                         Register

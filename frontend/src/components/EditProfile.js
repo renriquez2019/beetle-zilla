@@ -104,6 +104,5 @@ export default function EditProfile ({open, onClose, user}) {
             </div>
         </>,
         document.getElementById('portal')
-        
     )
 }

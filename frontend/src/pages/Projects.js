@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import EditProject from "../components/EditProject";
+
+
 import { 
     Table, 
     TableBody, 
@@ -28,8 +31,13 @@ export default function Projects() {
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
     const [role, setRole] = useState(1);
+
     const [projects, setProjects] = useState([{}]);
+    const [tickets, setTickets] = useState([{}])
+    const [selectProject, setSelectProject] = useState()
+
     const [isEmpty, setIsEmpty] = useState()
+    const [isOpen, setIsOpen] = useState()
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -64,12 +72,10 @@ export default function Projects() {
                 proj_ids.map(obj => {
                     api.get('/projects/get', { params : { project_id : obj}}).then((res) => {
                         newState[i] = {
-                            id: res.data.project_id,
+                            project_id: res.data.project_id,
                             title: res.data.title,
                             description: res.data.description,
-                            status: res.data.status,
-                            users: [],
-                            tickets: []
+                            status: res.data.status
                         }
                         i = i + 1;
                     })
@@ -78,6 +84,7 @@ export default function Projects() {
                         setIsEmpty(true)
                     })
                 })
+                
 
                 setTimeout(() => {
                     setProjects(newState)
@@ -102,6 +109,7 @@ export default function Projects() {
 
     return (
         <div>
+            {console.log(projects)}
             <Header openSidebar={toggleSidebar} />
             <Sidebar toggle={sidebar} navCurrent = "Project"/>
 
@@ -138,8 +146,15 @@ export default function Projects() {
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
-                                        <Button variant="contained" size="small" >Tickets</Button>
-                                        <Button variant="contained" size="small">Edit</Button>
+                                        <Button
+                                            variant="contained" 
+                                            size="small"
+                                            onClick = {() => {
+                                                setSelectProject(row);
+                                                setIsOpen(true);
+                                            }}>
+                                            Edit
+                                        </Button>
                                         <Button variant="contained" size="small">Delete</Button>
                                     </div>
                                 </StyledTableCell>
@@ -168,6 +183,9 @@ export default function Projects() {
                         labelRowsPerPage={<span>Rows:</span>}
                     />
                 </Table>
+                
+                
+
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No projects assigned!</h2>
                 </div>              

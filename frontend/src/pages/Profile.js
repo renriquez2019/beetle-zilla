@@ -106,8 +106,7 @@ export default function Profile() {
                     <EditProfile 
                         open={isOpen} 
                         onClose = {() => setIsOpen(false)}
-                        user = {currentUser}>
-                        Fancy Model    
+                        user = {currentUser}>   
                     </EditProfile>
 
                     <Grid item xs = {8}>

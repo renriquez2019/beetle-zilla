@@ -28,7 +28,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .7);
+    background-color: rgba(0, 0, 0, .2);
     z-index: 1000;
 }
 
@@ -576,9 +576,23 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    
 }
 
 .actions-icon button {
     width: 5rem;
+}
+
+/* =========================
+    Popup Components
+========================= */
+
+.project-edit {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    width: 80rem;
+    transform: translate(-50%, -50%);
+    background-color: #ffff;
+    padding: 25px;
+    z-index: 1000;
 }

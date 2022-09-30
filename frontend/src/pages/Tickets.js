@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import EditTicket from "../components/EditTicket";
 
 import { 
     Table, 
@@ -36,7 +37,10 @@ export default function Tickets() {
     const toggleSidebar = () => setSidebar(!sidebar)
     const [role, setRole] = useState(1);
     const [isEmpty, setIsEmpty] = useState()
+    const [isOpen, setIsOpen] = useState()
+
     const [tickets, setTickets] = useState([{}]);
+    const [selectTicket, setSelectTicket] = useState()
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -62,7 +66,7 @@ export default function Tickets() {
                         
                         console.log(i)
                         newState[i] = {
-                            id : ticket.ticket_id,
+                            ticket_id : ticket.ticket_id,
                             title : ticket.title,
                             description : ticket.description,
                             type : ticket.type,
@@ -156,7 +160,16 @@ export default function Tickets() {
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
-                                        <Button variant="contained" size="small">Edit</Button>
+                                        <Button
+                                            variant="contained" 
+                                            size="small" 
+                                            onClick = {() => {
+                                                setSelectTicket(row);
+                                                setIsOpen(true);
+                                            }}>
+                                            Edit
+                                        </Button>
+                                        
                                         <Button variant="contained" size="small" color="error">Delete</Button>
                                     </div>
                                 </StyledTableCell>
@@ -188,9 +201,17 @@ export default function Tickets() {
                         labelRowsPerPage={<span>Rows:</span>}
                     />
                 </Table>
+                    
+                <EditTicket
+                    open = {isOpen}
+                    onClose = {() => setIsOpen(false)}
+                    ticket = {selectTicket}>
+                </EditTicket>
+                
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No tickets assigned!</h2>
-                </div>             
+                </div>     
+
             </div>
         </div>
     );
