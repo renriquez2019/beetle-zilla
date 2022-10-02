@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import EditProject from "../components/EditProject";
 import {Link} from "react-router-dom"
 
 import { 
@@ -67,7 +66,7 @@ export default function Projects() {
             let user_id = res.data.user_id
 
             setRole(res.data.role)
-
+            
             api.get('/users/projects', { params : { user_id : user_id}}).then((res) => {
                 let proj_ids = res.data
                 let i = 0
