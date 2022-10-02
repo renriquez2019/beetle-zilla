@@ -1,20 +1,9 @@
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import EditTicket from "../components/EditTicket";
-import {
-    HeaderTableRow, 
-    HeaderTableCell, 
-    StyledTableCell, 
-    StyledTablePag,
-} from '../functions/TableStyles';
-import {
-    getTypeColor,
-    getTypeString,
-    getPriorityColor,
-    getPriorityString
-} from "../functions/HashCodes";
+import {Link, useLocation} from "react-router-dom"
 
-import { useEffect, useState } from "react";
 import { 
     Table, 
     TableBody, 
@@ -22,100 +11,98 @@ import {
     Paper,
     Button
 } from "@mui/material";
+
+import {
+    HeaderTableRow, 
+    HeaderTableCell, 
+    StyledTableCell, 
+    StyledTablePag,
+} from '../functions/TableStyles';
+
+import {
+    getTypeColor,
+    getTypeString,
+    getPriorityColor,
+    getPriorityString
+} from "../functions/HashCodes"
+
 import axios from 'axios'
 
 const api = axios.create({
     baseURL: 'http://localhost:5000/api'
 })
 
-export default function Tickets() {
+export default function ViewTickets() {
 
-    // set sidebar
+    // handleling sidebar
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
 
-    // role for user permissions
-    const [role, setRole] = useState(1);
+    const location = useLocation()
+    const project = location.state
 
-    // for editticket popup
+    const [isEmpty, setIsEmpty] = useState()
     const [isOpen, setIsOpen] = useState()
 
-    // ticker variables
-    const [tickets, setTickets] = useState([{}]);
+    const [tickets, setTickets] = useState([{}])
     const [selectTicket, setSelectTicket] = useState()
-    const [isEmpty, setIsEmpty] = useState()
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
 
-    // token configuration
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
+    
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
 
-    // gets tickets assigned to user
     useEffect(() => {
 
-        api.get('/users/getloggedin', config).then((res) => {
-            let user_id = res.data.user_id
+        api.get('/projects/gettickets', { params : { project_id : project.project_id}}).then((res) => {
             
-            console.log(user_id)
-            setRole(res.data.role)
+            const newState = [{}]
+            let i = 0
 
-            api.get('/users/tickets', { params : { user_id : user_id }}).then((res) => {
-
-                let i = 0
-                const newState = [{}]
-                
-                res.data.map(ticket => {
-                    api.get('/projects/get', { params : { project_id : ticket.project_id}}).then((res) => {
-                        
-                        console.log(i)
-                        newState[i] = {
-                            ticket_id : ticket.ticket_id,
-                            title : ticket.title,
-                            description : ticket.description,
-                            type : ticket.type,
-                            priority : ticket.priority,
-                            status : ticket.status,
-                            project_id : ticket.project_id,
-                            project_title : res.data.title,
-                            register_date : ticket.register_date
-                        }
-                        i = i + 1;
-                    })
-                    .catch((err) => {
-                        console.log(err.request.responseText)
-                    })
+            res.data.map((ticket) => {
+                api.get('/tickets/get', { params : {ticket_id : ticket}}).then((res) => {
+                    console.log(res.data)
+                    newState[i] = {
+                        ticket_id : res.data.ticket_id,
+                        title : res.data.title,
+                        description : res.data.description,
+                        type : res.data.type,
+                        priority : res.data.priority,
+                        status : res.data.status,
+                        register_date : res.data.register_date
+                    }
+                    i = i + 1
                 })
-
-                setTimeout(() => {
-                    setTickets(newState)
-                    setIsEmpty(false)
-                    console.log(tickets)
-                }, 500)
+                .catch((err) => {
+                    console.log(err.request.responseText);
+                    setIsEmpty(true)
+                }) 
             })
-            .catch((err) => {
-                console.log(err.request.responseText)
-                setIsEmpty(true)
-            })
+            
+            setTimeout(() => {
+                setTickets(newState)
+                setIsEmpty(false)
+            }, 800)
         })
         .catch((err) => {
-            console.log(err.request.responseText)
+            console.log(err.request.responseText);
             setIsEmpty(true)
         })
-
+        
     }, [])
+
+    console.log(tickets)
 
     return (
         <div>
@@ -123,26 +110,24 @@ export default function Tickets() {
                 openSidebar={toggleSidebar} />
             <Sidebar
                 toggle={sidebar}
-                navCurrent = "Ticket"/>
-
-            <div className= {sidebar ? "main" : "main main-side"}>
+                navCurrent = "Project"/>
+            
+            <div className = {sidebar ? "main" : "main main-side"}>
                 <div className="pagetitle">
-                    <h1>Assigned Tickets</h1>
+                    <h1>{project.title}</h1>
                     <hr/>
                 </div>
 
                 <div className="table-divider"/>
-                
+
                 <Table
                     className = {isEmpty ? "no-table" : ""}
                     component={Paper} 
-                    size = "small"
-                    >
+                    size = "small">
                     <HeaderTableRow>
                         <TableRow size = "small">
                             <HeaderTableCell>Ticket Name</HeaderTableCell>
                             <HeaderTableCell sx = {{ paddingRight: '10em'}} align = "left">Description</HeaderTableCell>
-                            <HeaderTableCell >Project</HeaderTableCell>
                             <HeaderTableCell align = "center">Type</HeaderTableCell>
                             <HeaderTableCell align = "center" >Priority</HeaderTableCell>
                             <HeaderTableCell align = "center" >Status</HeaderTableCell> 
@@ -158,7 +143,6 @@ export default function Tickets() {
                                 >
                                 <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.title}</StyledTableCell>
                                 <StyledTableCell>{row.description}</StyledTableCell>
-                                <StyledTableCell align = "center">{row.project_title}</StyledTableCell>
                                 <StyledTableCell align = "center" sx = {{color : `${getTypeColor(row.type)}`, fontWeight: '800'}}>{getTypeString(row.type)}</StyledTableCell>
                                 <StyledTableCell align = "center" sx = {{color : `${getPriorityColor(row.priority)}`, fontWeight: '800'}}>{getPriorityString(row.priority)}</StyledTableCell>
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
@@ -205,7 +189,7 @@ export default function Tickets() {
                         labelRowsPerPage={<span>Rows:</span>}
                     />
                 </Table>
-                    
+                
                 <EditTicket
                     open = {isOpen}
                     onClose = {() => setIsOpen(false)}
@@ -214,7 +198,7 @@ export default function Tickets() {
                 
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No tickets assigned!</h2>
-                </div>     
+                </div>  
 
             </div>
         </div>

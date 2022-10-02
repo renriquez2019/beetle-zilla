@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { 
@@ -10,12 +8,19 @@ import {
     getPriorityString,
     getPriorityColor
 } from "../functions/HashCodes";
+import {
+    HeaderTableRow, 
+    HeaderTableCell, 
+    StyledTableCell, 
+    StyledTablePag,
+} from '../functions/TableStyles';
 
+import { useState, useEffect } from "react";
+import {PieChart, Pie, Legend, Cell} from 'recharts'
 import {
     BsFillArrowLeftSquareFill,
     BsFillArrowRightSquareFill
-} from 'react-icons/bs'
-
+} from 'react-icons/bs';
 import { 
     IconButton,
     Table, 
@@ -24,17 +29,7 @@ import {
     Paper,
     Grid,
     Box,
-    Icon
-} from "@mui/material"
-
-import {
-    HeaderTableRow, 
-    HeaderTableCell, 
-    StyledTableCell, 
-    StyledTablePag,
-} from '../functions/TableStyles'
-
-import {PieChart, Pie, Legend, Cell} from 'recharts'
+} from "@mui/material";
 import axios from "axios";
 
 const api = axios.create({
@@ -75,7 +70,7 @@ export default function Dashboard() {
     const [ticketpage, setTicketPage] = useState(0);
     const [rowsPerTicketPage, setRowsPerTicketPage] = useState(4);
 
-    // handling pagination
+    // handling table pagination
     const handleUserChangePage = (event, newPage) => {
         setUserPage(newPage);
     }
@@ -90,6 +85,12 @@ export default function Dashboard() {
         setRowsPerTicketPage(parseInt(event.targe.value, 10));
         setTicketPage(0)
     }
+
+    // calculate number of empty rows per table
+    const emptyUserRows =
+        userpage > 0 ? Math.max(0, (1 + userpage) * rowsPerUserPage - activeProjects[visible].users.length) : 0; 
+    const emptyTicketRows =
+        ticketpage > 0 ? Math.max(0, (1 + ticketpage) * rowsPerTicketPage - activeProjects[visible].tickets.length) : 0;
     
     // handle arrow clicks
     const handleLeftClick = (e) => {
@@ -261,11 +262,6 @@ export default function Dashboard() {
 
     }, [])
 
-    const emptyUserRows =
-        userpage > 0 ? Math.max(0, (1 + userpage) * rowsPerUserPage - activeProjects[visible].users.length) : 0; 
-    const emptyTicketRows =
-        ticketpage > 0 ? Math.max(0, (1 + ticketpage) * rowsPerTicketPage - activeProjects[visible].tickets.length) : 0;
-
     return (
         <div>
             <Header 
@@ -279,7 +275,7 @@ export default function Dashboard() {
                 <div className="dash-title">
                     <h1>All Active Projects</h1>
                     
-                    <div>
+                    <div> {/*Handle the change in project*/}
                         <IconButton size = "large" onClick={handleLeftClick}>
                             <BsFillArrowLeftSquareFill className= {(visible == 0) ? "dash-btn" : "dash-btn-open"}/>
                         </IconButton>
@@ -297,8 +293,7 @@ export default function Dashboard() {
                         sx = {{
                             height: '30rem',
                             border: 2,
-                        }}
-                    >   
+                        }}>   
 
                         <h2>{activeProjects[visible] ? activeProjects[visible].title : ' '}</h2>
                         

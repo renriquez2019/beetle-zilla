@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import EditProject from "../components/EditProject";
-
+import {Link} from "react-router-dom"
 
 import { 
     Table, 
@@ -27,21 +27,24 @@ const api = axios.create({
 
 export default function Projects() {
 
-    // Sidebar
+    //set Sidebar
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
+
+    // role for permissions
     const [role, setRole] = useState(1);
 
+    // main projects
     const [projects, setProjects] = useState([{}]);
-    const [tickets, setTickets] = useState([{}])
-    const [selectProject, setSelectProject] = useState()
 
+    // if user has no assigned projects
     const [isEmpty, setIsEmpty] = useState()
-    const [isOpen, setIsOpen] = useState()
 
+    // for table pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
 
+    // token configuration
     const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     };
@@ -49,13 +52,15 @@ export default function Projects() {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
 
+    const emptyRows =
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0;
 
+    // fetches projects assigned to user
     useEffect(() => {
 
         api.get('/users/getloggedin', config).then((res) => {
@@ -84,7 +89,6 @@ export default function Projects() {
                         setIsEmpty(true)
                     })
                 })
-                
 
                 setTimeout(() => {
                     setProjects(newState)
@@ -103,9 +107,6 @@ export default function Projects() {
         })
 
     }, [])
-
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0;
 
     return (
         <div>
@@ -138,7 +139,7 @@ export default function Projects() {
                         {projects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => (
                             <TableRow
-                                key={row.id}
+                                key={row.project_id}
                                 size = "small"
                                 >
                                 <StyledTableCell component="th" scope="row" sx={{fontSize: '20px'}}>{row.title}</StyledTableCell>
@@ -146,15 +147,14 @@ export default function Projects() {
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
-                                        <Button
-                                            variant="contained" 
-                                            size="small"
-                                            onClick = {() => {
-                                                setSelectProject(row);
-                                                setIsOpen(true);
-                                            }}>
-                                            Edit
-                                        </Button>
+                                        <Link to = "/viewusers" state = {{project_id: row.project_id, title: row.title, role: role}}>
+                                            <Button variant="contained">Users</Button>
+                                        </Link>
+
+                                        <Link to = "/viewtickets" state = {{project_id: row.project_id, title: row.title, role: role}}>
+                                            <Button variant="contained">Tickets</Button>
+                                        </Link>
+                                        
                                         <Button variant="contained" size="small">Delete</Button>
                                     </div>
                                 </StyledTableCell>
@@ -184,11 +184,10 @@ export default function Projects() {
                     />
                 </Table>
                 
-                
-
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No projects assigned!</h2>
-                </div>              
+                </div>   
+
             </div>
         </div>  
     );

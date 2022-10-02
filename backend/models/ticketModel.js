@@ -9,6 +9,7 @@ const Ticket = function(ticket) {
     this.priority = ticket.priority;
     this.status = ticket.status;
     this.project_id = ticket.project_id;
+    this.user_id = ticket.user_id;
     this.register_date = ticket.register_date;
 }
 

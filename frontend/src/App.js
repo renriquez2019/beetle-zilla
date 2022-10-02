@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Tickets from './pages/Tickets';
 import Profile from './pages/Profile';
+import ViewTickets from './pages/ViewTickets';
+import ViewUsers from './pages/ViewUsers';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path ="/projects" element={<Projects/>}/>
         <Route path ="/tickets" element={<Tickets/>}/>
         <Route path ="/profile" element={<Profile/>}/>
+        <Route path ="/viewtickets" element={<ViewTickets/>}/>
+        <Route path ="/viewusers" element={<ViewUsers/>}/>
       </Routes>
     </Router>
   );

@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-
 import AlertPopup from '../components/AlertPopup'
 import {
     Box,
     Button,
     Paper,
-} from '@mui/material'
+} from '@mui/material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 const api = axios.create({
@@ -45,23 +44,22 @@ export default function Login() {
             "password": formData.password
 
         })
-            .then((res) => {
-                setAlertContent("Login", false);
-                setAlert(true);
-                localStorage.setItem('token', res.data.token)
-                console.log(res.data.token)
+        .then((res) => {
+            setAlertContent("Login", false);
+            setAlert(true);
+            localStorage.setItem('token', res.data.token)
+            console.log(res.data.token)
 
-                navigate('/dashboard');
-            })
-            .catch((err) => {
-                setAlertContent({message: err.request.responseText, error: true});
-                setAlert(true);
-                console.log(err.request.responseText)
-            })
+            navigate('/dashboard');
+        })
+        .catch((err) => {
+            setAlertContent({message: err.request.responseText, error: true});
+            setAlert(true);
+            console.log(err.request.responseText)
+        })
     }
 
     
-
     return (
         <div className="login" onSubmit={handleSubmit}>
             <div className="auth-alert">
@@ -121,9 +119,6 @@ export default function Login() {
                         Login
                     </Button>
                 </div>
-                
-                
-                
             </Box>
         </div>
     );

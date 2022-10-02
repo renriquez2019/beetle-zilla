@@ -1,9 +1,8 @@
-import { Grid, Box, Button, Paper } from "@mui/material";
+import {Box, Button, Paper } from "@mui/material";
 import Title from "../components/Title";
 
-
+// simple home page to for login/register access
 export default function Home() {
-
 
     return (
         <div className="home">

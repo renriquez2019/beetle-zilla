@@ -1,9 +1,8 @@
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import EditProfile from "../components/EditProfile";
-
-
 import { getRoleString } from "../functions/HashCodes"
+
 import blue from "../img/blue-user-icon.png"
 import yellow from "../img/yellow-user-icon.png"
 import red from "../img/red-user-icon.png"
@@ -15,8 +14,6 @@ import {
     Paper,
     Button,
 } from '@mui/material';
-
-
 import axios from 'axios'
 
 const api = axios.create({
@@ -25,17 +22,22 @@ const api = axios.create({
 
 export default function Profile() {
 
+    // set sidebar
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
 
+    // allows edit profile popup
     const [isOpen, setIsOpen] = useState(false);
 
+    // variable for user fetched by api
     const [currentUser, setCurrentUser] = useState({})
     
+    // token configuration
     const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     };
 
+    // determines icon based on role
     function userIcon()  {
         switch (currentUser.role) {
             case 1:
@@ -49,6 +51,7 @@ export default function Profile() {
         }
     }
 
+    // takes currently logged in user at startup
     useEffect(() => {
 
         api.get('/users/getloggedin', config).then((res) => {
