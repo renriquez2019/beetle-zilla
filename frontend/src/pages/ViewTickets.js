@@ -63,6 +63,39 @@ export default function ViewTickets() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
 
+    function handleAssign() {
+        api.get('/projects/gettickets', { params : { project_id : project.project_id }}).then((res) => {
+
+            const tickets = [{}]
+            let i = 0
+
+            res.data.map((ticket) => {
+                api.get('/tickets/get', { params : { ticket_id : ticket}}).then((res) => {
+                    tickets[i] = {
+                        ticket_id : res.data.ticket_id,
+                        title : res.data.title,
+                        description : res.data.description,
+                        type : res.data.type,
+                        priority : res.data.priority,
+                        status : res.data.status,
+                        register_date : res.data.register_date
+                    }
+                    i = i + 1
+                })
+                .catch((err) => {
+                    console.log(err.request.responseText);
+                })
+            })
+
+            setTimeout(() => {
+                setTickets(tickets)
+            }, 500)
+        })
+        .catch((err) => {
+            console.log(err.request.responseText)
+        })
+    }
+
     useEffect(() => {
 
         api.get('/projects/gettickets', { params : { project_id : project.project_id}}).then((res) => {
@@ -148,6 +181,7 @@ export default function ViewTickets() {
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
+                                        <Button variant="contained" size="small">Assign</Button>
                                         <Button
                                             variant="contained" 
                                             size="small" 
@@ -157,8 +191,6 @@ export default function ViewTickets() {
                                             }}>
                                             Edit
                                         </Button>
-                                        
-                                        <Button variant="contained" size="small" color="error">Delete</Button>
                                     </div>
                                 </StyledTableCell>
                             </TableRow>
