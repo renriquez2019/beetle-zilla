@@ -9,7 +9,7 @@ const api = axios.create({
     baseURL: 'http://localhost:5000/api'
 })
 
-export default function AssignUser({open, onClose, user, tickets}) {
+export default function AssignUser({open, onClose, users, ticket}) {
 
     const [checked, setChecked] = useState(false)
 
@@ -19,11 +19,9 @@ export default function AssignUser({open, onClose, user, tickets}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
 
     }
 
-    console.log(tickets.length)
 
     if (!open) return null
 

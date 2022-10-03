@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import EditTicket from "../components/EditTicket";
+import AssignUser from "../components/AssignUser";
 import {Link, useLocation} from "react-router-dom"
 
 import { 
@@ -43,9 +44,11 @@ export default function ViewTickets() {
 
     const [isEmpty, setIsEmpty] = useState()
     const [isOpen, setIsOpen] = useState()
+    const [assignOpen, setAssignOpen] = useState()
 
     const [tickets, setTickets] = useState([{}])
     const [selectTicket, setSelectTicket] = useState()
+    const [users, setUsers] = useState([{}]) 
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -64,21 +67,16 @@ export default function ViewTickets() {
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
 
     function handleAssign() {
-        api.get('/projects/gettickets', { params : { project_id : project.project_id }}).then((res) => {
+        api.get('/projects/getusers', { params : { project_id : project.project_id }}).then((res) => {
 
-            const tickets = [{}]
+            const users = [{}]
             let i = 0
 
-            res.data.map((ticket) => {
-                api.get('/tickets/get', { params : { ticket_id : ticket}}).then((res) => {
+            res.data.map((user) => {
+                api.get('/users/get', { params : { user_id : user}}).then((res) => {
                     tickets[i] = {
-                        ticket_id : res.data.ticket_id,
-                        title : res.data.title,
-                        description : res.data.description,
-                        type : res.data.type,
-                        priority : res.data.priority,
-                        status : res.data.status,
-                        register_date : res.data.register_date
+                        user_id : res.data.user_id,
+                        display_name : res.data.display_name
                     }
                     i = i + 1
                 })
@@ -88,7 +86,7 @@ export default function ViewTickets() {
             })
 
             setTimeout(() => {
-                setTickets(tickets)
+                setUsers(users)
             }, 500)
         })
         .catch((err) => {
@@ -181,7 +179,16 @@ export default function ViewTickets() {
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
-                                        <Button variant="contained" size="small">Assign</Button>
+                                        <Button 
+                                            variant="contained" 
+                                            size="small"
+                                            onClick = {() => {
+                                                handleAssign()
+                                                setSelectTicket(row)
+                                                setAssignOpen(true)
+                                            }}>
+                                            Assign
+                                            </Button>
                                         <Button
                                             variant="contained" 
                                             size="small" 
@@ -227,6 +234,13 @@ export default function ViewTickets() {
                     onClose = {() => setIsOpen(false)}
                     ticket = {selectTicket}>
                 </EditTicket>
+
+                <AssignUser
+                    open = {assignOpen}
+                    onClose = {() => setAssignOpen(false)}
+                    users = {users}
+                    ticket = {selectTicket}>
+                </AssignUser>
                 
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No tickets assigned!</h2>

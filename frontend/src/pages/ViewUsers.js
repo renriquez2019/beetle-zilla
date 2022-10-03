@@ -169,16 +169,6 @@ export default function ViewUsers() {
                                 <StyledTableCell align = "center" sx= {{color: `${getRoleColor(row.role)}`, fontWeight: '800'}}>{getRoleString(row.role)}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
-                                        <Button 
-                                            variant="contained" 
-                                            size="small"
-                                            onClick={() => {
-                                                setSelectUser(row);
-                                                handleAssign();
-                                                setIsOpen(true);
-                                            }}>
-                                            Assign
-                                        </Button>
                                         <Button variant="contained" size="small" color="error">Remove</Button>
                                     </div>
                                 </StyledTableCell>
@@ -208,12 +198,7 @@ export default function ViewUsers() {
                     />
                 </Table>
 
-                <AssignUser
-                    open = {isOpen}
-                    onClose = {() => setIsOpen(false)}
-                    user = {selectUser}
-                    tickets = {tickets}>
-                </AssignUser>
+              
 
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No users assigned!</h2>
