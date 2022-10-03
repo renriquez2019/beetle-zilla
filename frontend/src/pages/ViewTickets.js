@@ -47,7 +47,7 @@ export default function ViewTickets() {
     const [assignOpen, setAssignOpen] = useState()
 
     const [tickets, setTickets] = useState([{}])
-    const [selectTicket, setSelectTicket] = useState()
+    const [selectTicket, setSelectTicket] = useState({})
     const [users, setUsers] = useState([{}]) 
 
     const [page, setPage] = useState(0);
@@ -66,6 +66,8 @@ export default function ViewTickets() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tickets.length) : 0;
 
+
+    // to be called when clicking assign
     function handleAssign() {
         api.get('/projects/getusers', { params : { project_id : project.project_id }}).then((res) => {
 
@@ -74,7 +76,7 @@ export default function ViewTickets() {
 
             res.data.map((user) => {
                 api.get('/users/get', { params : { user_id : user}}).then((res) => {
-                    tickets[i] = {
+                    users[i] = {
                         user_id : res.data.user_id,
                         display_name : res.data.display_name
                     }
@@ -84,7 +86,7 @@ export default function ViewTickets() {
                     console.log(err.request.responseText);
                 })
             })
-
+            console.log("here")
             setTimeout(() => {
                 setUsers(users)
             }, 500)
@@ -103,7 +105,6 @@ export default function ViewTickets() {
 
             res.data.map((ticket) => {
                 api.get('/tickets/get', { params : {ticket_id : ticket}}).then((res) => {
-                    console.log(res.data)
                     newState[i] = {
                         ticket_id : res.data.ticket_id,
                         title : res.data.title,
@@ -111,6 +112,7 @@ export default function ViewTickets() {
                         type : res.data.type,
                         priority : res.data.priority,
                         status : res.data.status,
+                        user_id : res.data.user_id,
                         register_date : res.data.register_date
                     }
                     i = i + 1
@@ -132,8 +134,6 @@ export default function ViewTickets() {
         })
         
     }, [])
-
-    console.log(tickets)
 
     return (
         <div>
@@ -183,7 +183,7 @@ export default function ViewTickets() {
                                             variant="contained" 
                                             size="small"
                                             onClick = {() => {
-                                                handleAssign()
+                                                handleAssign();
                                                 setSelectTicket(row)
                                                 setAssignOpen(true)
                                             }}>

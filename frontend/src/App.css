@@ -596,3 +596,20 @@ body {
     padding: 25px;
     z-index: 1000;
 }
+
+.check-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+  }
+
+.checked-item,
+.not-checked-item {
+    margin-left: 10px;
+    font-family: 'Nunito', 'sans-serif';
+}
+
+.checked-item {
+  text-decoration: line-through;
+}

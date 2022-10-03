@@ -21,7 +21,6 @@ export const Header = ({openSidebar}) => {
     useEffect(() => {
 
         api.get('/users/getloggedin', config).then((res) => {
-            console.log(res.data)
             setCurrentUser(res.data)
         })
         .catch((err) => {
