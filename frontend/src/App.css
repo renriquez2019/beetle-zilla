@@ -207,6 +207,11 @@ body {
     font-family: 'Nunito', 'sans-serif' !important;
 }
 
+.btn-cancel {
+    position: fixed;
+    right: 25%;
+}
+
 
 /* =========================
     Header

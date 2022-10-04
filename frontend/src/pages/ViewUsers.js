@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import {Link, useLocation} from "react-router-dom";
-import AssignUser from "../components/AssignUser";
+import RemoveUser from "../components/RemoveUser";
 
 import { 
     Table, 
@@ -43,7 +43,7 @@ export default function ViewUsers() {
     const [isOpen, setIsOpen] = useState()
 
     const [users, setUsers] = useState([{}])
-    const [selectUser, setSelectUser] = useState()
+    const [selectUser, setSelectUser] = useState({})
     const [tickets, setTickets] = useState([{}])
 
     const [page, setPage] = useState(0);
@@ -60,39 +60,6 @@ export default function ViewUsers() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
-
-    function handleAssign() {
-        api.get('/projects/gettickets', { params : { project_id : project.project_id }}).then((res) => {
-
-            const tickets = [{}]
-            let i = 0
-
-            res.data.map((ticket) => {
-                api.get('/tickets/get', { params : { ticket_id : ticket}}).then((res) => {
-                    tickets[i] = {
-                        ticket_id : res.data.ticket_id,
-                        title : res.data.title,
-                        description : res.data.description,
-                        type : res.data.type,
-                        priority : res.data.priority,
-                        status : res.data.status,
-                        register_date : res.data.register_date
-                    }
-                    i = i + 1
-                })
-                .catch((err) => {
-                    console.log(err.request.responseText);
-                })
-            })
-
-            setTimeout(() => {
-                setTickets(tickets)
-            }, 500)
-        })
-        .catch((err) => {
-            console.log(err.request.responseText)
-        })
-    }
 
     useEffect(() => {
 
@@ -169,7 +136,16 @@ export default function ViewUsers() {
                                 <StyledTableCell align = "center" sx= {{color: `${getRoleColor(row.role)}`, fontWeight: '800'}}>{getRoleString(row.role)}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
-                                        <Button variant="contained" size="small" color="error">Remove</Button>
+                                        <Button 
+                                            variant="contained" 
+                                            size="small" 
+                                            color="error"
+                                            onClick={() => {
+                                                setSelectUser(row)
+                                                setIsOpen(true)
+                                            }}>
+                                            Remove
+                                        </Button>
                                     </div>
                                 </StyledTableCell>
                             </TableRow>
@@ -197,8 +173,13 @@ export default function ViewUsers() {
                         size = "small"
                     />
                 </Table>
-
-              
+                
+                <RemoveUser
+                    open = {isOpen}
+                    onClose = {() => setIsOpen(false)}
+                    user_id = {selectUser.user_id}
+                    project_id = {project.project_id}>
+                </RemoveUser>
 
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No users assigned!</h2>
