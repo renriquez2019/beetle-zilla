@@ -67,6 +67,19 @@ User.findByCriteria = (criteria, key, result) => {
     });
 }
 
+User.findAll = (result) => {
+    db.query(`SELECT * FROM users`, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null);
+            return;
+        }
+
+        result(null, res)
+        return
+    })
+}
+
 // method for deleting user instance from the database
 User.remove = (user_id, result) => {
     db.query("DELETE FROM assign WHERE user_id = ?", user_id, (error, res) => {

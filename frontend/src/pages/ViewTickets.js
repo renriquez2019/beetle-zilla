@@ -86,7 +86,6 @@ export default function ViewTickets() {
                     console.log(err.request.responseText);
                 })
             })
-            console.log("here")
             setTimeout(() => {
                 setUsers(users)
             }, 500)
@@ -187,8 +186,8 @@ export default function ViewTickets() {
                                                 setSelectTicket(row)
                                                 setAssignOpen(true)
                                             }}>
-                                            Assign
-                                            </Button>
+                                            Assign User
+                                        </Button>
                                         <Button
                                             variant="contained" 
                                             size="small" 

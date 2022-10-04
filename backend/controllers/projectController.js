@@ -152,6 +152,34 @@ const getOne = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc Assign a user to a project
+// @route POST /api/projects/assign
+// access Public
+const assignUser = asyncHandler(async (req, res) => {
+
+    Project.updateAssign(req.body.user_id, req.body.project_id, (error, data) => {
+        if (error)
+            res.status(400).send({message: "could not complete assignment"})
+        else
+            res.status(200).send(data);
+    })
+})
+
+// @desc Remove a user from a project
+// @route DELETE /api/projects/remove
+// access Public
+const removeUser = asyncHandler(async (req, res) => {
+
+    Project.removeAssign(req.body.user_id, req.body.project_id, (error, data) => {
+        if (error)
+            res.status(400).send({message: "could not complete assignment"})
+        else
+            res.status(200).send(data);
+    })
+})
+
+
+
 module.exports = {
     addProject,
     updateProject,
@@ -159,5 +187,7 @@ module.exports = {
     getAllActive,
     getUsers,
     getTickets,
-    getOne
+    getOne,
+    assignUser,
+    removeUser
 }

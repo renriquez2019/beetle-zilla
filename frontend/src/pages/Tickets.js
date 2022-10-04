@@ -161,7 +161,7 @@ export default function Tickets() {
                                 <StyledTableCell align = "center">{row.project_title}</StyledTableCell>
                                 <StyledTableCell align = "center" sx = {{color : `${getTypeColor(row.type)}`, fontWeight: '800'}}>{getTypeString(row.type)}</StyledTableCell>
                                 <StyledTableCell align = "center" sx = {{color : `${getPriorityColor(row.priority)}`, fontWeight: '800'}}>{getPriorityString(row.priority)}</StyledTableCell>
-                                <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
+                                <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "In-Progress" : "Complete"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
                                         <Button
@@ -174,7 +174,7 @@ export default function Tickets() {
                                             Edit
                                         </Button>
                                         
-                                        <Button variant="contained" size="small" color="error">Delete</Button>
+                                        <Button variant="contained" size="small">Mark Complete</Button>
                                     </div>
                                 </StyledTableCell>
                             </TableRow>

@@ -10,7 +10,8 @@ const {
     getLoggedIn,
     getProjects,
     getTickets,
-    findOne
+    getOne,
+    getAll
 } = require('../controllers/userController')
 
 const {protect} = require('../middleware/authMiddleware')
@@ -24,7 +25,8 @@ router.post('/login', loginUser)
 router.get('/getloggedin', protect, getLoggedIn)
 router.get('/projects', getProjects)
 router.get('/tickets', getTickets)
-router.get('/get', findOne)
+router.get('/get', getOne)
+router.get('/getall', getAll)
 
 // PUT Requests
 router.put('/update', updateUser)

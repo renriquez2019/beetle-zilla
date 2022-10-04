@@ -198,7 +198,7 @@ const getTickets = asyncHandler(async (req, res) => {
 // @desc    Get user data
 // @route   GET /api/users/get
 // @access  Public
-const findOne = asyncHandler(async (req, res) => {
+const getOne = asyncHandler(async (req, res) => {
 
     User.findByCriteria('user_id', req.query.user_id, (error, data) => {
         if (error)
@@ -207,6 +207,19 @@ const findOne = asyncHandler(async (req, res) => {
             res.status(200).send(data);
     })
 
+})
+
+// @desc    Get user data from all
+// @route   GET /api/users/getall
+// @access  Public
+const getAll = asyncHandler(async (req, res) => {
+    
+    User.findAll((error, data) => {
+        if (error)
+            res.status(404).send({message: "no users found"})
+        else
+            res.status(200).send(data);
+    })
 })
 
 const generateToken = (user_id) => {
@@ -225,5 +238,6 @@ module.exports = {
     getLoggedIn,
     getProjects,
     getTickets,
-    findOne
+    getOne,
+    getAll
 };

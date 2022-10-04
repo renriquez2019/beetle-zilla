@@ -136,4 +136,34 @@ Project.getTickets = (project_id, result) => {
     })
 }
 
+Project.updateAssign = (user_id, project_id, result) => {
+    db.query("INSERT INTO assign SET user_id = ?, project_id = ?",
+    [user_id, project_id],
+    (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null);
+            return;
+        }
+
+        console.log("created assignment");
+        result(null, {user_id: res.user_id, project_id: res.project_id})
+    })
+}
+
+Project.removeAssign = (user_id, project_id, result) => {
+    db.query(`DELETE FROM assign WHERE user_id = ? AND project_id = ?`,
+    [user_id, project_id],
+    (error, res) => {
+        if (error) {
+            console.log(error)
+            result(error, null)
+            return;
+        }
+
+        console.log("created assignment");
+        result(null, {user_id: res.user_id, project_id: res.project_id})
+    })
+}
+
 module.exports = Project;

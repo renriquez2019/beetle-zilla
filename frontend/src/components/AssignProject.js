@@ -9,28 +9,40 @@ const api = axios.create({
     baseURL: 'http://localhost:5000/api'
 })
 
-export default function AssignUser({open, onClose, users, ticket}) {
 
-    const [checked, setChecked] = useState()
+
+export default function AssignProject({open, onClose, users, project}) {
+    
+    const [checked, setChecked] = useState([])
+    console.log(project.project_id)
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        api.put('/tickets/update', {
-            "ticket_id": ticket.ticket_id,
-            "user_id": checked
+        checked.map((user) => {
+
+            api.post('/projects/assign', {
+                "user_id" : user,
+                "project_id" : project.project_id
+            })
+            .then((res) => {
+                window.location.reload(false)
+            })
+            .catch((err) => {
+                console.log(err.request.responseText)
+            })
         })
-        .then((res) => {
-            window.location.reload(false)
-        })
-        .catch((err) => {
-            console.log(err.request.responseText)
-        })
+       
     }
 
-    // Add/Remove checked item from list
-    const handleCheck = (e) => { 
-        setChecked(e.target.value);
+    const handleCheck = (e) => {
+        var updatedList = [...checked];
+        if (e.target.checked) {
+            updatedList = [...checked, e.target.value];
+        } else {
+            updatedList.splice(checked.indexOf(e.target.value), 1);
+        }
+        setChecked(updatedList);
     }
 
     if (!open) return null
@@ -41,26 +53,26 @@ export default function AssignUser({open, onClose, users, ticket}) {
             <div className='profile-edit'>
 
                 <div className='profile-edit-header'>
-                    <h3>Assign User to {ticket.title}:</h3>
+                    <h3>Assign Users to {project.title}:</h3>
                     <IconButton aria-label="delete" size="large" sx={{color: 'red'}} onClick={onClose}>
                         <BsX />
                     </IconButton>
                 </div>
-
+                
                 <div className="check-container">
                     {users.map((user) => (
                         <div key={user.user_id}>
-                            <input 
-                                value={user.user_id} 
-                                type="checkbox" 
-                                checked={checked == user.user_id ? true : false} 
+                            <input
+                                value={user.user_id}
+                                type="checkbox"
                                 onChange={handleCheck}/>
                             <span 
-                                className={checked == user.user_id ? "checked-item" : "not-checked-item"}>
+                                className="not-checked-item">
                                 {user.display_name}
                             </span>
                         </div>
                     ))}
+
                 </div>
 
                 <div className= "profile-edit-footer">

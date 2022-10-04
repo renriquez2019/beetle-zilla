@@ -27,8 +27,8 @@ Ticket.create = (new_ticket, result) => {
 
 Ticket.update = (ticket_id, ticket, result) => {
     db.query(
-        "UPDATE tickets SET title = ?, description = ?, type = ?, priority = ? WHERE ticket_id = ?",
-        [ticket.title, ticket.description, ticket.type, ticket.priority, ticket_id],
+        "UPDATE tickets SET title = ?, description = ?, type = ?, priority = ?, project_id = ?, user_id = ? WHERE ticket_id = ?",
+        [ticket.title, ticket.description, ticket.type, ticket.priority, ticket.project_id, ticket.user_id, ticket_id],
         (error, res) => {
         if (error) {
             console.log(error);

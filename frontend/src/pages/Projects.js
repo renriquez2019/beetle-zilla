@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import AssignProject from "../components/AssignProject";
 import {Link} from "react-router-dom"
 
 import { 
@@ -35,9 +36,12 @@ export default function Projects() {
 
     // main projects
     const [projects, setProjects] = useState([{}]);
+    const [selectProject, setSelectProject] = useState({})
+    const [users, setUsers] = useState([{}]) 
 
     // if user has no assigned projects
     const [isEmpty, setIsEmpty] = useState()
+    const [assignOpen, setAssignOpen] = useState()
 
     // for table pagination
     const [page, setPage] = useState(0);
@@ -59,6 +63,57 @@ export default function Projects() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projects.length) : 0;
 
+
+    function handleAssign(project) {
+        api.get('/projects/getusers', { params : { project_id : project.project_id}}).then((res) => {
+
+            const assigned = res.data;
+            const users = [{}]
+            let i = 0
+
+            api.get('/users/getall').then((res) => {
+                res.data.map((user) => {
+                    if (!assigned.includes(user.user_id)) {
+                        users[i] = {
+                            user_id : user.user_id,
+                            display_name : user.display_name,
+                        }
+                        i = i + 1
+                    }
+                })
+            })
+            .catch((err) => {
+                console.log(err.request.responseText);
+            })
+            setTimeout(() => {
+                setUsers(users)
+            }, 500)
+        })
+        .catch((err) => {
+            console.log(err.request.responseText);
+
+            const users = [{}]
+            let i = 0
+
+            api.get('/users/getall').then((res) => {
+                res.data.map((user) => {
+                    users[i] = {
+                        user_id : user.user_id,
+                        display_name : user.display_name,
+                    }
+                    i = i + 1
+                })
+            })
+            .catch((err) => {
+                console.log(err.request.responseText);
+            })
+
+            setTimeout(() => {
+                setUsers(users)
+            }, 500)
+        })
+    }
+    
     // fetches projects assigned to user
     useEffect(() => {
 
@@ -92,7 +147,6 @@ export default function Projects() {
                 setTimeout(() => {
                     setProjects(newState)
                     setIsEmpty(false)
-                    console.log(projects)
                 }, 500)
             })
             .catch((err) => {
@@ -109,7 +163,6 @@ export default function Projects() {
 
     return (
         <div>
-            {console.log(projects)}
             <Header openSidebar={toggleSidebar} />
             <Sidebar toggle={sidebar} navCurrent = "Project"/>
 
@@ -146,6 +199,17 @@ export default function Projects() {
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            onClick = {() => {
+                                                handleAssign(row);
+                                                setSelectProject(row);
+                                                setAssignOpen(true)
+                                            }}>
+                                            Assign User
+                                        </Button>
+
                                         <Link to = "/viewusers" state = {{project_id: row.project_id, title: row.title, role: role}}>
                                             <Button variant="contained">Users</Button>
                                         </Link>
@@ -153,8 +217,6 @@ export default function Projects() {
                                         <Link to = "/viewtickets" state = {{project_id: row.project_id, title: row.title, role: role}}>
                                             <Button variant="contained">Tickets</Button>
                                         </Link>
-                                        
-                                        <Button variant="contained" size="small">Delete</Button>
                                     </div>
                                 </StyledTableCell>
                             </TableRow>
@@ -182,6 +244,13 @@ export default function Projects() {
                         labelRowsPerPage={<span>Rows:</span>}
                     />
                 </Table>
+
+                <AssignProject
+                    open = {assignOpen}
+                    onClose = {() => setAssignOpen(false)}
+                    users = {users}
+                    project = {selectProject}>
+                </AssignProject>
                 
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No projects assigned!</h2>

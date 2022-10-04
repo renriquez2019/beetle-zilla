@@ -60,6 +60,8 @@ const updateTicket = asyncHandler(async (req,res) => {
                 description : req.body.description || ticket.description,
                 type : req.body.type || ticket.type,
                 priority : req.body.priority || ticket.priority,
+                project_id : req.body.project_id || ticket.project_id,
+                user_id : req.body.user_id || ticket.user_id
             }
 
             Ticket.update(req.body.ticket_id, altered_ticket, (error, data) => {

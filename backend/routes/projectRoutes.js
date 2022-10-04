@@ -8,11 +8,14 @@ const {
     getAllActive,
     getUsers,
     getTickets,
-    getOne
+    getOne,
+    assignUser,
+    removeUser
 } = require('../controllers/projectController')
 
 // POST REQUESTS
 router.post('/add', addProject)
+router.post('/assign', assignUser)
 
 // GET REQUESTS
 router.get('/search', searchProject)
@@ -23,5 +26,8 @@ router.get('/get', getOne)
 
 // PUT REQUESTS
 router.put('/update', updateProject)
+
+// DELETE Requests
+router.delete('/remove', removeUser)
 
 module.exports = router

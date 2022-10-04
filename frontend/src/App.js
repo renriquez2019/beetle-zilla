@@ -11,6 +11,7 @@ import Tickets from './pages/Tickets';
 import Profile from './pages/Profile';
 import ViewTickets from './pages/ViewTickets';
 import ViewUsers from './pages/ViewUsers';
+import AdminRole from './pages/AdminRole';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path ="/profile" element={<Profile/>}/>
         <Route path ="/viewtickets" element={<ViewTickets/>}/>
         <Route path ="/viewusers" element={<ViewUsers/>}/>
+        <Route path ="/adminrole" element={<AdminRole/>}/>
       </Routes>
     </Router>
   );
