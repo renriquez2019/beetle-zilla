@@ -6,12 +6,14 @@ const {
     updateTicket,
     searchTicket,
     getOne,
+    toggleTicket,
     deleteTicket
 } = require('../controllers/ticketController')
 
 
 // POST REQUESTS
 router.post('/add', addTicket)
+router.post('/toggle', toggleTicket)
 
 // GET REQUESTS
 router.get('/search', searchTicket)

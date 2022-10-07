@@ -105,6 +105,20 @@ export default function ViewTickets() {
         })
     }
 
+    function handleToggle(ticket_id) {
+
+        api.post('/tickets/toggle', {
+            "status" : 0,
+            "ticket_id" : ticket_id
+        })
+        .then((res) => {
+            window.location.reload(false)
+        })
+        .catch((err) => {
+            console.log(err.request.responseText)
+        })
+    }
+
     useEffect(() => {
 
         api.get('/projects/gettickets', { params : { project_id : project.project_id}}).then((res) => {
@@ -189,7 +203,7 @@ export default function ViewTickets() {
                                 <StyledTableCell>{row.description}</StyledTableCell>
                                 <StyledTableCell align = "center" sx = {{color : `${getTypeColor(row.type)}`, fontWeight: '800'}}>{getTypeString(row.type)}</StyledTableCell>
                                 <StyledTableCell align = "center" sx = {{color : `${getPriorityColor(row.priority)}`, fontWeight: '800'}}>{getPriorityString(row.priority)}</StyledTableCell>
-                                <StyledTableCell align = "center" sx = {{color : `${row.status}` ? '#008000' : 'red'}}>{row.status ? "Active" : "Inactive"}</StyledTableCell>
+                                <StyledTableCell align = "center" sx = {{color : `${row.status}` ? 'black' : '#008000'}}>{row.status ? "In-Progress" : "Complete"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
                                         <Button 
@@ -213,7 +227,15 @@ export default function ViewTickets() {
                                             }}>
                                             Edit
                                         </Button>
-                                        <Button variant="contained" size="small" color="success">Mark Complete</Button>
+                                        <Button 
+                                            variant="contained" 
+                                            size="small" 
+                                            color="success"
+                                            onClick={() => {
+                                                handleToggle(row.ticket_id)
+                                            }}>
+                                            Mark Complete
+                                            </Button>
                                         <Button
                                             variant="contained"
                                             size="small"

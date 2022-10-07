@@ -102,6 +102,17 @@ Ticket.remove = (ticket_id, result) => {
     })
 }
 
+Ticket.setStatus = (status, ticket_id, result) => {
+    db.query(`UPDATE tickets SET status = ${status} WHERE ticket_id = ${ticket_id}`, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null);
+            return;
+        }
 
+        console.log("toggle ticket");
+        result(null, {})
+    })
+}
 
 module.exports = Ticket;

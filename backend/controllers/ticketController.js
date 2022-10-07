@@ -105,6 +105,25 @@ const getOne = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc toggle activitiy of ticket
+// @route POST /api/tickets/toggle
+// access Public
+const toggleTicket = asyncHandler(async (req, res) => {
+
+    let status = 0;
+    if (req.body.status)
+        status = 1
+
+    Ticket.setStatus(status, req.body.ticket_id, (error, data) => {
+        if (error)
+            res.status(404).send({message: "could not complete operation"})
+        else
+            res.status(200).send(data);
+    })
+})
+
+
+
 // @desc Remove one instance of ticket
 // @route DELETE /api/tickets/delete
 // access Public
@@ -124,5 +143,6 @@ module.exports = {
     updateTicket,
     searchTicket,
     getOne,
+    toggleTicket,
     deleteTicket
 }

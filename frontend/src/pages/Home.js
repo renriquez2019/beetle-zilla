@@ -53,7 +53,7 @@ export default function Home() {
                         sx = {{
                             width: '25rem'
                         }}>
-                        Sign in as Demo User
+                        Sign in as Demo User (Developer)
                     </Button>
                 </div>
             </Box>

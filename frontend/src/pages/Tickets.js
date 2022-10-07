@@ -175,7 +175,12 @@ export default function Tickets() {
                                             Edit
                                         </Button>
                                         
-                                        <Button variant="contained" size="small" color="success">Mark Complete</Button>
+                                        <Button 
+                                            variant="contained"
+                                            size="small" 
+                                            color="success">
+                                            Mark Complete
+                                        </Button>
                                     </div>
                                 </StyledTableCell>
                             </TableRow>
