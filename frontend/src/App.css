@@ -444,17 +444,10 @@ body {
     .main-side {
         margin-left: 0;
     }
-  }
-
-
-.pagetitle {
-    margin-bottom: 10px;
-    
 }
 
+
 .pagetitle h1 {
-    
-    margin-bottom: 0;
     font-weight: 800;
     color: #012970;
 }
@@ -551,7 +544,7 @@ body {
 ========================= */
 
 .table-divider {
-    padding: 1.25rem;
+    padding: 0.5rem;
 }
 
 .no-table {
@@ -583,6 +576,12 @@ body {
     justify-content: space-around;
 }
 
+.btn-add {
+    position: fixed;
+    width: 20rem !important;
+    margin-top: 5px !important; 
+    
+}
 
 /* =========================
     Popup Components

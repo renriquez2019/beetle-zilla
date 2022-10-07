@@ -42,6 +42,8 @@ export default function RemoveUser({open, onClose, user_id, project_id}) {
                     </IconButton>
                 </div>
 
+                <h4>Are you sure you want to remove this user?</h4>
+
                 <div className= "profile-edit-footer">
                     <Button 
                         type ="submit"

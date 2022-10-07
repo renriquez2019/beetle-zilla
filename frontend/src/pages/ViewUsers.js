@@ -5,6 +5,7 @@ import {Link, useLocation} from "react-router-dom";
 import RemoveUser from "../components/RemoveUser";
 
 import { 
+    IconButton,
     Table, 
     TableBody, 
     TableRow,  
@@ -22,6 +23,10 @@ import {
     getRoleColor,
     getRoleString
 } from "../functions/HashCodes"
+import {
+    BsFillArrowLeftSquareFill,
+    BsFillArrowRightSquareFill
+} from 'react-icons/bs';
 
 import axios from 'axios'
 
@@ -105,12 +110,17 @@ export default function ViewUsers() {
                 navCurrent = "Project"/>
             
             <div className = {sidebar ? "main" : "main main-side"}>
-                <div className="pagetitle">
+                <div className="dash-title">
                     <h1>{project.title}</h1>
-                    <hr/>
+                    <Link to = "/projects">
+                        <IconButton size = "large">
+                            <BsFillArrowLeftSquareFill className= "dash-btn-open"/>
+                        </IconButton>
+                    </Link>
+                    
                 </div>
-
-                <div className="table-divider"/>
+                <hr/>
+                
 
                 <Table
                     className = {isEmpty ? "non-table" : ""}

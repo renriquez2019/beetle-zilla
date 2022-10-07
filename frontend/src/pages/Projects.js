@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import AddProject from "../components/AddProject";
 import AssignProject from "../components/AssignProject";
 import {Link} from "react-router-dom"
 
@@ -42,6 +43,7 @@ export default function Projects() {
     // if user has no assigned projects
     const [isEmpty, setIsEmpty] = useState()
     const [assignOpen, setAssignOpen] = useState()
+    const [addOpen, setAddOpen] = useState()
 
     // for table pagination
     const [page, setPage] = useState(0);
@@ -245,12 +247,26 @@ export default function Projects() {
                     />
                 </Table>
 
+                <Button
+                    className="btn-add"
+                    variant="contained"
+                    size="large"
+                    color="success"
+                    onClick={() => setAddOpen(true)}>
+                    Add Project +
+                </Button>
+
                 <AssignProject
                     open = {assignOpen}
                     onClose = {() => setAssignOpen(false)}
                     users = {users}
                     project = {selectProject}>
                 </AssignProject>
+
+                <AddProject
+                    open ={addOpen}
+                    onClose = {() => setAddOpen(false)}>
+                </AddProject>
                 
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No projects assigned!</h2>

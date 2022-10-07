@@ -3,15 +3,21 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import EditTicket from "../components/EditTicket";
 import AssignUser from "../components/AssignUser";
+import AddTicket from "../components/AddTicket";
 import {Link, useLocation} from "react-router-dom"
 
-import { 
+import {
+    IconButton,
     Table, 
     TableBody, 
     TableRow,  
     Paper,
     Button
 } from "@mui/material";
+
+import {
+    BsFillArrowLeftSquareFill,
+} from 'react-icons/bs';
 
 import {
     HeaderTableRow, 
@@ -45,6 +51,7 @@ export default function ViewTickets() {
     const [isEmpty, setIsEmpty] = useState()
     const [isOpen, setIsOpen] = useState()
     const [assignOpen, setAssignOpen] = useState()
+    const [addOpen, setAddOpen] = useState()
 
     const [tickets, setTickets] = useState([{}])
     const [selectTicket, setSelectTicket] = useState({})
@@ -143,12 +150,16 @@ export default function ViewTickets() {
                 navCurrent = "Project"/>
             
             <div className = {sidebar ? "main" : "main main-side"}>
-                <div className="pagetitle">
+                <div className="dash-title">
                     <h1>{project.title}</h1>
-                    <hr/>
+                    <Link to = "/projects">
+                        <IconButton size = "large">
+                            <BsFillArrowLeftSquareFill className= "dash-btn-open"/>
+                        </IconButton>
+                    </Link>
                 </div>
-
-                <div className="table-divider"/>
+                <hr/>
+                
 
                 <Table
                     className = {isEmpty ? "no-table" : ""}
@@ -227,6 +238,15 @@ export default function ViewTickets() {
                         labelRowsPerPage={<span>Rows:</span>}
                     />
                 </Table>
+
+                <Button
+                    className="btn-add"
+                    variant="contained"
+                    size="large"
+                    color="success"
+                    onClick={() => setAddOpen(true)}>
+                    Add Ticket +
+                </Button>
                 
                 <EditTicket
                     open = {isOpen}
@@ -240,6 +260,12 @@ export default function ViewTickets() {
                     users = {users}
                     ticket = {selectTicket}>
                 </AssignUser>
+
+                <AddTicket
+                    open ={addOpen}
+                    onClose = {() => setAddOpen(false)}
+                    project_id = {project.project_id}>
+                </AddTicket>
                 
                 <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
                     <h2>No tickets assigned!</h2>

@@ -8,41 +8,41 @@ const api = axios.create({
     baseURL: 'http://localhost:5000/api'
 })
 
-export default function EditTicket ({open, onClose, ticket}) {
+export default function AddTicket({open, onClose, project_id}) {
 
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
     const [priority, setPriority] = useState();
     const [type, setType] = useState();
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        api.put('/tickets/update', {
-            "ticket_id": ticket.ticket_id,
-            "title": title,
-            "description": description,
-            "priority": priority,
-            "type": type
+        
+        api.post('/tickets/add', {
+            "title" : title,
+            "description" : description,
+            "type" : type,
+            "priority" : priority,
+            "project_id" : project_id
         })
         .then((res) => {
-            window.location.reload(false)
+            window.location.reload(false);
         })
         .catch((err) => {
             console.log(err.request.responseText)
         })
     }
 
-    if (!open) return null
+    console.log(title)
+    if (!open) return null;
 
     return ReactDom.createPortal(
-        <>
+        <div>
             <div className='portal-background'/>
             <div className='profile-edit'>
 
                 <div className='profile-edit-header'>
-                    <h3>Edit Ticket</h3>
+                    <h3>Add Ticket:</h3>
                     <IconButton aria-label="delete" size="large" sx={{color: 'red'}} onClick={onClose}>
                         <BsX />
                     </IconButton>
@@ -57,7 +57,7 @@ export default function EditTicket ({open, onClose, ticket}) {
                             name="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            placeholder={ticket.title}
+                            placeholder= "Enter name:"
                         />
                     </div>
 
@@ -69,7 +69,7 @@ export default function EditTicket ({open, onClose, ticket}) {
                             name="desc"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder={ticket.description}
+                            placeholder= "Enter description:"
                         />
                     </div>
 
@@ -106,7 +106,8 @@ export default function EditTicket ({open, onClose, ticket}) {
                 </div>
 
             </div>
-        </>,
+            
+        </div>,
         document.getElementById('portal')
     )
 }
