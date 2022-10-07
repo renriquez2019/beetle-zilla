@@ -18,6 +18,14 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
+button {
+    font-family: 'Nunito', sans-serif !important;
+}
+
 /* =========================
     Portal
 ========================= */
@@ -568,6 +576,7 @@ body {
 
 .no-items--false {
     opacity: 0;
+    display: none !important;
 }
 
 .actions-icon {

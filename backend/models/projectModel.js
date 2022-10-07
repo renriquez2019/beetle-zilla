@@ -13,8 +13,8 @@ Project.create = (new_project, result) => {
             result(error, null);
             return
         }
-        console.log("created project: ", {title: res.title, ...new_project});
-        result(null, {title: res.title, ...new_project})
+        console.log("created project: ", res.insertId);
+        result(null, {project_id: res.insertId})
     });
 }
 

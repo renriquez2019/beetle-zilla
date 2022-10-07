@@ -32,8 +32,9 @@ export default function Projects() {
     const [sidebar, setSidebar] = useState(true)
     const toggleSidebar = () => setSidebar(!sidebar)
 
-    // role for permissions
+    // role/user_id for permissions
     const [role, setRole] = useState(1);
+    const [userId, setUserId] = useState();
 
     // main projects
     const [projects, setProjects] = useState([{}]);
@@ -122,6 +123,7 @@ export default function Projects() {
         api.get('/users/getloggedin', config).then((res) => {
             let user_id = res.data.user_id
 
+            setUserId(user_id)
             setRole(res.data.role)
             
             api.get('/users/projects', { params : { user_id : user_id}}).then((res) => {
@@ -204,6 +206,7 @@ export default function Projects() {
                                         <Button
                                             variant="contained"
                                             size="small"
+                                            sx ={{backgroundColor: '#FFA400'}}
                                             onClick = {() => {
                                                 handleAssign(row);
                                                 setSelectProject(row);
@@ -212,12 +215,12 @@ export default function Projects() {
                                             Assign User
                                         </Button>
 
-                                        <Link to = "/viewusers" state = {{project_id: row.project_id, title: row.title, role: role}}>
-                                            <Button variant="contained">Users</Button>
+                                        <Link to = "/viewusers" state = {{project_id: row.project_id, title: row.title, role: role}} >
+                                            <Button variant="contained" sx ={{backgroundColor: '#012970'}}>Users</Button>
                                         </Link>
 
                                         <Link to = "/viewtickets" state = {{project_id: row.project_id, title: row.title, role: role}}>
-                                            <Button variant="contained">Tickets</Button>
+                                            <Button variant="contained" sx ={{backgroundColor: '#012970'}}>Tickets</Button>
                                         </Link>
                                     </div>
                                 </StyledTableCell>
@@ -246,6 +249,10 @@ export default function Projects() {
                         labelRowsPerPage={<span>Rows:</span>}
                     />
                 </Table>
+                
+                <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
+                    <h2>No projects assigned!</h2>
+                </div>  
 
                 <Button
                     className="btn-add"
@@ -265,13 +272,10 @@ export default function Projects() {
 
                 <AddProject
                     open ={addOpen}
-                    onClose = {() => setAddOpen(false)}>
+                    onClose = {() => setAddOpen(false)}
+                    user_id = {userId}>
                 </AddProject>
                 
-                <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
-                    <h2>No projects assigned!</h2>
-                </div>   
-
             </div>
         </div>  
     );

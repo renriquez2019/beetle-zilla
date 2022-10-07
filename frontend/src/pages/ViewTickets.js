@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import EditTicket from "../components/EditTicket";
 import AssignUser from "../components/AssignUser";
 import AddTicket from "../components/AddTicket";
+import RemoveTicket from "../components/RemoveTicket";
 import {Link, useLocation} from "react-router-dom"
 
 import {
@@ -49,9 +50,11 @@ export default function ViewTickets() {
     const project = location.state
 
     const [isEmpty, setIsEmpty] = useState()
+
     const [isOpen, setIsOpen] = useState()
     const [assignOpen, setAssignOpen] = useState()
     const [addOpen, setAddOpen] = useState()
+    const [deleteOpen, setDeleteOpen] = useState()
 
     const [tickets, setTickets] = useState([{}])
     const [selectTicket, setSelectTicket] = useState({})
@@ -192,6 +195,7 @@ export default function ViewTickets() {
                                         <Button 
                                             variant="contained" 
                                             size="small"
+                                            sx = {{backgroundColor: '#FFA400'}}
                                             onClick = {() => {
                                                 handleAssign();
                                                 setSelectTicket(row)
@@ -201,12 +205,24 @@ export default function ViewTickets() {
                                         </Button>
                                         <Button
                                             variant="contained" 
-                                            size="small" 
+                                            size="small"
+                                            sx = {{backgroundColor: '#012970'}}
                                             onClick = {() => {
                                                 setSelectTicket(row);
                                                 setIsOpen(true);
                                             }}>
                                             Edit
+                                        </Button>
+                                        <Button variant="contained" size="small" color="success">Mark Complete</Button>
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            color="error"
+                                            onClick = {() => {
+                                                setSelectTicket(row);
+                                                setDeleteOpen(true)
+                                            }}>
+                                            Delete
                                         </Button>
                                     </div>
                                 </StyledTableCell>
@@ -238,6 +254,10 @@ export default function ViewTickets() {
                         labelRowsPerPage={<span>Rows:</span>}
                     />
                 </Table>
+                
+                <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
+                    <h2>No tickets assigned!</h2>
+                </div>  
 
                 <Button
                     className="btn-add"
@@ -266,10 +286,12 @@ export default function ViewTickets() {
                     onClose = {() => setAddOpen(false)}
                     project_id = {project.project_id}>
                 </AddTicket>
-                
-                <div className= {isEmpty ? "no-items" : "no-items no-items--false"}>
-                    <h2>No tickets assigned!</h2>
-                </div>  
+
+                <RemoveTicket
+                    open={deleteOpen}
+                    onClose = {() => setDeleteOpen(false)}
+                    ticket_id = {selectTicket.ticket_id}>
+                </RemoveTicket>
 
             </div>
         </div>

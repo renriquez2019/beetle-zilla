@@ -8,13 +8,36 @@ const api = axios.create({
     baseURL: 'http://localhost:5000/api'
 })
 
-export default function AddProject({open, onClose}) {
+export default function AddProject({open, onClose, user_id}) {
 
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        api.post('/projects/add', {
+            "title" : title,
+            "description" : description
+        })
+        .then((res) => {
+
+            console.log(res.data.project_id)
+
+            api.post('/projects/assign', {
+                "user_id" : user_id,
+                "project_id" : res.data.project_id
+            })
+            .then((res) => {
+                window.location.reload(false)       
+            })
+            .catch((err) => {
+                console.log(err.request.responseText)
+            })
+        })
+        .catch((err) => {
+            console.log(err.request.responseText)
+        })
     }
 
     if (!open) return null

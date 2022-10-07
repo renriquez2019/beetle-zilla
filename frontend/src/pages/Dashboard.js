@@ -254,7 +254,7 @@ export default function Dashboard() {
             // set to projects array
             setTimeout(() => {
                 setActiveProjects(newState)
-            }, 800)
+            }, 1500)
         })
         .catch((err) => {
             console.log(err.request.responseText);

@@ -105,9 +105,24 @@ const getOne = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc Remove one instance of ticket
+// @route DELETE /api/tickets/delete
+// access Public
+const deleteTicket = asyncHandler(async (req, res) => {
+    
+    Ticket.remove(req.body.ticket_id, (error, data) => {
+        if (error)
+            res.status(400).send({message: "no tickets found"})
+        else
+            res.status(200).send(data); 
+    })
+})
+
+
 module.exports = {
     addTicket,
     updateTicket,
     searchTicket,
-    getOne
+    getOne,
+    deleteTicket
 }

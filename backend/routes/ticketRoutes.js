@@ -5,7 +5,8 @@ const {
     addTicket,
     updateTicket,
     searchTicket,
-    getOne
+    getOne,
+    deleteTicket
 } = require('../controllers/ticketController')
 
 
@@ -18,6 +19,9 @@ router.get('/get', getOne)
 
 // PUT REQUESTS
 router.put('/update', updateTicket)
+
+// DELETE REQUESTS
+router.delete('/delete', deleteTicket)
 
 
 module.exports = router

@@ -89,6 +89,19 @@ Ticket.getAll = (key, result) => {
     })
 }
 
+Ticket.remove = (ticket_id, result) => {
+    db.query(`DELETE FROM tickets WHERE ticket_id = ?`, ticket_id, (error, res) => {
+        if (error) {
+            console.log(error);
+            result(error, null);
+            return;
+        }
+
+        console.log("deleted ticket");
+        result(null, {ticket_id : ticket_id})
+    })
+}
+
 
 
 module.exports = Ticket;
