@@ -19,12 +19,6 @@ app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/projects', require('./routes/projectRoutes'))
 app.use('/api/tickets', require('./routes/ticketRoutes'))
 
-app.get('/home', (req, res) => {
-    res.json({
-        name: "Bill",
-        age: 99
-    })
-})
 
 const port = process.env.PORT
 app.use(errorHandler)
