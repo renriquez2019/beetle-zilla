@@ -251,10 +251,10 @@ export default function Dashboard() {
                     console.log(err.request.responseText);
                 })
             })
-            // set to projects array
+           
             setTimeout(() => {
                 setActiveProjects(newState)
-            }, 1500)
+            }, newState.length * 300)
         })
         .catch((err) => {
             console.log(err.request.responseText);
@@ -309,7 +309,6 @@ export default function Dashboard() {
 
                         <div className="dash-tables">
                             <Table
-                                
                                 size = "small"
                                 sx = {{
                                     maxHeight: '20rem',
@@ -358,7 +357,7 @@ export default function Dashboard() {
                                     size = "small"
                                 />
                             </Table>
-                            <Table 
+                            <Table
                                 size = "small"
                                 >
                                 <HeaderTableRow>

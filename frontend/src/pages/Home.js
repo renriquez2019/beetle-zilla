@@ -13,7 +13,7 @@ export default function Home() {
                     flexDirection: 'column',
                     paddingTop: '5px',
                     backgroundColor: 'white',
-                    height: '20rem',
+                    height: '15rem',
                     width:  '40rem',
                     border: 'medium solid black'
                 }}
@@ -22,7 +22,7 @@ export default function Home() {
                     variant= "h2"
                 />
 
-                <div className="home-row">
+                {/*<div className="home-row">
                     <Button
                         variant="outlined"
                         size="large"
@@ -43,13 +43,14 @@ export default function Home() {
                             textDecoration: 'none'
                         }}>
                         Sign Up
-                    </Button> 
-                </div>
+                    </Button>
+                    </div>*/}
             
                 <div className="home-row">
                     <Button
                         variant="contained"
                         size="large"
+                        href ="/login"
                         sx = {{
                             width: '25rem'
                         }}>

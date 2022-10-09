@@ -206,7 +206,8 @@ export default function ViewTickets() {
                                 <StyledTableCell align = "center" sx = {{color : `${row.status}` ? 'black' : '#008000'}}>{row.status ? "In-Progress" : "Complete"}</StyledTableCell>
                                 <StyledTableCell>
                                     <div className="actions-icon">
-                                        <Button 
+                                        <Button
+                                            className =  {project.role == 1 ? "role-button" : ""}
                                             variant="contained" 
                                             size="small"
                                             sx = {{backgroundColor: '#FFA400'}}
@@ -237,6 +238,7 @@ export default function ViewTickets() {
                                             Mark Complete
                                             </Button>
                                         <Button
+                                            className =  {project.role == 1 ? "role-button" : ""}
                                             variant="contained"
                                             size="small"
                                             color="error"
@@ -253,10 +255,9 @@ export default function ViewTickets() {
                         {emptyRows > 0 && (
                             <TableRow
                                 sx={{
-                                    height: 65 * emptyRows,
+                                    height: 45 * emptyRows,
                                 }}
                             >
-                                <StyledTableCell />
                                 <StyledTableCell />
                                 <StyledTableCell />
                                 <StyledTableCell />
@@ -282,7 +283,7 @@ export default function ViewTickets() {
                 </div>  
 
                 <Button
-                    className="btn-add"
+                    className =  {project.role == 1 ? "role-button" : "btn-add"}
                     variant="contained"
                     size="large"
                     color="success"

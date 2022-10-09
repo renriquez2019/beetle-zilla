@@ -35,7 +35,6 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("heree");
 
         setAlert(false);
 
@@ -71,14 +70,14 @@ export default function Login() {
                 component={Paper}
                 className = "auth-box"
                 sx = {{
-                    height: '25rem',
+                    height: '32rem',
                     width:  '25rem',
                 }}
             >
                 <h1>Sign In</h1>
                 <div className='text-center'>
                     Don't have an account? {" "}
-                    <a href="/register"> Sign Up</a>
+                    <a > Sign Up</a>
                 </div>
                 
                 <div className="login-form">
@@ -108,17 +107,23 @@ export default function Login() {
                 </div>
 
                 <div className='login-form'>
+                    <label>Demo Login:</label>
+                    <p>Email: demo.user@gmail.com  
+                    <br/> Password: 9E9wd8YNs@l</p>
+                </div>
+
+                <div className='login-form'>
                     <Button 
                         variant="contained"
                         onClick={handleSubmit}
                         sx = {{
                             margin: '1rem 1rem',
                             width: '20rem',                    
-                        }}
-                    >
+                        }}>
                         Login
                     </Button>
                 </div>
+                
             </Box>
         </div>
     );

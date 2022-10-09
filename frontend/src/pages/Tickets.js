@@ -188,7 +188,7 @@ export default function Tickets() {
                         {emptyRows > 0 && (
                             <TableRow
                                 sx={{
-                                    height: 65 * emptyRows,
+                                    height: 45 * emptyRows,
                                 }}
                             >
                                 <StyledTableCell />

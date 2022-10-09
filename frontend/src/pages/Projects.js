@@ -204,6 +204,7 @@ export default function Projects() {
                                 <StyledTableCell>
                                     <div className="actions-icon">
                                         <Button
+                                            className= {role == 1 ? "role-button" : ""}
                                             variant="contained"
                                             size="small"
                                             sx ={{backgroundColor: '#FFA400'}}
@@ -229,7 +230,7 @@ export default function Projects() {
                         {emptyRows > 0 && (
                             <TableRow
                                 sx={{
-                                    height: 65 * emptyRows,
+                                    height: 45 * emptyRows,
                                 }}
                             >
                                 <StyledTableCell />
@@ -255,7 +256,7 @@ export default function Projects() {
                 </div>  
 
                 <Button
-                    className="btn-add"
+                    className =  {role == 1 ? "role-button" : "btn-add"}
                     variant="contained"
                     size="large"
                     color="success"

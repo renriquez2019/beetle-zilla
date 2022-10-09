@@ -149,6 +149,14 @@ export default function ViewUsers() {
                                         <Button 
                                             variant="contained" 
                                             size="small" 
+                                            sx = {{backgroundColor: '#012970'}}>
+                                            View Profile
+                                        </Button>
+                                        
+                                        <Button
+                                            className =  {project.role == 1 ? "role-button" : ""}
+                                            variant="contained" 
+                                            size="small" 
                                             color="error"
                                             onClick={() => {
                                                 setSelectUser(row)
@@ -163,9 +171,10 @@ export default function ViewUsers() {
                         {emptyRows > 0 && (
                         <TableRow
                             sx={{
-                                height: 30 * emptyRows,
+                                height: 45 * emptyRows,
                             }}
                         >
+                            <StyledTableCell />
                             <StyledTableCell />
                             <StyledTableCell />
                             <StyledTableCell />

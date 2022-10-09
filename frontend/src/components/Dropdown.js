@@ -39,7 +39,7 @@ export const Dropdown = ({userName, userEmail, userRole}) => {
                     <Link to= "/profile" className="drop-link" >
                         <div className="drop-item">
                             <i><BsFillNutFill/></i>
-                            <span>Roles</span>
+                            <span>Roles [to be added]</span>
                         </div>
                     </Link>
                 </li>

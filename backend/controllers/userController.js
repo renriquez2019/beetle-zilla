@@ -36,7 +36,7 @@ const registerUser = asyncHandler(async (req, res) =>{
                 display_name: display_name,
                 email: email,
                 password: hashedPassword,
-                role: 3,
+                role: 1,
                 phone: phone,
                 about: "This is a sample About Me, click 'Edit Profile' to change it"
             })

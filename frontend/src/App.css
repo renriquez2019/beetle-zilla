@@ -26,6 +26,11 @@ button {
     font-family: 'Nunito', sans-serif !important;
 }
 
+.role-button {
+    display: none !important;
+    opacity: 0 !important;
+}
+
 /* =========================
     Portal
 ========================= */
