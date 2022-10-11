@@ -5,7 +5,7 @@ import { Button, IconButton } from '@mui/material'
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: process.env.RENDER_HOST
+    baseURL: 'https://beetle-serve.onrender.com/api'
 })
 
 export default function AddProject({open, onClose, user_id}) {
