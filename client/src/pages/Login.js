@@ -8,12 +8,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 
+
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api'
+    baseURL: 'https://beetle-serve.onrender.com/api'
 })
 
 export default function Login() {
 
+    
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({

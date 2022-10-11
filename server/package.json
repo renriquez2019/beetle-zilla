@@ -1,24 +1,21 @@
 {
-  "name": "bug-tracker",
+  "name": "beetle-zilla",
   "version": "1.0.0",
   "description": "A tracker for bugs",
   "main": "server.js",
   "scripts": {
-    "start": "node server/app.js",
-    "server": "nodemon server/app.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/renriquez2019/bug-tracker.git"
+    "url": "git+https://github.com/renriquez2019/beetle-zilla.git"
   },
   "author": "Ryan Enriquez",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/renriquez2019/bug-tracker/issues"
+    "url": "https://github.com/renriquez2019/beetle-zilla/issues"
   },
-  "homepage": "https://github.com/renriquez2019/bug-tracker#readme",
+  "homepage": "https://github.com/renriquez2019/beetle-zilla#readme",
   "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",

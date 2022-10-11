@@ -6,7 +6,7 @@ import {BsX} from 'react-icons/bs'
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api'
+    baseURL: 'https://beetle-serve.onrender.com/api'
 })
 
 

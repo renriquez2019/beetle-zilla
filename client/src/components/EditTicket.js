@@ -5,7 +5,7 @@ import { Button, IconButton } from '@mui/material'
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api'
+    baseURL: 'https://beetle-serve.onrender.com/api'
 })
 
 export default function EditTicket ({open, onClose, ticket}) {
